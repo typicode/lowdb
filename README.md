@@ -1,6 +1,7 @@
 # low
 
 [![NPM version](https://badge.fury.io/js/lowdb.png)](http://badge.fury.io/js/lowdb)
+[![Build Status](https://travis-ci.org/typicode/lowdb.png)](https://travis-ci.org/typicode/lowdb)
 
 ## Example
 
