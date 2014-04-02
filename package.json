@@ -1,0 +1,46 @@
+{
+  "name": "lowdb",
+  "version": "0.1.0",
+  "description": "JSON database",
+  "keywords": [
+    "flat",
+    "file",
+    "database",
+    "JSON",
+    "lo-dash",
+    "lodash",
+    "underscore",
+    "underscore.db",
+    "embed",
+    "embeddable"
+  ],
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "grunt mochaTest",
+    "prepublish": "grunt build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/typicode/lowdb.git"
+  },
+  "author": "Typicode <typicode@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/typicode/lowdb/issues"
+  },
+  "homepage": "https://github.com/typicode/lowdb",
+  "dependencies": {
+    "underscore.db": "~0.6.0",
+    "lodash": "~2.4.1"
+  },
+  "devDependencies": {
+    "sinon": "~1.8.2",
+    "b": "^2.0.1",
+    "grunt": "^0.4.3",
+    "grunt-coffeelint": "0.0.8",
+    "grunt-mocha-test": "^0.9.4",
+    "grunt-contrib-clean": "^0.5.0",
+    "grunt-contrib-coffee": "^0.10.1",
+    "grunt-contrib-watch": "^0.5.3"
+  }
+}
