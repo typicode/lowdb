@@ -101,9 +101,10 @@ low._ = _
 # Listen to events
 #
 
-low.on 'add'    , -> low.save()
-low.on 'update' , -> low.save()
-low.on 'remove' , -> low.save()
+low.on 'add'   , -> ee.emit 'change'
+low.on 'update', -> ee.emit 'change'
+low.on 'remove', -> ee.emit 'change'
+low.on 'change', -> low.save()
 
 #
 # Indexing

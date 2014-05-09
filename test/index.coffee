@@ -119,6 +119,15 @@ describe 'low', ->
     assert.equal low.db['songs'].length, 0
     assert.equal Object.keys(low.db['songs']._index).length, 0
 
+  it 'emits change on add, update, remove', ->
+    spy = sinon.spy()
+    low.on 'change', spy
+
+    for e in ['add', 'update', 'remove']
+      low.ee.emit e, {}, [] # empty doc and collection
+      assert spy.called
+      spy.reset()
+
 describe 'short syntax', ->
 
   beforeEach ->
