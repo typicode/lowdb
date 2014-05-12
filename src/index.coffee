@@ -82,6 +82,8 @@ low.db = {}
 
 low.path = 'db.json'
 
+low.autoSave = true
+
 low.save = (path = low.path) ->
   underdb.save low.db, path
 
@@ -104,7 +106,7 @@ low._ = _
 low.on 'add'   , -> ee.emit 'change'
 low.on 'update', -> ee.emit 'change'
 low.on 'remove', -> ee.emit 'change'
-low.on 'change', -> low.save()
+low.on 'change', -> low.save() if low.autoSave
 
 #
 # Indexing

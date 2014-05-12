@@ -77,10 +77,6 @@ describe 'low', ->
     low.load()
     assert fs.readFileSync.calledWith('db.json')
 
-    low.path = 'foo.json'
-    low.load()
-    assert fs.readFileSync.calledWith('foo.json')
-
     low.load('bar.json')
     assert fs.readFileSync.calledWith('bar.json')
 
@@ -90,13 +86,6 @@ describe 'low', ->
 
     low.save()
     assert fs.writeFileSync.calledWith('db.json')
-
-    low.path = 'foo.json'
-    insertSong()
-    assert fs.writeFileSync.calledWith('foo.json')
-
-    low.save()
-    assert fs.writeFileSync.calledWith('foo.json')
 
     low.save 'bar.json'
     assert fs.writeFileSync.calledWith('bar.json')
@@ -158,3 +147,30 @@ describe 'short syntax', ->
   it 'removeWhere', ->
     low 'songs', title: 'foo', -1
     assert.equal low('songs').size(), 0
+
+describe 'options', ->
+
+  it 'has a path option', ->
+    low.path = 'foo.json'
+
+    fs.writeFileSync.reset()
+    insertSong()
+    assert fs.writeFileSync.calledWith('foo.json')
+
+    fs.writeFileSync.reset()
+    low.save()
+    assert fs.writeFileSync.calledWith('foo.json')
+
+    fs.writeFileSync.reset()
+    low.load()
+    assert fs.readFileSync.calledWith('foo.json')
+
+  it 'has an autoSave option', ->
+    low.autoSave = false
+
+    fs.writeFileSync.reset()
+    insertSong()
+    assert not fs.writeFileSync.called
+
+    low.save()
+    assert fs.writeFileSync.called

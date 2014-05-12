@@ -44,10 +44,18 @@ Loads database from `path` or `low.path` which is `db.json` by default.
 
 __low.path__
 
-Use this property to change where the database is saved.
+Use this property to change where the database is saved. Default to `db.json`
 
 ```javascript
 low.path = '/some/path/file.json'
+```
+
+__low.autoSave__
+
+Use this property to save to file when database is changed. Default to `true`
+
+```javascript
+low.autoSave = true
 ```
 
 ## Short syntax
