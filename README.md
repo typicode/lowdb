@@ -101,3 +101,12 @@ var song  = low('songs', id, -1);
 // removeWhere
 var songs = low('songs', {title: 'low!'}, -1);
 ```
+
+## Benchmark
+
+Clone and run:
+
+```bash
+$ npm install
+$ npm run benchmark
+```

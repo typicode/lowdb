@@ -17,7 +17,8 @@
   "main": "lib/index.js",
   "scripts": {
     "test": "grunt mochaTest",
-    "prepublish": "grunt build"
+    "prepublish": "grunt build",
+    "benchmark": "grunt build && cd benchmark && node index.js"
   },
   "repository": {
     "type": "git",
