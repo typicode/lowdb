@@ -1,4 +1,4 @@
-# LowDB [![NPM version](https://badge.fury.io/js/lowdb.png)](http://badge.fury.io/js/lowdb) [![Build Status](https://travis-ci.org/typicode/lowdb.png)](https://travis-ci.org/typicode/lowdb)
+# LowDB [![NPM version](https://badge.fury.io/js/lowdb.svg)](http://badge.fury.io/js/lowdb) [![Build Status](https://travis-ci.org/typicode/lowdb.svg)](https://travis-ci.org/typicode/lowdb)
 
 ```javascript
 var low = require('lowdb');
