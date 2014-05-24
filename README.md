@@ -11,7 +11,7 @@ Database is saved to `db.json`:
 {
   "songs": [
     {
-      "title": "low",
+      "title": "low!",
       "id": "e31aa48c-a9d8-4f79-9fce-ded4c16c3c4c"
     }
   ]
@@ -22,16 +22,33 @@ Database is saved to `db.json`:
 
 __low(collection)__
 
-Returns or create a [Lo-Dash](http://lodash.com/docs) wrapped array. Low also adds [Underscore.db](https://github.com/typicode/underscore.db) methods to the wrapped array.
+Returns or create a [Lo-Dash](http://lodash.com/docs) wrapped array with [Underscore.db](https://github.com/typicode/underscore.db) methods.
 
-Therefore you can use any Lo-Dash collection or Underscore.DB methods. Don't forget to add `.value()` to get the returned value.
+Therefore you can use Lo-Dash collections methods and Underscore.DB methods. Don't forget to add `.value()` to get the returned value.
 
 Examples:
 
 ```javascript
-var newSong = low('songs').insert({title: 'low!'}).value(); // Underscore.db
-var song    = low('songs').get(newSong.id).value();         // Underscore.db
-var songs   = low('songs').where({title: 'low!'}).value();  // Lo-Dash
+// get
+var song  = low('songs').get(newSong.id).value();
+
+// where
+var songs = low('songs').where({title: 'low!'}).value();
+
+// insert
+var song  = low('songs').insert({title: 'low!'}).value();
+
+// update
+var song  = low('songs').update(id, {title: 'new title'}).value()
+
+// updateWhere
+var songs = low('songs').updateWhere({published: false}, {published: true}).value()
+
+// remove
+var song  = low('songs').remove(id).value()
+
+// removeWhere
+var songs = low('songs').removeWhere({title: 'low!'}).value();
 ```
 
 __low.save([path])__
@@ -60,6 +77,8 @@ low.autoSave = true
 
 ## Short syntax
 
+LowDB has also a short syntax for the most common operations if you're kind of minimalist
+
 ```javascript
 // get
 var song  = low('songs', id);
@@ -67,7 +86,7 @@ var song  = low('songs', id);
 // where
 var songs = low('songs', {title: 'low!'});
 
-// create
+// insert
 var song  = low('songs', {title: 'low!'}, 1);
 
 // update
