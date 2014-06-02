@@ -1,6 +1,7 @@
 fs     = require 'fs'
 assert = require 'assert'
 sinon  = require 'sinon'
+_      = require 'lodash'
 low    = require '../src'
 
 sinon.spy low.ee, 'emit'
@@ -23,7 +24,7 @@ describe 'low', ->
   it 'insert', ->
     song = insertSong()
 
-    assert low.ee.emit.calledWith('add', song, low('songs').value())
+    assert low.ee.emit.calledWith('add', 'songs', song)
     assert low('songs').size(), 1
 
   it 'get', ->
@@ -32,20 +33,20 @@ describe 'low', ->
     assert low('songs').get song.id
 
   it 'update', ->
-    song = insertSong()
-    low('songs').update song.id, title: 'bar'
+    previousSong = _.clone insertSong()
+    updatedSong  = low('songs').update(previousSong.id, title: 'bar').value()
 
-    assert low.ee.emit.calledWith('update', song, low('songs').value())
+    assert low.ee.emit.calledWith('update', 'songs', updatedSong, previousSong)
 
     low.ee.emit.reset()
     low('songs').update 9999, {}
     assert not low.ee.emit.called
 
   it 'updateWhere', ->
-    song = insertSong()
-    low('songs').updateWhere title: 'foo', {}
+    previousSong = _.clone insertSong()
+    updatedSongs = low('songs').updateWhere(title: 'foo', {}).value()
 
-    assert low.ee.emit.calledWith('update', [song], low('songs').value())
+    assert low.ee.emit.calledWith('update', 'songs', updatedSongs, [previousSong])
 
     low.ee.emit.reset()
     low('songs').updateWhere title: 'qux', {}
@@ -55,7 +56,7 @@ describe 'low', ->
     song = insertSong()
     low('songs').remove song.id
 
-    assert low.ee.emit.calledWith('remove', song, low('songs').value())
+    assert low.ee.emit.calledWith('remove', 'songs', song)
     assert.equal low('songs').size(), 0
 
     low.ee.emit.reset()
@@ -66,7 +67,7 @@ describe 'low', ->
     song = insertSong()
     low('songs').removeWhere title: 'foo'
 
-    assert low.ee.emit.calledWith('remove', [song], low('songs').value())
+    assert low.ee.emit.calledWith('remove', 'songs', [song])
     assert.equal low('songs').size(), 0
 
     low.ee.emit.reset()
@@ -113,7 +114,7 @@ describe 'low', ->
     low.on 'change', spy
 
     for e in ['add', 'update', 'remove']
-      low.ee.emit e, {}, [] # empty doc and collection
+      low.ee.emit e, 'songs', {} # empty doc
       assert spy.called
       spy.reset()
 
@@ -151,19 +152,15 @@ describe 'short syntax', ->
 describe 'options', ->
 
   it 'has a path option', ->
-    low.path = 'foo.json'
-
-    fs.writeFileSync.reset()
-    insertSong()
-    assert fs.writeFileSync.calledWith('foo.json')
+    low.path = 'somefile.json'
 
     fs.writeFileSync.reset()
     low.save()
-    assert fs.writeFileSync.calledWith('foo.json')
+    assert fs.writeFileSync.calledWith('somefile.json')
 
     fs.writeFileSync.reset()
     low.load()
-    assert fs.readFileSync.calledWith('foo.json')
+    assert fs.readFileSync.calledWith('somefile.json')
 
   it 'has an autoSave option', ->
     low.autoSave = false

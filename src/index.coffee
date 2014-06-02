@@ -22,27 +22,33 @@ _.mixin
 
   insert: _.wrap _.insert, (insert, coll, doc) ->
     insert coll, doc
-    ee.emit 'add', doc, coll
+    ee.emit 'add', low._currentCollName, doc
     doc
 
   update: _.wrap _.update, (update, coll, id, attrs) ->
+    previousDoc = _.get coll, id
+    previousDoc = _.clone previousDoc if previousDoc 
+
     doc = update coll, id, attrs
-    ee.emit 'update', doc, coll if doc
+    ee.emit 'update', low._currentCollName, doc, previousDoc if doc
     doc
 
   updateWhere: _.wrap _.updateWhere, (updateWhere, coll, whereAttrs, attrs) ->
+    previousDocs = _.where coll, whereAttrs
+    previousDocs = _.clone previousDocs
+
     docs = updateWhere coll, whereAttrs, attrs
-    ee.emit 'update', docs, coll if docs.length > 0
+    ee.emit 'update', low._currentCollName, docs, previousDocs if docs.length > 0
     docs
 
   remove: _.wrap _.remove, (remove, coll, id) ->
     doc = remove(coll, id)
-    ee.emit 'remove', doc, coll if doc
+    ee.emit 'remove', low._currentCollName, doc if doc
     doc
 
   removeWhere: _.wrap _.removeWhere, (removeWhere, coll, whereAttrs) ->
     docs = removeWhere(coll, whereAttrs)
-    ee.emit 'remove', docs, coll if docs.length > 0
+    ee.emit 'remove', low._currentCollName, docs if docs.length > 0
     docs
 
 #
@@ -50,6 +56,7 @@ _.mixin
 #
 
 low = (str, arg1, arg2) ->
+  low._currentCollName = str
   low.db[str] or= []
   chain = _ low.db[str]
   
@@ -87,6 +94,8 @@ low.autoSave = true
 low.save = (path = low.path) ->
   underdb.save low.db, path
 
+low.throttledSave = _.throttle low.save, 100
+
 low.load = (path = low.path) ->
   low.db = underdb.load path
 
@@ -106,17 +115,19 @@ low._ = _
 low.on 'add'   , -> ee.emit 'change'
 low.on 'update', -> ee.emit 'change'
 low.on 'remove', -> ee.emit 'change'
-low.on 'change', -> low.save() if low.autoSave
+low.on 'change', -> low.throttledSave() if low.autoSave
 
 #
 # Indexing
 #
 
-low.on 'add', (obj, coll) ->
+low.on 'add', (name, obj) ->
+  coll = low(name).value()
   coll._index or= {}
   coll._index[obj.id] = obj
 
-low.on 'remove', (obj, coll) ->
+low.on 'remove', (name, obj) ->
+  coll = low(name).value()
   delete coll._index[obj.id] if coll._index
 
 # For testing purpose
