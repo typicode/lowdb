@@ -44,7 +44,7 @@
     "grunt-contrib-coffee": "^0.10.1",
     "grunt-contrib-watch": "^0.5.3",
     "grunt-mocha-test": "^0.9.4",
-    "husky": "^0.4.2",
+    "husky": "^0.4.3",
     "sinon": "~1.8.2"
   }
 }
