@@ -31,19 +31,19 @@ Database is automatically created and saved to `db.json` in a readable format.
 }
 ```
 
-To query data, you can use Lo-Dash methods:
+To query data, you can use Lo-Dash methods.
 
 ```javascript
 var songs = low('songs').where({ title: 'low!' }).value()
 ```
 
-Or LowDB equivalent short syntax:
+Or LowDB equivalent short syntax.
 
 ```javascript
 var songs = low('songs', { title: 'low' })
 ```
 
-Changes can also be monitored:
+Changes can also be monitored.
 
 ```javascript
 low.on('add', function(name, object) {
