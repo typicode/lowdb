@@ -5,11 +5,11 @@
 * Serverless
 * Speedy
 * Evented
-* 50+ methods
+* 50+ methods coming from Lo-Dash
 
 LowDB is built on Lo-Dash, this makes it quite different and unique compared to other serverless databases who copy MongoDB API.
 
-_Used in production ([JSONPlaceholder](http://jsonplaceholder.typicode.com/))._
+_LowDB powers [JSON Server](https://github.com/typicode/json-server) and [JSONPlaceholder](http://jsonplaceholder.typicode.com/)._
 
 ## Usage
 
