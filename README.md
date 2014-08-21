@@ -7,7 +7,7 @@
 * Evented
 * 50+ methods coming from Lo-Dash
 
-LowDB is built on Lo-Dash, this makes it quite different and unique compared to other serverless databases who copy MongoDB API.
+LowDB is built on Lo-Dash, this makes it quite different and unique compared to other serverless databases often based on MongoDB API.
 
 _LowDB powers [JSON Server](https://github.com/typicode/json-server) and [JSONPlaceholder](http://jsonplaceholder.typicode.com/)._
 
