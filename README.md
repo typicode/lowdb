@@ -40,7 +40,7 @@ var songs = low('songs').where({ title: 'low!' }).value()
 Or LowDB equivalent short syntax.
 
 ```javascript
-var songs = low('songs', { title: 'low' })
+var songs = low('songs', { title: 'low!' })
 ```
 
 Changes can also be monitored.
@@ -69,7 +69,7 @@ Returns or create a [Lo-Dash](http://lodash.com/docs) wrapped array.
 You can then use methods like: `where`, `find`, `filter`, `sortBy`, `groupBy`, ... and also methods from [Underscore.db](https://github.com/typicode/underscore.db).
 
 ```javascript
-var topFiveSongs = low('posts')
+var topFiveSongs = low('songs')
   .where({published: true})
   .sortBy('views')
   .first(5)
