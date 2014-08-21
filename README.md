@@ -157,5 +157,3 @@ low('songs', {published: false}, {published: true})
 ## Licence
 
 LowDB is released under the MIT License.
-
-https://github.com/typicode
