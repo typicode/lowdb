@@ -1,6 +1,6 @@
 # LowDB [![NPM version](https://badge.fury.io/js/lowdb.svg)](http://badge.fury.io/js/lowdb) [![Build Status](https://travis-ci.org/typicode/lowdb.svg)](https://travis-ci.org/typicode/lowdb)
 
-> Flat JSON database.
+> Flat JSON file database.
 
 * Serverless
 * Speedy
