@@ -154,6 +154,6 @@ low('songs', {published: false}, {published: true})
 // -> low('songs').updateWhere({published: false}, {published: true}).value()
 ```
 
-## Licence
+## License
 
 LowDB is released under the MIT License.
