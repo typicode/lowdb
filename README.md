@@ -11,6 +11,8 @@ LowDB is built on Lo-Dash, this makes it quite different and unique compared to 
 
 _LowDB powers [JSON Server](https://github.com/typicode/json-server) and [JSONPlaceholder](http://jsonplaceholder.typicode.com/)._
 
+_If you need something similar for the browser, check [Underscore.db](https://github.com/typicode/underscore.db)._
+
 ## Usage
 
 ```javascript
@@ -59,6 +61,8 @@ update x 1000    4.433322 ms
 insert x 1000    11.78481 ms
 remove x 1000    24.60179 ms
 ```
+
+_To run the benchmark on your machine, clone the project and run `npm install && npm run benchmark`._
 
 ## API
 
