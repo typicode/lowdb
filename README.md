@@ -125,38 +125,62 @@ LowDB short syntax covers only the most common operations but lets you write rea
 
 ```javascript
 low('songs', id)
-// -> low('songs').get(id).value()
+// == low('songs').get(id).value()
 ```
 
 ```javascript
 low('songs', {title: 'low!'})
-// -> low('songs').where({title: 'low!'}).value()
+// == low('songs').where({title: 'low!'}).value()
 ```
 
 ```javascript
 low('songs', {title: 'low!'}, +1)
-// -> low('songs').insert({title: 'low!'}).value()
+// == low('songs').insert({title: 'low!'}).value()
 ```
 
 ```javascript
 low('songs', {title: 'low!'}, -1)
-// -> low('songs').removeWhere({title: 'low!'}).value()
+// == low('songs').removeWhere({title: 'low!'}).value()
 ```
 
 ```javascript
 low('songs', id, -1)
-// -> low('songs').remove(id).value()
+// == low('songs').remove(id).value()
 ```
 
 ```javascript
 low('songs', id, {title: 'new title'})
-// -> low('songs').update(id, {title: 'new title'}).value()
+// == low('songs').update(id, {title: 'new title'}).value()
 ```
 
 ```javascript
 low('songs', {published: false}, {published: true})
-// -> low('songs').updateWhere({published: false}, {published: true}).value()
+// == low('songs').updateWhere({published: false}, {published: true}).value()
 ```
+
+## FAQ
+
+__How is database saved?__
+
+Database is only saved to disk when you call `insert`, `update`, `updateWhere`, `remove`, `removeWhere`.
+Also writing is synchronous but throttled to keep things fast. 
+
+Here's an example to illustrate:
+
+```javascript
+low('posts').insert({ title: 'foo' }) // database is persisted synchronously
+low('posts').insert({ title: 'foo' }) // database is not persisted
+low('posts').insert({ title: 'foo' }) // database is not persisted
+// 100 ms later database will be persisted synchronously
+```
+
+So in 1 second, LowDB will make, at most, 10 synchronous writes.
+
+_Future versions of LowDB may be fully asynchronous._
+
+__Does it support concurrency?__
+
+Yes. Node being single threaded and changes to database being synchronously written, there's no risk of concurrency problems.
 
 ## License
 
