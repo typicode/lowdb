@@ -180,7 +180,7 @@ _Future versions of LowDB may be fully asynchronous._
 
 __Does it support concurrency?__
 
-Yes. Node being single threaded and changes to database being synchronously written, there's no risk of concurrency problems.
+Yes. Node being single threaded and changes to database being synchronously written, there's no risk of having concurrency problems.
 
 ## License
 
