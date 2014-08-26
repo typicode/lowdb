@@ -93,14 +93,17 @@ low.autoSave = true
 
 low.save = (path = low.path) ->
   underdb.save low.db, path
+  low
 
 low.throttledSave = _.throttle low.save, 100
 
 low.load = (path = low.path) ->
   low.db = underdb.load path
+  low
 
 low.on = (event, listener) ->
   ee.on event, listener
+  low
 
 #
 # Expose _
