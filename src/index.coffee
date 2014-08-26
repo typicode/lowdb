@@ -27,7 +27,7 @@ _.mixin
 
   update: _.wrap _.update, (update, coll, id, attrs) ->
     previousDoc = _.get coll, id
-    previousDoc = _.clone previousDoc if previousDoc 
+    previousDoc = _.clone previousDoc if previousDoc
 
     doc = update coll, id, attrs
     ee.emit 'update', low._currentCollName, doc, previousDoc if doc
@@ -38,7 +38,8 @@ _.mixin
     previousDocs = _.clone previousDocs
 
     docs = updateWhere coll, whereAttrs, attrs
-    ee.emit 'update', low._currentCollName, docs, previousDocs if docs.length > 0
+    ee.emit 'update', low._currentCollName, docs, previousDocs if docs.length >
+     0
     docs
 
   remove: _.wrap _.remove, (remove, coll, id) ->
@@ -59,19 +60,19 @@ low = (str, arg1, arg2) ->
   low._currentCollName = str
   low.db[str] or= []
   chain = _ low.db[str]
-  
+
   if arg2
 
     if arg2 is 1 # insert
       return chain.insert(arg1).value()
-    
+
     if arg2 is -1 # remove or removeWhere
       if _.isString arg1 #remove
         return chain.remove(arg1).value()
 
       if _.isObject arg1 #removeWhere
         return chain.removeWhere(arg1).value()
-    
+
     if _.isObject arg2 # updateWhere
       return chain.updateWhere(arg1, arg2).value()
 

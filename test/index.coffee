@@ -46,7 +46,8 @@ describe 'low', ->
     previousSong = _.clone insertSong()
     updatedSongs = low('songs').updateWhere(title: 'foo', {}).value()
 
-    assert low.ee.emit.calledWith('update', 'songs', updatedSongs, [previousSong])
+    assert low.ee.emit.calledWith('update', 'songs', updatedSongs,
+    [previousSong])
 
     low.ee.emit.reset()
     low('songs').updateWhere title: 'qux', {}
@@ -99,7 +100,7 @@ describe 'low', ->
     assert.equal low('songs').get(song.id).value().title, 'foo'
 
     low('songs').update song.id, title: 'bar'
-    
+
     assert.equal low.db['songs'][0].title, 'bar'
     assert.equal low.db['songs']._index[song.id].title, 'bar'
     assert.equal low('songs').get(song.id).value().title, 'bar'
