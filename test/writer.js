@@ -5,7 +5,7 @@ var Writer = require('../src/writer')
 
 describe('Writer', function() {
 
-  this.timeout(5000)
+  this.timeout(10000)
 
   var tempPath = __dirname + '/../tmp'
   var filePath = tempPath + '/../tmp/test.txt'
