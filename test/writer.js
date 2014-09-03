@@ -5,8 +5,6 @@ var Writer = require('../src/writer')
 
 describe('Writer', function() {
 
-  this.timeout(10000)
-
   var tempPath = __dirname + '/../tmp'
   var filePath = tempPath + '/../tmp/test.txt'
 
@@ -16,6 +14,8 @@ describe('Writer', function() {
   })
 
   it('always writes data from the latest call', function(done) {
+    this.timeout(0)
+
     var writer = new Writer(filePath)
 
     // 1M characters
