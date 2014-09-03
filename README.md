@@ -5,8 +5,8 @@
 * Serverless
 * Multiple databases
 * In-memory or disk-based
-* Fully asynchronous writing
 * 80+ methods from Lo-Dash API
+* Asynchronous and fault-tolerant writing
 * Extendable
 
 LowDB uses Lo-Dash functional progamming API instead of a MongoDB-like API. This makes it quite unique and different.
@@ -91,7 +91,7 @@ db.save()
 
 ### Operations
 
-With LowDB you get access to the entire [Lo-Dash API](http://lodash.com/), so there's many ways to query and manipulate data. Here are a few examples to get you started.
+With LowDB you get access to the entire [Lo-Dash API](http://lodash.com/), so there's many, many ways to query and manipulate data. Here are a few examples to get you started.
 
 Sort the top five songs.
 
@@ -137,7 +137,7 @@ db('songs').remove({ title: 'low!' })
 
 ### Id-based resources support
 
-Being able to retrieve data based on an id is quite useful, particularly in servers. To add id-based resources support to LowDB, you have 2 options.
+Being able to retrieve data using an id can be quite useful, particularly in servers. To add id-based resources support to LowDB, you have 2 options.
 
 [Underscore.db](https://github.com/typicode/underscore.db) provides a set of helpers for creating and manipulating id-based resources.
 
@@ -175,6 +175,12 @@ In both cases, your `db.json` will then look like this.
 ## Changelog
 
 See details changes for each version in the [release notes](https://github.com/typicode/lowdb/releases).
+
+## Limits
+
+LowDB is a convenient method for storing data without setting up a database server. It's fast enough and safe to be used as an embedded database.
+
+However, if you need high performance and scalability more than simplicity, you should stick to databases like MongoDB.
 
 ## License
 
