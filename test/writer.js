@@ -5,6 +5,7 @@ var Writer = require('../src/writer')
 
 describe('Writer', function() {
 
+  // Sometime Travis can be slow...
   this.timeout(20 * 1000)
 
   var tempPath = __dirname + '/../tmp'
