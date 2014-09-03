@@ -24,14 +24,14 @@ describe('Writer', function() {
       data += 'x'
     }
 
-    for (var i = 0; i <= 1000000; i++) {
+    for (var i = 0; i <= 1000 * 1000; i++) {
       writer.write(data + i)
     }
 
     setTimeout(function() {
       assert.equal(fs.readFileSync(filePath, 'utf-8'), data + (i - 1))
       done()
-    }, 100)
+    }, 1000)
   })
 
 })
