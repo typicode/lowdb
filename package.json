@@ -1,6 +1,6 @@
 {
   "name": "lowdb",
-  "version": "0.3.2",
+  "version": "0.4.0",
   "description": "Flat JSON file database",
   "keywords": [
     "flat",
@@ -15,12 +15,10 @@
     "embed",
     "embeddable"
   ],
-  "main": "lib/index.js",
+  "main": "src/index.js",
   "scripts": {
-    "test": "grunt mochaTest",
-    "prepublish": "grunt build",
-    "precommit": "npm test",
-    "benchmark": "grunt build && cd benchmark && node index.js"
+    "test": "mocha",
+    "precommit": "npm test"
   },
   "repository": {
     "type": "git",
@@ -33,19 +31,14 @@
   },
   "homepage": "https://github.com/typicode/lowdb",
   "dependencies": {
-    "underscore.db": "~0.6.0",
-    "lodash": "~2.4.1"
+    "graceful-fs": "^3.0.2",
+    "lodash": "~2.4.1",
+    "temp-write": "^1.0.0"
   },
   "devDependencies": {
-    "b": "^2.0.1",
-    "grunt": "^0.4.3",
-    "grunt-cli": "^0.1.13",
-    "grunt-coffeelint": "0.0.8",
-    "grunt-contrib-clean": "^0.5.0",
-    "grunt-contrib-coffee": "^0.10.1",
-    "grunt-contrib-watch": "^0.5.3",
-    "grunt-mocha-test": "^0.9.4",
-    "husky": "^0.4.3",
-    "sinon": "~1.8.2"
+    "husky": "^0.6.1",
+    "mocha": "^1.21.4",
+    "rimraf": "^2.2.8",
+    "underscore.db": "^0.7.0"
   }
 }
