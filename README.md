@@ -146,8 +146,8 @@ low.mixin(require('underscore.db'))
 
 var db = low('db.json')
 
-var songId = db.insert({ title: 'low!' }).value().id
-var song   = db.get(songId).value()
+var songId = db('songs').insert({ title: 'low!' }).value().id
+var song   = db('songs').get(songId).value()
 ```
 
 Or simply use [uuid](https://github.com/broofa/node-uuid).
@@ -155,8 +155,8 @@ Or simply use [uuid](https://github.com/broofa/node-uuid).
 ```javascript
 var uuid = require('uuid')
 
-var songId = db.push({ id: uuid(), title: 'low!' }).value().id
-var song   = db.find({ id: songId }).value()
+var songId = db('songs').push({ id: uuid(), title: 'low!' }).value().id
+var song   = db('songs').find({ id: songId }).value()
 ```
 
 In both cases, your `db.json` will then look like this.
