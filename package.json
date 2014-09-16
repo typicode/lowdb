@@ -33,12 +33,11 @@
   "dependencies": {
     "graceful-fs": "^3.0.2",
     "lodash": "~2.4.1",
-    "temp-write": "^1.0.0"
+    "tmp": "0.0.24"
   },
   "devDependencies": {
     "husky": "^0.6.1",
     "mocha": "^1.21.4",
-    "rimraf": "^2.2.8",
     "underscore.db": "^0.7.0"
   }
 }

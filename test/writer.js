@@ -1,19 +1,22 @@
-var fs = require('fs')
+var fs = require('graceful-fs')
 var assert = require('assert')
-var rmrf = require('rimraf')
+var temp = require('tmp')
 var Writer = require('../src/writer')
+var path = require('path')
 
 describe('Writer', function() {
 
   // Sometime Travis can be slow...
   this.timeout(20 * 1000)
 
-  var tempPath = __dirname + '/../tmp'
-  var filePath = tempPath + '/../tmp/test.txt'
+  var filePath;
 
-  beforeEach(function() {
-    rmrf.sync(tempPath)
-    fs.mkdirSync(tempPath)
+  before(function() {
+    temp.setGracefulCleanup();
+    temp.tmpName({prefix: 'test', postfix: '.txt', dir: '/tmp', keep: true}, function(err, path) {
+      if (err) throw err;
+      filePath = path;
+    })
   })
 
   it('always writes data from the latest call', function(done) {
