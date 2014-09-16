@@ -1,13 +1,19 @@
 var fs = require('graceful-fs')
-var tempWrite = require('temp-write')
+var temp = require('tmp')
 
 function atomicWrite(filePath, data, callback) {
-  tempWrite(data, function(err, tempFilePath) {
-    if (err) throw err
-    fs.rename(tempFilePath, filePath, function(err) {
-      if (err) throw err
-      callback()
-    })
+  temp.file({mode: 0644, prefix:'lowdb-'}, function(err, path, fd) {
+    if (err) throw err;
+    fs.writeFile(path, data, function() {
+      if (fs.existsSync(filePath)) {
+        fs.unlinkSync(filePath);
+      }
+
+      fs.linkSync(path, filePath);
+      fs.unlinkSync(path);
+
+      callback();
+    });
   })
 }
 

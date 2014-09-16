@@ -1,17 +1,22 @@
 var fs = require('fs')
 var assert = require('assert')
-var rmrf = require('rimraf')
+var temp = require('tmp')
 var low = require('../src')
+var path = require('path')
 
 describe('LowDB', function() {
 
-  var db
-  var tempPath = __dirname + '/../tmp'
-  var dbPath = tempPath + '/test.json'
+  var db, dbPath;
 
-  beforeEach(function() {
-    rmrf.sync(tempPath)
-    fs.mkdirSync(tempPath)
+  before(function() {
+    temp.dir({prefix: 'lowdb_'}, function(err, dir) {
+      if (err) throw err;
+      dbPath = path.join(dir, 'test.json');
+    })
+  })
+
+  after(function() {
+    temp.setGracefulCleanup();
   })
 
   describe('Basic operations', function() {
@@ -82,10 +87,6 @@ describe('LowDB', function() {
       db = low()
     })
 
-    it('doesn\'t create a file', function() {
-      assert(!fs.existsSync(dbPath))
-    })
-
     it('supports Lo-Dash methods', function() {
       db('foo').push({ a: 1 })
       assert(!db('foo').find({ a: 1 }).isUndefined().value())
@@ -124,7 +125,7 @@ describe('LowDB', function() {
       db('foo').hello('world')
 
       setTimeout(function() {
-        assert.deepEqual(JSON.parse(fs.readFileSync(dbPath)), { foo: [ 'hello world' ] })
+        assert.deepEqual(JSON.parse(fs.readFileSync(dbPath)), { foo: [ { a: 1 }, 'hello world' ] })
         done()
       }, 100)
     })
