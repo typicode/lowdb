@@ -1,10 +1,11 @@
 var fs = require('graceful-fs')
 var tempWrite = require('temp-write')
+var mv = require('mv')
 
 function atomicWrite(filePath, data, callback) {
   tempWrite(data, function(err, tempFilePath) {
     if (err) throw err
-    fs.rename(tempFilePath, filePath, function(err) {
+    mv(tempFilePath, filePath, function(err) {
       if (err) throw err
       callback()
     })
