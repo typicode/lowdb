@@ -40,6 +40,6 @@
     "husky": "^0.6.1",
     "mocha": "^1.21.4",
     "rimraf": "^2.2.8",
-    "underscore-db": "^0.7.0"
+    "underscore-db": "^0.8.0"
   }
 }
