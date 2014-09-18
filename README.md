@@ -11,7 +11,7 @@
 
 LowDB uses Lo-Dash functional progamming API instead of a MongoDB-like API. This makes it quite unique and different.
 
-_LowDB powers [JSON Server](https://github.com/typicode/json-server) and [JSONPlaceholder](http://jsonplaceholder.typicode.com/). If you need something similar for the browser, check [Underscore.db](https://github.com/typicode/underscore.db)._
+_LowDB powers [JSON Server](https://github.com/typicode/json-server) and [JSONPlaceholder](http://jsonplaceholder.typicode.com/). If you need something similar for the browser, check [Underscore-db](https://github.com/typicode/underscore-db)._
 
 ## Usage
 
@@ -41,7 +41,7 @@ var song = db('songs').find({ title: 'low!' }).value()
 db('songs').remove({ title: 'low!' })
 ```
 
-You can also use id-based methods by extending LowDB with [Underscore.db](https://github.com/typicode/underscore.db).
+You can also use id-based methods by extending LowDB with [Underscore-db](https://github.com/typicode/underscore-db).
 
 ## API
 
@@ -139,10 +139,10 @@ db('songs').remove({ title: 'low!' })
 
 Being able to retrieve data using an id can be quite useful, particularly in servers. To add id-based resources support to LowDB, you have 2 options.
 
-[Underscore.db](https://github.com/typicode/underscore.db) provides a set of helpers for creating and manipulating id-based resources.
+[Underscore-db](https://github.com/typicode/underscore-db) provides a set of helpers for creating and manipulating id-based resources.
 
 ```javascript
-low.mixin(require('underscore.db'))
+low.mixin(require('underscore-db'))
 
 var db = low('db.json')
 

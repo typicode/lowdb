@@ -131,10 +131,10 @@ describe('LowDB', function() {
 
   })
 
-  describe('underscore.db', function() {
+  describe('underscore-db', function() {
 
     beforeEach(function() {
-      low.mixin(require('underscore.db'))
+      low.mixin(require('underscore-db'))
       db = low(dbPath)
     })
 
