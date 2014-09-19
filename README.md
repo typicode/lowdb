@@ -9,7 +9,7 @@
 * Asynchronous and fault-tolerant writing
 * Extendable
 
-LowDB uses Lo-Dash functional progamming API instead of a MongoDB-like API. This makes it quite unique and different.
+LowDB uses Lo-Dash functional programming API instead of a MongoDB-like API. This makes it quite unique and different.
 
 _LowDB powers [JSON Server](https://github.com/typicode/json-server) and [JSONPlaceholder](http://jsonplaceholder.typicode.com/). If you need something similar for the browser, check [Underscore-db](https://github.com/typicode/underscore-db)._
 
