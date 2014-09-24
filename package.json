@@ -34,6 +34,7 @@
     "graceful-fs": "^3.0.2",
     "lodash": "~2.4.1",
     "mv": "^2.0.3",
+    "mkdirp": "^0.5.0",
     "temp-write": "^1.0.0"
   },
   "devDependencies": {
