@@ -19,7 +19,7 @@ function Store(filename) {
   return this
 }
 
-Store.prototype.save = _.throttle(function() {
+Store.prototype.save = _.debounce(function() {
   this.writer.write(stringify(this.object))
 }, 10)
 
