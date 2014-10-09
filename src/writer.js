@@ -19,27 +19,16 @@ function Writer(filePath) {
 }
 
 Writer.prototype.write = function(data) {
-  var self = this
-
-  if (this.previous !== data && !this.writing) {
-
+  if (this.writing) {
+    this.next = data
+  } else if (data !== this.current) {
     this.writing = true
-
+    this.current = data
+    var self = this
     atomicWrite(this.filePath, data, function() {
-
-      self.previous = data
       self.writing = false
-
-      if (self.next) self.next()
-
+      if (self.next) self.write.apply(self, [self.next])
     })
-
-  } else {
-
-    this.next = function() {
-      self.write(data)
-    }
-
   }
 }
 
