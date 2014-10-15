@@ -1,5 +1,6 @@
+var fs = require('fs')
 var _ = require('lodash')
-var Store = require('./store')
+var Writer = require('./writer')
 
 // Compose every function with fn
 function composeAll(obj, fn) {
@@ -11,10 +12,14 @@ function composeAll(obj, fn) {
 }
 
 function Low(filename) {
-  // Create a new JSON file and get object
   if (filename) {
-    var store = new Store(filename)
-    var object = store.object
+    if (fs.existsSync(filename)) {
+      var object = low.parse(fs.readFileSync(filename))
+    } else {
+      fs.writeFileSync(filename, '{}')
+      var object = {}
+    }
+    var writer = new Writer(filename)
   } else {
     var object = {}
   }
@@ -23,18 +28,19 @@ function Low(filename) {
     // Create empty array if it doesn't exist
     object[name] = object[name] || []
 
-    if (filename) store.save()
+    // Save it
+    if (filename) chain.save()
 
-    // Chain array
+    // Create a Lo-Dash chained array
     var chainedArray = _.chain(object[name])
 
     // Hack, wrap every Lo-Dash function to call save.
     // Save is however throttled and only happens if database object
     // has changed.
-    // With Node 0.12 and Object.observe support, this bit of code should
+    // With Node 0.12 and Object.observe support, this bit of code should be
     // removed :)
     if (filename) composeAll(chainedArray, function(arg) {
-      store.save()
+      chain.save()
       return arg
     })
 
@@ -45,9 +51,9 @@ function Low(filename) {
   chain.object = object
 
   // Call it to manually save database
-  chain.save = function() {
-    if (store) store.save()
-  }
+  chain.save = _.throttle(function() {
+    if (filename) writer.write(low.stringify(object))
+  }, 10)
 
   return chain
 }
@@ -58,6 +64,14 @@ function low(filename) {
 
 low.mixin = function(source) {
   _.mixin(source)
+}
+
+low.stringify = function(obj) {
+  return JSON.stringify(obj, null, 2)
+}
+
+low.parse = function(str) {
+  return JSON.parse(str)
 }
 
 module.exports = low

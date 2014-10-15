@@ -69,6 +69,10 @@ low.mixin({
 var song = db('songs').second().value()
 ```
 
+__low.stringify(obj)__ and __low.parse(str)__
+
+Overwrite these methods to customize JSON stringifying and parsing.
+
 __db.object__
 
 Database object. Useful if you want to access the content of your JSON file and don't want to go through Lo-Dash methods.

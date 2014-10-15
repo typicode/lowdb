@@ -66,7 +66,6 @@ describe('LowDB', function() {
     beforeEach(function() {
       fs.writeFileSync(dbPath, JSON.stringify({ foo: { a: 1 } }))
       db = low(dbPath)
-      db('foo').push({ a: 1 })
     })
 
     it('loads automatically file', function() {
@@ -74,7 +73,6 @@ describe('LowDB', function() {
     })
 
   })
-
 
   describe('In-memory', function() {
 
@@ -112,19 +110,45 @@ describe('LowDB', function() {
 
     beforeEach(function() {
       db = low(dbPath)
-    })
-
-    it('adds functions', function(done) {
       low.mixin({
         hello: function(array, word) {
           array.push('hello ' + word)
         }
       })
+    })
 
+    it('adds functions', function(done) {
       db('foo').hello('world')
-
       setTimeout(function() {
         assert.deepEqual(JSON.parse(fs.readFileSync(dbPath)), { foo: [ 'hello world' ] })
+        done()
+      }, 100)
+    })
+
+  })
+
+  describe('stringify and parse', function() {
+
+    var stringify = low.stringify
+    var parse = low.parse
+
+    beforeEach(function() {
+      low.stringify = function() { return '{ foo: [] }' }
+      low.parse = function() { return { bar: [] } }
+      fs.writeFileSync(dbPath, '{}')
+      db = low(dbPath)
+    })
+
+    afterEach(function() {
+      low.stringify = stringify
+      low.parse = parse
+    })
+
+    it('can be overriden', function(done) {
+      assert.deepEqual(db.object, { bar: [] })
+      db.save() // will stringify object
+      setTimeout(function() {
+        assert.equal(fs.readFileSync(dbPath, 'utf-8'), '{ foo: [] }')
         done()
       }, 100)
     })
@@ -145,4 +169,3 @@ describe('LowDB', function() {
 
   })
 })
-
