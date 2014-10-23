@@ -1,6 +1,6 @@
 var fs = require('fs')
 var _ = require('lodash')
-var Writer = require('./writer')
+var write = require('./write')
 
 // Compose every function with fn
 function composeAll(obj, fn) {
@@ -19,7 +19,6 @@ function Low(filename) {
       fs.writeFileSync(filename, '{}')
       var object = {}
     }
-    var writer = new Writer(filename)
   } else {
     var object = {}
   }
@@ -51,15 +50,22 @@ function Low(filename) {
   chain.object = object
 
   // Call it to manually save database
-  chain.save = _.throttle(function() {
-    if (filename) writer.write(low.stringify(object))
-  }, 10)
+  chain.save = function() {
+    if (filename) write(filename, low.stringify(object))
+  }
 
   return chain
 }
 
 function low(filename) {
   return new Low(filename)
+}
+
+low.sync = function(filename) {
+  var db = low(filename)
+  db.save = function() {
+    if (filename) fs.writeFileSync(filename, low.stringify(object))
+  }
 }
 
 low.mixin = function(source) {

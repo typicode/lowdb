@@ -1,9 +1,9 @@
 var fs = require('fs')
 var assert = require('assert')
 var rmrf = require('rimraf')
-var Writer = require('../src/writer')
+var write = require('../src/write')
 
-describe('Writer', function() {
+describe('write', function() {
 
   // Sometime Travis can be slow...
   this.timeout(20 * 1000)
@@ -17,8 +17,6 @@ describe('Writer', function() {
   })
 
   it('always writes data from the latest call', function(done) {
-    var writer = new Writer(filePath)
-
     // 1M characters
     var data = ''
     for (var i = 0; i <= 1000 * 1000; i++) {
@@ -26,7 +24,7 @@ describe('Writer', function() {
     }
 
     for (var i = 0; i <= 1000 * 1000; i++) {
-      writer.write(data + i)
+      write(filePath, data + i)
     }
 
     setTimeout(function() {

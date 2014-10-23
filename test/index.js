@@ -133,7 +133,7 @@ describe('LowDB', function() {
     var parse = low.parse
 
     beforeEach(function() {
-      low.stringify = function() { return '{ foo: [] }' }
+      low.stringify = function() { return '{ "foo": [] }' }
       low.parse = function() { return { bar: [] } }
       fs.writeFileSync(dbPath, '{}')
       db = low(dbPath)
@@ -148,7 +148,7 @@ describe('LowDB', function() {
       assert.deepEqual(db.object, { bar: [] })
       db.save() // will stringify object
       setTimeout(function() {
-        assert.equal(fs.readFileSync(dbPath, 'utf-8'), '{ foo: [] }')
+        assert.equal(fs.readFileSync(dbPath, 'utf-8'), '{ "foo": [] }')
         done()
       }, 100)
     })
