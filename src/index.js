@@ -64,8 +64,9 @@ function low(filename) {
 low.sync = function(filename) {
   var db = low(filename)
   db.save = function() {
-    if (filename) fs.writeFileSync(filename, low.stringify(object))
+    if (filename) fs.writeFileSync(filename, low.stringify(db.object))
   }
+  return db
 }
 
 low.mixin = function(source) {

@@ -3,11 +3,12 @@ var assert = require('assert')
 var rmrf = require('rimraf')
 var low = require('../src')
 
+var tempPath = __dirname + '/../tmp'
+var dbPath = tempPath + '/test.json'
+
 describe('LowDB', function() {
 
   var db
-  var tempPath = __dirname + '/../tmp'
-  var dbPath = tempPath + '/test.json'
 
   beforeEach(function() {
     rmrf.sync(tempPath)
@@ -17,7 +18,7 @@ describe('LowDB', function() {
   describe('Basic operations', function() {
 
     beforeEach(function() {
-      db = low(dbPath)
+      db = low()
     })
 
     it('creates', function() {
@@ -44,7 +45,7 @@ describe('LowDB', function() {
 
   })
 
-  describe('Autosave', function() {
+  describe('Async autosave', function() {
 
     beforeEach(function(done) {
       db = low(dbPath)
@@ -59,6 +60,20 @@ describe('LowDB', function() {
       )
     })
 
+  })
+
+  describe('Sync autosave', function() {
+    beforeEach(function() {
+      db = low.sync(dbPath)
+      db('foo').push({ a: 1 })
+    })
+
+    it('saves automatically to file', function() {
+      assert.deepEqual(
+        db('foo').value(),
+        JSON.parse(fs.readFileSync(dbPath)).foo
+      )
+    })
   })
 
   describe('Autoload', function() {
@@ -91,13 +106,27 @@ describe('LowDB', function() {
 
   })
 
-  describe('save', function() {
+  describe('Async save', function() {
 
     beforeEach(function(done) {
       db = low(dbPath)
       db.object.foo = [ { a: 1 } ]
       db.save()
       setTimeout(done, 100)
+    })
+
+    it('saves database', function() {
+      assert.deepEqual(JSON.parse(fs.readFileSync(dbPath)), db.object)
+    })
+
+  })
+
+  describe('Sync save', function() {
+
+    beforeEach(function() {
+      db = low.sync(dbPath)
+      db.object.foo = [ { a: 1 } ]
+      db.save()
     })
 
     it('saves database', function() {
@@ -154,18 +183,18 @@ describe('LowDB', function() {
     })
 
   })
+})
 
-  describe('underscore-db', function() {
+describe('underscore-db', function() {
 
-    beforeEach(function() {
-      low.mixin(require('underscore-db'))
-      db = low(dbPath)
-    })
-
-    it('is supported', function() {
-      var id = db('foo').insert({ a: 1 }).value().id
-      assert(db('foo').get(id).value().a, 1)
-    })
-
+  beforeEach(function() {
+    low.mixin(require('underscore-db'))
+    db = low(dbPath)
   })
+
+  it('is supported', function() {
+    var id = db('foo').insert({ a: 1 }).value().id
+    assert(db('foo').get(id).value().a, 1)
+  })
+
 })
