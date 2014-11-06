@@ -46,12 +46,12 @@ function Low(filename) {
     return chainedArray
   }
 
-  // Expose store object
+  // Expose object
   chain.object = object
 
-  // Call it to manually save database
+  // Save method
   chain.save = function() {
-    if (filename) write(filename, low.stringify(object))
+    if (filename) fs.writeFileSync(filename, low.stringify(object))
   }
 
   return chain
@@ -61,10 +61,10 @@ function low(filename) {
   return new Low(filename)
 }
 
-low.sync = function(filename) {
+low.async = function(filename) {
   var db = low(filename)
   db.save = function() {
-    if (filename) fs.writeFileSync(filename, low.stringify(db.object))
+    write(filename, low.stringify(db.object))
   }
   return db
 }
