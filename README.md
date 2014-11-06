@@ -6,12 +6,12 @@
 * Multiple databases
 * In-memory or disk-based
 * 80+ methods from Lo-Dash API
-* Asynchronous and fault-tolerant writing
+* Atomic writing
 * Extendable
 
 LowDB uses Lo-Dash functional programming API instead of a MongoDB-like API. This makes it quite unique and different.
 
-_LowDB powers [JSON Server](https://github.com/typicode/json-server) and [JSONPlaceholder](http://jsonplaceholder.typicode.com/). If you need something similar for the browser, check [Underscore-db](https://github.com/typicode/underscore-db)._
+_LowDB powers [JSON Server](https://github.com/typicode/json-server) and [JSONPlaceholder](http://jsonplaceholder.typicode.com/). See also [underscore-db](https://github.com/typicode/underscore-db)._
 
 ## Usage
 
@@ -45,13 +45,19 @@ You can also use id-based methods by extending LowDB with [Underscore-db](https:
 
 ## API
 
-__low([filename])__
+__low([filename, options])__
 
 Creates a disk-based or in-memory database instance. If a filename is provided, it loads or creates it.
 
 ```javascript
 var db = low()          // in-memory
 var db = low('db.json') // disk-based
+```
+
+Add option `async` to have data written asynchronously. Be aware though that having data written in the background asynchronously can make sometimes things harder.
+
+```
+var db = low('db.json', { async: true })
 ```
 
 __low.mixin(source)__

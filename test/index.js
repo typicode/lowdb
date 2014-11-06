@@ -3,19 +3,20 @@ var assert = require('assert')
 var rmrf = require('rimraf')
 var low = require('../src')
 
-var tempPath = __dirname + '/../tmp'
-var dbPath = tempPath + '/test.json'
+var tempDir = __dirname + '/../tmp'
+var syncFile = tempDir + '/sync.json'
+var asyncFile = tempDir + '/async.json'
 
 describe('LowDB', function() {
 
   var db
 
   beforeEach(function() {
-    rmrf.sync(tempPath)
-    fs.mkdirSync(tempPath)
+    rmrf.sync(tempDir)
+    fs.mkdirSync(tempDir)
   })
 
-  describe('Basic operations', function() {
+  describe('CRUD', function() {
 
     beforeEach(function() {
       db = low()
@@ -45,92 +46,77 @@ describe('LowDB', function() {
 
   })
 
-  describe('Async autosave', function() {
-
-    beforeEach(function(done) {
-      db = low(dbPath)
-      db('foo').push({ a: 1 })
-      setTimeout(done, 100)
-    })
-
-    it('saves automatically to file', function() {
-      assert.deepEqual(
-        db('foo').value(),
-        JSON.parse(fs.readFileSync(dbPath)).foo
-      )
-    })
-
-  })
-
-  describe('Sync autosave', function() {
-    beforeEach(function() {
-      db = low.sync(dbPath)
-      db('foo').push({ a: 1 })
-    })
-
-    it('saves automatically to file', function() {
-      assert.deepEqual(
-        db('foo').value(),
-        JSON.parse(fs.readFileSync(dbPath)).foo
-      )
-    })
-  })
-
-  describe('Autoload', function() {
+  describe('Async', function() {
 
     beforeEach(function() {
-      fs.writeFileSync(dbPath, JSON.stringify({ foo: { a: 1 } }))
-      db = low(dbPath)
+      db = low(asyncFile, { async: true })
     })
 
-    it('loads automatically file', function() {
-      assert.equal(db('foo').value().a, 1)
+    describe('Autosave', function() {
+      beforeEach(function(done) {
+        db('foo').push({ a: 1 })
+        setTimeout(done, 10)
+      })
+
+      it('saves automatically to file', function(done) {
+        assert.deepEqual(
+          db('foo').value(),
+          JSON.parse(fs.readFileSync(asyncFile)).foo
+        )
+        setTimeout(done, 10)
+      })
+    })
+
+    describe('#save()', function() {
+      beforeEach(function(done) {
+        db.object.foo = [ { a: 1 } ]
+        db.save()
+        setTimeout(done, 10)
+      })
+
+      it('saves database', function(done) {
+        assert.deepEqual(JSON.parse(fs.readFileSync(asyncFile)), db.object)
+        setTimeout(done, 10)
+      })
     })
 
   })
 
-  describe('In-memory', function() {
+  describe('sync', function() {
 
     beforeEach(function() {
-      db = low()
+      fs.writeFileSync(syncFile, JSON.stringify({ foo: { a: 1 } }))
+      db = low(syncFile)
     })
 
-    it('doesn\'t create a file', function() {
-      assert(!fs.existsSync(dbPath))
+    describe('Autoload', function() {
+      it('loads automatically file', function() {
+        assert.equal(db('foo').value().a, 1)
+      })
     })
 
-    it('supports Lo-Dash methods', function() {
-      db('foo').push({ a: 1 })
-      assert(!db('foo').find({ a: 1 }).isUndefined().value())
+    describe('Autosave', function() {
+      beforeEach(function() {
+        db('foo').push({ a: 1 })
+      })
+
+      it('saves automatically to file', function() {
+        assert.deepEqual(
+          db('foo').value(),
+          JSON.parse(fs.readFileSync(syncFile)).foo
+        )
+      })
     })
 
-  })
+    describe('#save()', function() {
+      beforeEach(function() {
+        db.object.foo = [ { a: 1 } ]
+        db.save()
+      })
 
-  describe('Async save', function() {
-
-    beforeEach(function(done) {
-      db = low(dbPath)
-      db.object.foo = [ { a: 1 } ]
-      db.save()
-      setTimeout(done, 100)
-    })
-
-    it('saves database', function() {
-      assert.deepEqual(JSON.parse(fs.readFileSync(dbPath)), db.object)
-    })
-
-  })
-
-  describe('Sync save', function() {
-
-    beforeEach(function() {
-      db = low.sync(dbPath)
-      db.object.foo = [ { a: 1 } ]
-      db.save()
-    })
-
-    it('saves database', function() {
-      assert.deepEqual(JSON.parse(fs.readFileSync(dbPath)), db.object)
+      it('saves database', function() {
+        assert.deepEqual(JSON.parse(fs.readFileSync(syncFile)), db.object)
+      })
     })
 
   })
@@ -138,20 +124,17 @@ describe('LowDB', function() {
   describe('mixin', function() {
 
     beforeEach(function() {
-      db = low(dbPath)
       low.mixin({
         hello: function(array, word) {
           array.push('hello ' + word)
         }
       })
+      db = low(syncFile)
     })
 
-    it('adds functions', function(done) {
+    it('adds functions', function() {
       db('foo').hello('world')
-      setTimeout(function() {
-        assert.deepEqual(JSON.parse(fs.readFileSync(dbPath)), { foo: [ 'hello world' ] })
-        done()
-      }, 100)
+      assert.deepEqual(JSON.parse(fs.readFileSync(syncFile)), { foo: [ 'hello world' ] })
     })
 
   })
@@ -164,8 +147,8 @@ describe('LowDB', function() {
     beforeEach(function() {
       low.stringify = function() { return '{ "foo": [] }' }
       low.parse = function() { return { bar: [] } }
-      fs.writeFileSync(dbPath, '{}')
-      db = low(dbPath)
+      fs.writeFileSync(syncFile, '{}')
+      db = low(syncFile)
     })
 
     afterEach(function() {
@@ -173,13 +156,10 @@ describe('LowDB', function() {
       low.parse = parse
     })
 
-    it('can be overriden', function(done) {
+    it('can be overriden', function() {
       assert.deepEqual(db.object, { bar: [] })
       db.save() // will stringify object
-      setTimeout(function() {
-        assert.equal(fs.readFileSync(dbPath, 'utf-8'), '{ "foo": [] }')
-        done()
-      }, 100)
+      assert.equal(fs.readFileSync(syncFile, 'utf-8'), '{ "foo": [] }')
     })
 
   })
@@ -189,7 +169,7 @@ describe('underscore-db', function() {
 
   beforeEach(function() {
     low.mixin(require('underscore-db'))
-    db = low(dbPath)
+    db = low(syncFile)
   })
 
   it('is supported', function() {

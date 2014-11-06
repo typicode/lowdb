@@ -1,76 +1,45 @@
 var fs = require('fs')
 var _ = require('lodash')
-var write = require('./write')
+var utils = require('./utils')
 
-// Compose every function with fn
-function composeAll(obj, fn) {
-  for (var key in obj) {
-    if (_.isFunction(obj[key])) {
-      obj[key] = _.compose(fn, obj[key])
-    }
-  }
-}
+function low(file, options) {
+  var obj = utils.getObject(file, low.parse)
 
-function Low(filename) {
-  if (filename) {
-    if (fs.existsSync(filename)) {
-      var object = low.parse(fs.readFileSync(filename))
-    } else {
-      fs.writeFileSync(filename, '{}')
-      var object = {}
-    }
-  } else {
-    var object = {}
-  }
+  function db(key) {
+    var array = obj[key] = obj[key] || []
+    var chain = _.chain(array)
 
-  function chain(name) {
-    // Create empty array if it doesn't exist
-    object[name] = object[name] || []
-
-    // Save it
-    if (filename) chain.save()
-
-    // Create a Lo-Dash chained array
-    var chainedArray = _.chain(object[name])
-
-    // Hack, wrap every Lo-Dash function to call save.
-    // Save is however throttled and only happens if database object
-    // has changed.
-    // With Node 0.12 and Object.observe support, this bit of code should be
-    // removed :)
-    if (filename) composeAll(chainedArray, function(arg) {
-      chain.save()
+    utils.composeAll(chain, function(arg) {
+      db.save()
       return arg
     })
 
-    return chainedArray
+    db.save()
+
+    return chain
   }
 
-  // Expose object
-  chain.object = object
+  db.save = _.noop
 
-  // Save method
-  chain.save = function() {
-    if (filename) fs.writeFileSync(filename, low.stringify(object))
+  if (file) {
+    if (options && options.async) {
+      db.save = function() {
+        utils.saveAsync(file, low.stringify(obj))
+      }
+    } else {
+      db.save = function() {
+        utils.saveSync(file, low.stringify(obj))
+      }
+    }
   }
 
-  return chain
-}
+  db.object = obj
 
-function low(filename) {
-  return new Low(filename)
-}
-
-low.async = function(filename) {
-  var db = low(filename)
-  db.save = function() {
-    write(filename, low.stringify(db.object))
-  }
   return db
 }
 
-low.mixin = function(source) {
-  _.mixin(source)
+low.mixin = function(arg) {
+  _.mixin(arg)
 }
 
 low.stringify = function(obj) {
