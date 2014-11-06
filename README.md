@@ -81,7 +81,7 @@ Overwrite these methods to customize JSON stringifying and parsing.
 
 __db.object__
 
-Database object. Useful if you want to access the content of your JSON file and don't want to go through Lo-Dash methods.
+Database object. Useful for batch operations or to directly access the content of your JSON file.
 
 ```javascript
 console.log(db.object) // { songs: [ { title: 'low!' } ] }
