@@ -54,7 +54,7 @@ var db = low()          // in-memory
 var db = low('db.json') // disk-based
 ```
 
-Add option `async` to have data written asynchronously. Be aware though that having data written in the background asynchronously can make sometimes things harder.
+Add `async` option to have data written asynchronously. Be aware though that having data written asynchronously can make some things harder.
 
 ```
 var db = low('db.json', { async: true })
