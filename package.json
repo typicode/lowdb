@@ -34,7 +34,7 @@
     "steno": "^0.2.1"
   },
   "devDependencies": {
-    "husky": "^0.6.1",
+    "husky": "^0.6.2",
     "mocha": "^1.21.4",
     "rimraf": "^2.2.8",
     "underscore-db": "^0.8.0"
