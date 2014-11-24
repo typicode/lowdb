@@ -23,11 +23,13 @@ function low(file, options) {
 
   if (file) {
     if (options && options.async) {
-      db.save = function() {
+      db.save = function(f) {
+        f = f ? f : file
         utils.saveAsync(file, low.stringify(obj))
       }
     } else {
-      db.save = function() {
+      db.save = function(f) {
+        f = f ? f : file
         utils.saveSync(file, low.stringify(obj))
       }
     }
