@@ -49,7 +49,7 @@ describe('LowDB', function() {
   describe('Async', function() {
 
     beforeEach(function() {
-      db = low(asyncFile, { async: true })
+      db = low(asyncFile)
     })
 
     describe('Autosave', function() {
@@ -86,7 +86,7 @@ describe('LowDB', function() {
 
     beforeEach(function() {
       fs.writeFileSync(syncFile, JSON.stringify({ foo: { a: 1 } }))
-      db = low(syncFile)
+      db = low(syncFile, { async: false })
     })
 
     describe('Autoload', function() {
@@ -108,10 +108,10 @@ describe('LowDB', function() {
       })
     })
 
-    describe('#save()', function() {
+    describe('#saveSync()', function() {
       beforeEach(function() {
         db.object.foo = [ { a: 1 } ]
-        db.save()
+        db.saveSync()
       })
 
       it('saves database', function() {
@@ -129,7 +129,7 @@ describe('LowDB', function() {
           array.push('hello ' + word)
         }
       })
-      db = low(syncFile)
+      db = low(syncFile, { async: false })
     })
 
     it('adds functions', function() {
@@ -148,7 +148,7 @@ describe('LowDB', function() {
       low.stringify = function() { return '{ "foo": [] }' }
       low.parse = function() { return { bar: [] } }
       fs.writeFileSync(syncFile, '{}')
-      db = low(syncFile)
+      db = low(syncFile, { async: false })
     })
 
     afterEach(function() {
@@ -158,7 +158,7 @@ describe('LowDB', function() {
 
     it('can be overriden', function() {
       assert.deepEqual(db.object, { bar: [] })
-      db.save() // will stringify object
+      db.saveSync() // will stringify object
       assert.equal(fs.readFileSync(syncFile, 'utf-8'), '{ "foo": [] }')
     })
 

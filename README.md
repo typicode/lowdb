@@ -54,10 +54,13 @@ var db = low()          // in-memory
 var db = low('db.json') // disk-based
 ```
 
-Add `async` option to have data written asynchronously. Be aware though that having data written asynchronously can make some things harder.
+When a filename is provided you can set options.
 
-```
-var db = low('db.json', { async: true })
+```javascript
+var db = low('db.json', {
+  autosave: true, // changes are automatically written to file (true by default)
+  async: true     // changes are written synchronously or asynchronously (true by default)
+})
 ```
 
 __low.mixin(source)__
@@ -88,14 +91,26 @@ console.log(db.object) // { songs: [ { title: 'low!' } ] }
 db('songs').value() === db.object.songs
 ```
 
-__db.save()__
+__db.save([filename])__
 
-LowDB automatically saves to disk. However, in case you directly modify the content of the database object, you'll need to manually call `save`.
+Saves database to file.
+
+```javascript
+var db = low('db.json')
+db.save() // saves to db.json
+db.save('copy.json')
+```
+
+Note: In case you directly modify the content of the database object, you'll need to manually call `save`
 
 ```javascript
 delete db.object.songs
 db.save()
 ```
+
+__db.saveSync([filename])__
+
+Synchronous version of `db.save()`
 
 ## Documentation
 

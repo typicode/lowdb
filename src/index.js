@@ -5,34 +5,39 @@ var utils = require('./utils')
 function low(file, options) {
   var obj = utils.getObject(file, low.parse)
 
+  var options = _.assign({
+    autosave: true,
+    async: true
+  }, options)
+
   function db(key) {
     var array = obj[key] = obj[key] || []
     var chain = _.chain(array)
 
-    utils.composeAll(chain, function(arg) {
-      db.save()
-      return arg
-    })
+    if (file && options.autosave) {
+      var save = function() {
+        options.async ? db.save() : db.saveSync()
+      }
 
-    db.save()
+      utils.composeAll(chain, function(arg) {
+        save()
+        return arg
+      })
+
+      save()
+    }
 
     return chain
   }
 
-  db.save = _.noop
+  db.save = function(f) {
+    f = f ? f : file
+    utils.saveAsync(file, low.stringify(obj))
+  }
 
-  if (file) {
-    if (options && options.async) {
-      db.save = function(f) {
-        f = f ? f : file
-        utils.saveAsync(file, low.stringify(obj))
-      }
-    } else {
-      db.save = function(f) {
-        f = f ? f : file
-        utils.saveSync(file, low.stringify(obj))
-      }
-    }
+  db.saveSync = function(f) {
+    f = f ? f : file
+    utils.saveSync(file, low.stringify(obj))
   }
 
   db.object = obj
