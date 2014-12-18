@@ -1,4 +1,4 @@
-# LowDB [![NPM version](https://badge.fury.io/js/lowdb.svg)](http://badge.fury.io/js/lowdb) [![Build Status](https://travis-ci.org/typicode/lowdb.svg?branch=master)](https://travis-ci.org/typicode/lowdb)
+# LowDB [![Build Status](https://travis-ci.org/typicode/lowdb.svg?branch=master)](https://travis-ci.org/typicode/lowdb) [![](https://img.shields.io/npm/v/lowdb.svg?style=flat)](https://www.npmjs.com/package/lowdb)
 
 > Flat JSON file database for Node
 
@@ -42,6 +42,12 @@ db('songs').remove({ title: 'low!' })
 ```
 
 You can also use id-based methods by extending LowDB with [Underscore-db](https://github.com/typicode/underscore-db).
+
+## Install
+
+```bash
+npm install lowdb --save 
+````
 
 ## API
 
