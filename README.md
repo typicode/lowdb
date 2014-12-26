@@ -124,7 +124,7 @@ Synchronous version of `db.save()`
 
 With LowDB you get access to the entire [Lo-Dash API](http://lodash.com/), so there's many, many ways to query and manipulate data. Here are a few examples to get you started.
 
-Please note also that data is returned by reference, this means that modifications to returned objects will modify the database. To avoid such behaviour, you need to use `.cloneDeep().value()`.
+Please note also that data is returned by reference, this means that modifications to returned objects may change the database. To avoid such behaviour, you need to use `.cloneDeep().value()`.
 
 Sort the top five songs.
 
