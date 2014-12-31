@@ -32,12 +32,12 @@ function low(file, options) {
 
   db.save = function(f) {
     f = f ? f : file
-    utils.saveAsync(file, low.stringify(obj))
+    utils.saveAsync(f, low.stringify(obj))
   }
 
   db.saveSync = function(f) {
     f = f ? f : file
-    utils.saveSync(file, low.stringify(obj))
+    utils.saveSync(f, low.stringify(obj))
   }
 
   db.object = obj
