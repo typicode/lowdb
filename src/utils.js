@@ -3,6 +3,7 @@ var path = require('path')
 var _ = require('lodash')
 var steno = require('steno')
 var crypto = require('crypto')
+
 var algorithm = 'aes256'
 
 function getTempFile(file) {
@@ -31,6 +32,10 @@ module.exports = {
         var dbData = fs.readFileSync(file)
 
         if(options.encrypt){
+
+          if(options.passkey.length == 0){
+            throw new Error('Please setup a passkey for AES 256 encryption')
+          }
 
           var decipher = crypto.createDecipher(algorithm, options.passkey)
           dbData = decipher.update(dbData.toString('utf8'), 'hex', 'utf8') + decipher.final('utf8')

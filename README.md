@@ -8,6 +8,7 @@
 * 80+ methods from Lo-Dash API
 * Atomic writing
 * Extendable
+* AES 256 encoding supported
 
 LowDB uses Lo-Dash functional programming API instead of a MongoDB-like API. This makes it quite unique and different.
 

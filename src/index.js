@@ -2,8 +2,8 @@ var fs = require('fs')
 var _ = require('lodash')
 var utils = require('./utils')
 var crypto = require('crypto')
-var algorithm = 'aes256'
 
+var algorithm = 'aes256'
 
 function low(file, options) {
 
@@ -43,6 +43,11 @@ function low(file, options) {
     var dbData = low.stringify(obj)
 
     if(options.encrypt){
+
+      if(options.passkey.length == 0){
+        throw new Error('Please setup a passkey for AES 256 encryption')
+      }
+
       var cipher = crypto.createCipher(algorithm, options.passkey)
       dbData = cipher.update(low.stringify(obj), 'utf8', 'hex') + cipher.final('hex');
     }
