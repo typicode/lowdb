@@ -2,6 +2,8 @@ var fs = require('fs')
 var path = require('path')
 var _ = require('lodash')
 var steno = require('steno')
+var crypto = require('crypto')
+var algorithm = 'aes256'
 
 function getTempFile(file) {
   return path.join(
@@ -22,10 +24,19 @@ module.exports = {
 
   // Read or create file and return object
   // If no file is provided return an empty object
-  getObject: function (file, parse) {
+  getObject: function (file, parse, options) {
     if (file) {
       if (fs.existsSync(file)) {
-        return parse(fs.readFileSync(file))
+
+        var dbData = fs.readFileSync(file)
+
+        if(options.encrypt){
+
+          var decipher = crypto.createDecipher(algorithm, options.passkey)
+          dbData = decipher.update(dbData, 'hex', 'utf8') + decipher.final('utf8')
+        }
+
+        return parse(dbData)
       } else {
         fs.writeFileSync(file, '{}')
         return {}

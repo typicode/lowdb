@@ -46,7 +46,7 @@ You can also use id-based methods by extending LowDB with [Underscore-db](https:
 ## Install
 
 ```bash
-npm install lowdb --save 
+npm install lowdb --save
 ````
 
 ## API
@@ -65,7 +65,9 @@ When a filename is provided you can set options.
 ```javascript
 var db = low('db.json', {
   autosave: true, // changes are automatically written to file (true by default)
-  async: true     // changes are written synchronously or asynchronously (true by default)
+  async: true,     // changes are written synchronously or asynchronously (true by default)
+  encrypt: false, // set AES encryption for the file
+  passkey: "" // set the passkey for the file in order to enc/dec
 })
 ```
 
