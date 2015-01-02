@@ -33,7 +33,7 @@ module.exports = {
         if(options.encrypt){
 
           var decipher = crypto.createDecipher(algorithm, options.passkey)
-          dbData = decipher.update(dbData, 'hex', 'utf8') + decipher.final('utf8')
+          dbData = decipher.update(dbData.toString('utf8'), 'hex', 'utf8') + decipher.final('utf8')
         }
 
         return parse(dbData)
