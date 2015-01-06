@@ -84,10 +84,22 @@ describe('LowDB', function() {
 
   describe('sync', function() {
 
+    var file1 = 'tmp/tmp-1.json';
+    var file2 = 'tmp/tmp-2.json';
+
     beforeEach(function() {
       fs.writeFileSync(syncFile, JSON.stringify({ foo: { a: 1 } }))
       db = low(syncFile, { async: false })
-    })
+    });
+
+    afterEach(function() {
+      if (fs.existsSync(file1)) {
+        fs.unlinkSync(file1);
+      }
+      if (fs.existsSync(file2)) {
+        fs.unlinkSync(file2);
+      }
+    });
 
     describe('Autoload', function() {
       it('loads automatically file', function() {
@@ -118,6 +130,20 @@ describe('LowDB', function() {
         assert.deepEqual(JSON.parse(fs.readFileSync(syncFile)), db.object)
       })
     })
+
+    describe('#saveSync(... with filename ...)', function() {
+      it('should write a different file from the initial db file specified.', function() {
+        db = low(file1, { async: false });
+        db('file-names').push({name:'first'});
+        db.saveSync();
+
+        assert(fs.existsSync(file1));
+
+        db.saveSync(file2);
+        assert(fs.existsSync(file2));
+      })
+
+    });
 
   })
 
