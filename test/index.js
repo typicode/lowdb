@@ -23,24 +23,24 @@ describe('LowDB', function() {
     })
 
     it('creates', function() {
-      db('foo').push({ a: 1 })
+      db('foo').push({ a: 1 }).value()
       assert.equal(db('foo').size(), 1)
     })
 
     it('reads', function() {
-      db('foo').push({ a: 1 })
+      db('foo').push({ a: 1 }).value()
       assert.deepEqual(db('foo').find({ a: 1 }).value(), { a: 1 })
     })
 
     it('updates', function() {
-      db('foo').push({ a: 1 })
-      db('foo').find({ a: 1 }).assign({ a: 2 })
+      db('foo').push({ a: 1 }).value()
+      db('foo').find({ a: 1 }).assign({ a: 2 }).value()
       assert(!db('foo').find({ a: 2 }).isUndefined().value())
     })
 
     it('deletes', function() {
-      db('foo').push({ a: 1 })
-      db('foo').remove({ a: 1 })
+      db('foo').push({ a: 1 }).value()
+      db('foo').remove({ a: 1 }).value()
       assert(db('foo').isEmpty().value())
     })
 
@@ -54,7 +54,7 @@ describe('LowDB', function() {
 
     describe('Autosave', function() {
       beforeEach(function(done) {
-        db('foo').push({ a: 1 })
+        db('foo').push({ a: 1 }).value()
         setTimeout(done, 10)
       })
 
@@ -84,22 +84,22 @@ describe('LowDB', function() {
 
   describe('sync', function() {
 
-    var file1 = 'tmp/tmp-1.json';
-    var file2 = 'tmp/tmp-2.json';
+    var file1 = 'tmp/tmp-1.json'
+    var file2 = 'tmp/tmp-2.json'
 
     beforeEach(function() {
       fs.writeFileSync(syncFile, JSON.stringify({ foo: { a: 1 } }))
       db = low(syncFile, { async: false })
-    });
+    })
 
     afterEach(function() {
       if (fs.existsSync(file1)) {
-        fs.unlinkSync(file1);
+        fs.unlinkSync(file1)
       }
       if (fs.existsSync(file2)) {
-        fs.unlinkSync(file2);
+        fs.unlinkSync(file2)
       }
-    });
+    })
 
     describe('Autoload', function() {
       it('loads automatically file', function() {
@@ -109,7 +109,7 @@ describe('LowDB', function() {
 
     describe('Autosave', function() {
       beforeEach(function() {
-        db('foo').push({ a: 1 })
+        db('foo').push({ a: 1 }).value()
       })
 
       it('saves automatically to file', function() {
@@ -133,17 +133,17 @@ describe('LowDB', function() {
 
     describe('#saveSync(... with filename ...)', function() {
       it('should write a different file from the initial db file specified.', function() {
-        db = low(file1, { async: false });
-        db('file-names').push({name:'first'});
-        db.saveSync();
+        db = low(file1, { async: false })
+        db('file-names').push({name:'first'}).value()
+        db.saveSync()
 
-        assert(fs.existsSync(file1));
+        assert(fs.existsSync(file1))
 
-        db.saveSync(file2);
-        assert(fs.existsSync(file2));
+        db.saveSync(file2)
+        assert(fs.existsSync(file2))
       })
 
-    });
+    })
 
   })
 
@@ -159,7 +159,7 @@ describe('LowDB', function() {
     })
 
     it('adds functions', function() {
-      db('foo').hello('world')
+      db('foo').hello('world').value()
       assert.deepEqual(JSON.parse(fs.readFileSync(syncFile)), { foo: [ 'hello world' ] })
     })
 

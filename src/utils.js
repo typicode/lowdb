@@ -9,13 +9,13 @@ function getTempFile(file) {
     '.' + path.basename(file) + '~'
   )
 }
-
+// var db = require('./src')('test.json'); db('a').push(2).value()
 module.exports = {
   // Compose every function with fn
   composeAll: function (obj, fn) {
     for (var key in obj) {
       if (_.isFunction(obj[key])) {
-        obj[key] = _.compose(fn, obj[key])
+        obj[key] = _.flow(obj[key], fn)
       }
     }
   },
@@ -36,14 +36,15 @@ module.exports = {
   },
 
   saveAsync: function(file, data) {
-    steno(getTempFile(file)).setCallback(function(err, data, next) {
-      if (err) throw err
-      fs.rename(this.filename, file, function(err) {
+    steno(getTempFile(file))
+      .setCallback(function(err, data, next) {
         if (err) throw err
-        next()
+        fs.rename(this.filename, file, function(err) {
+          if (err) throw err
+          next()
+        })
       })
-    })
-    steno(getTempFile(file)).write(data)
+      .write(data)
   },
 
   saveSync: function(file, data) {

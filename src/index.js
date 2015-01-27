@@ -1,6 +1,24 @@
 var fs = require('fs')
 var _ = require('lodash')
 var utils = require('./utils')
+var util = require('util')
+
+// Modifies chain methods to save on value() call
+function saveOnValue(db, chain, save) {
+  chain.value = _.flow(chain.value, function(value) {
+    save()
+    return value
+  })
+
+  for (var prop in chain) {
+    if (_.isFunction(chain[prop]) && prop !== 'value') {
+      chain[prop] = _.flow(chain[prop], function(newChain) {
+        saveOnValue(db, newChain, save)
+        return newChain
+      })
+    }
+  }
+}
 
 function low(file, options) {
   var obj = utils.getObject(file, low.parse)
@@ -19,10 +37,7 @@ function low(file, options) {
         options.async ? db.save() : db.saveSync()
       }
 
-      utils.composeAll(chain, function(arg) {
-        save()
-        return arg
-      })
+      saveOnValue(db, chain, save)
 
       save()
     }
