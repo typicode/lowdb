@@ -21,15 +21,13 @@ function saveOnValue(db, chain, save) {
 }
 
 function low(file, options) {
-  var obj = utils.getObject(file, low.parse)
-
   var options = _.assign({
     autosave: true,
     async: true
   }, options)
 
   function db(key) {
-    var array = obj[key] = obj[key] || []
+    var array = db.object[key] = db.object[key] || []
     var chain = _.chain(array)
 
     if (file && options.autosave) {
@@ -38,8 +36,6 @@ function low(file, options) {
       }
 
       saveOnValue(db, chain, save)
-
-      save()
     }
 
     return chain
@@ -47,15 +43,15 @@ function low(file, options) {
 
   db.save = function(f) {
     f = f ? f : file
-    utils.saveAsync(f, low.stringify(obj))
+    utils.saveAsync(f, low.stringify(db.object))
   }
 
   db.saveSync = function(f) {
     f = f ? f : file
-    utils.saveSync(f, low.stringify(obj))
+    utils.saveSync(f, low.stringify(db.object))
   }
-
-  db.object = obj
+  
+  db.object = utils.getObject(file, low.parse)
 
   return db
 }
