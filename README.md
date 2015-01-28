@@ -205,6 +205,27 @@ In both cases, your `db.json` will then look like this.
 }
 ```
 
+### Encryption support
+
+In some cases, you may want to make it harder to read database content. By overwriting, `low.stringify` and `low.parse`, you can add custom encryption.
+
+```javascript
+var crypto = require('crypto')
+
+var cipher = crypto.createCipher('aes256', secretKey)
+var decipher = crypto.createDecipher('aes256', secretKey)
+
+low.stringify = function(obj) {
+  var str = JSON.stringify(obj)
+  return cipher.update(str, 'utf8', 'hex') + cipher.final('hex')
+}
+
+low.parse = function(encrypted) {
+  var str = decipher.update(encrypted, 'hex', 'utf8') + decipher.final('utf8')
+  return JSON.parse(str)
+}
+```
+
 ## Changelog
 
 See details changes for each version in the [release notes](https://github.com/typicode/lowdb/releases).
