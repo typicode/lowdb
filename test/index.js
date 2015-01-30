@@ -189,6 +189,32 @@ describe('LowDB', function() {
     })
 
   })
+
+  describe('save on change', function() {
+
+    it('saves database only when it has changed', function() {
+      var db = low()
+      db.saved = false
+      db.save = function() {
+        this.saved = true
+      }
+
+      db('foo').where({}).value()
+      assert(!db.saved)
+      db('foo').push().value()
+      assert(db.saved)
+    })
+
+  })
+
+  describe('short syntax', function() {
+
+    it('is shorter than adding .value()', function() {
+      db('foo').$push({ a: 1 })
+      assert.deepEqual(db.object.foo, [{ a: 1 }])
+    })
+
+  })
 })
 
 describe('underscore-db', function() {

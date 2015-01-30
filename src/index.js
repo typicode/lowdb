@@ -4,17 +4,30 @@ var utils = require('./utils')
 var util = require('util')
 
 // Modifies chain methods to save on value() call
-function saveOnValue(db, chain, save) {
-  chain.value = _.flow(chain.value, function(value) {
-    save()
-    return value
+function addSaveOnValue(db, chain, async) {
+  chain.value = _.flow(chain.value, function(arg) {
+    async ? db.save() : db.saveSync()
+    return arg
   })
 
   for (var prop in chain) {
     if (_.isFunction(chain[prop]) && prop !== 'value') {
-      chain[prop] = _.flow(chain[prop], function(newChain) {
-        saveOnValue(db, newChain, save)
-        return newChain
+      chain[prop] = _.flow(chain[prop], function(arg) {
+        addSaveOnValue(db, arg, async)
+        return arg
+      })
+    }
+  }
+}
+
+// Add methods that automatically calls .value()
+function addShortSyntax(db, chain, async) {
+  for (var prop in chain) {
+    if (_.isFunction(chain[prop])) {
+      chain['$' + prop] = _.flow(chain[prop], function(arg) {
+        var v = arg.value()
+        async ? db.save() : db.saveSync()
+        return v
       })
     }
   }
@@ -31,11 +44,8 @@ function low(file, options) {
     var chain = _.chain(array)
 
     if (file && options.autosave) {
-      var save = function() {
-        options.async ? db.save() : db.saveSync()
-      }
-
-      saveOnValue(db, chain, save)
+      addSaveOnValue(db, chain, options.async)
+      addShortSyntax(db, chain, options.async)
     }
 
     return chain
