@@ -1,67 +1,98 @@
 var fs = require('fs')
 var _ = require('lodash')
-var utils = require('./utils')
-var util = require('util')
+var disk = require('./disk')
 
-// Modifies chain methods to save on value() call
-function addSaveOnValue(db, chain, async) {
-  chain.value = _.flow(chain.value, function(arg) {
-    async ? db.save() : db.saveSync()
-    return arg
-  })
+function lodashChain(array, cb) {
+  var chain = _.chain(array)
 
-  for (var prop in chain) {
-    if (_.isFunction(chain[prop]) && prop !== 'value') {
-      chain[prop] = _.flow(chain[prop], function(arg) {
-        addSaveOnValue(db, arg, async)
+  function addCallbackOnValue(c) {
+    c.value = _.flow(c.value, function(arg) {
+      cb()
+      return arg
+    })
+  }
+
+  addCallbackOnValue(chain)
+
+  _.functions(chain)
+    .forEach(function(method) {
+      chain[method] = _.flow(chain[method], function(arg) {
+        var isChain = _.isObject(arg) && arg.__chain__
+        if (isChain) addCallbackOnValue(arg)
         return arg
       })
-    }
-  }
+    })
+  
+  return chain
 }
 
-// Add methods that automatically calls .value()
-function addShortSyntax(db, chain, async) {
-  for (var prop in chain) {
-    if (_.isFunction(chain[prop])) {
-      chain['$' + prop] = _.flow(chain[prop], function(arg) {
-        var v = arg.value()
-        async ? db.save() : db.saveSync()
-        return v
+function lowChain(array, cb) {
+  var chain = _.chain(array)
+
+  _.functions(chain)
+    .forEach(function(method) {
+      chain[method] = _.flow(chain[method], function(arg) {
+        var res = arg.value ? arg.value() : arg
+        cb()
+        return res
       })
-    }
-  }
+    }) 
+  
+  return chain
 }
 
 function low(file, options) {
-  var options = _.assign({
+  var checksum
+
+  options = _.assign({
     autosave: true,
     async: true
   }, options)
 
-  function db(key) {
-    var array = db.object[key] = db.object[key] || []
-    var chain = _.chain(array)
-
+  function save() {
     if (file && options.autosave) {
-      addSaveOnValue(db, chain, options.async)
-      addShortSyntax(db, chain, options.async)
+      var str = low.stringify(db.object)
+      if (str === checksum) return
+      checksum = str 
+      options.async ? disk.write(file, str) : disk.writeSync(file, str)
+    }
+  } 
+
+  function db(key) {
+    if (db.object[key]) {
+      var array = db.object[key]
+    } else { 
+      var array = db.object[key] = []
+      save()
     }
 
-    return chain
+    var short = lowChain(array, save)
+    short.chain = function() {
+      return lodashChain(array, save)
+    }
+    return short
   }
-
+  
   db.save = function(f) {
     f = f ? f : file
-    utils.saveAsync(f, low.stringify(db.object))
+    disk.write(f, low.stringify(db.object))
   }
 
   db.saveSync = function(f) {
     f = f ? f : file
-    utils.saveSync(f, low.stringify(db.object))
+    disk.writeSync(f, low.stringify(db.object))
   }
   
-  db.object = utils.getObject(file, low.parse)
+  db.object = {}
+
+  if (file) {
+    var data = disk.read(file)
+    if (data) {
+      db.object = low.parse(data)
+    } else {
+      db.saveSync()
+    }
+  }
 
   return db
 }
