@@ -21,7 +21,7 @@ Database is __automatically__ saved to `db.json`
 }
 ```
 
-You can query and manipulate it using __any lodash 3.0 method__.
+You can query and manipulate it using __any lodash 3.0 method__
 
 ```javascript
 db('posts').find({ title: 'lowdb is awesome' })
