@@ -221,7 +221,7 @@ See details changes for each version in the [release notes](https://github.com/t
 
 ## Limits
 
-LowDB is a convenient method for storing data without setting up a database server. It's fast enough and safe to be used as an embedded database.
+lowdb is a convenient method for storing data without setting up a database server. It's fast enough and safe to be used as an embedded database.
 
 However, if you need high performance and scalability more than simplicity, you should stick to databases like MongoDB.
 
