@@ -1,53 +1,49 @@
-# LowDB [![Build Status](https://travis-ci.org/typicode/lowdb.svg?branch=master)](https://travis-ci.org/typicode/lowdb) [![](https://img.shields.io/npm/v/lowdb.svg?style=flat)](https://www.npmjs.com/package/lowdb)
+# lowdb [![NPM version](https://badge.fury.io/js/lowdb.svg)](http://badge.fury.io/js/lowdb) [![Build Status](https://travis-ci.org/typicode/lowdb.svg?branch=master)](https://travis-ci.org/typicode/lowdb)
 
-> Flat JSON file database for Node
+> Need a quick way to get a local database?
 
-* Serverless
-* Multiple databases
-* In-memory or disk-based
-* 80+ methods from Lo-Dash API
-* Atomic writing
-* Extendable
-
-LowDB uses Lo-Dash functional programming API instead of a MongoDB-like API. This makes it quite unique and different.
-
-_LowDB powers [JSON Server](https://github.com/typicode/json-server) and [JSONPlaceholder](http://jsonplaceholder.typicode.com/). See also [underscore-db](https://github.com/typicode/underscore-db)._
-
-## Usage
+## Example
 
 ```javascript
 var low = require('lowdb')
 var db = low('db.json')
 
-db('songs').push({ title: 'low!'})
+db('posts').push({ title: 'lowdb is awesome'})
 ```
 
-Database is automatically created and saved to `db.json` in a readable format.
+Database is __automatically__ saved to `db.json`
 
 ```javascript
 {
-  "songs": [
-    {
-      "title": "low!"
-    }
+  "posts": [
+    { "title": "lowdb is awesome" }
   ]
 }
 ```
 
-Data can be queried and manipulated using any Lo-Dash method.
+You can query and manipulate it using __any lodash 3.0 method__.
 
 ```javascript
-var song = db('songs').find({ title: 'low!' }).value()
-db('songs').remove({ title: 'low!' })
+db('posts').find({ title: 'lowdb is awesome' })
 ```
-
-You can also use id-based methods by extending LowDB with [Underscore-db](https://github.com/typicode/underscore-db).
 
 ## Install
 
 ```bash
 npm install lowdb --save 
 ````
+
+## Features
+
+* Small
+* Serverless
+* lodash rich API
+* In-memory or disk-based
+* __Hackable__ (mixins, id, encryption, ...)
+
+It's also __very easy to learn and use__ since it has __only 8 methods and properties__.
+
+_lowdb powers [json-server](https://github.com/typicode/json-server) package and [jsonplaceholder](http://jsonplaceholder.typicode.com/) website._
 
 ## API
 
@@ -71,17 +67,18 @@ var db = low('db.json', {
 
 __low.mixin(source)__
 
-Use it to extend Lo-Dash globally with your own utility functions or third-party libraries.
+Use it to extend lodash globally with your own utility functions or third-party libraries.
 
 ```javascript
 // Must be called before calling db('songs') for functions to be available.
 low.mixin({
   second: function(array) {
-    if (array.length >= 2) return array[1]
+    return array[1]
   }
 })
 
-var song = db('songs').second().value()
+var song1 = db('songs').first()
+var song2 = db('songs').second()
 ```
 
 __low.stringify(obj)__ and __low.parse(str)__
@@ -118,18 +115,21 @@ __db.saveSync([filename])__
 
 Synchronous version of `db.save()`
 
-## Documentation
+## Guide
 
 ### Operations
 
-With LowDB you get access to the entire [Lo-Dash API](http://lodash.com/), so there's many, many ways to query and manipulate data. Here are a few examples to get you started.
+With LowDB you get access to the entire [lodash API](http://lodash.com/), so there's many ways to query and manipulate data. Here are a few examples to get you started.
 
-Please note also that data is returned by reference, this means that modifications to returned objects may change the database. To avoid such behaviour, you need to use `.cloneDeep().value()`.
+Please note that data is returned by reference, this means that modifications to returned objects may change the database. To avoid such behaviour, you need to use `.cloneDeep()`.
+
+Also, the execution of chained methods is lazy, that is, execution is deferred until `.value()` is called.
 
 Sort the top five songs.
 
 ```javascript
 db('songs')
+  .chain()
   .where({published: true})
   .sortBy('views')
   .first(5)
@@ -139,9 +139,7 @@ db('songs')
 Retrieve song titles.
 
 ```javascript
-db('songs')
-  .pluck('titles')
-  .value()
+db('songs').pluck('titles')
 ```
 
 Get the number of songs.
@@ -153,13 +151,17 @@ db('songs').size()
 Make a deep clone of songs.
 
 ```javascript
-db('songs').cloneDeep().value()
+db('songs').cloneDeep()
 ```
 
 Update a song.
 
 ```javascript
-db('songs').find({ title: 'low!' }).assign({ title: 'hi!'})
+db('songs')
+  .chain()
+  .find({ title: 'low!' })
+  .assign({ title: 'hi!'})
+  .value()
 ```
 
 Remove songs.
@@ -168,41 +170,28 @@ Remove songs.
 db('songs').remove({ title: 'low!' })
 ```
 
-### Id-based resources support
+### Id support
 
-Being able to retrieve data using an id can be quite useful, particularly in servers. To add id-based resources support to LowDB, you have 2 options.
+Being able to retrieve data using an id can be quite useful, particularly in servers. To add id-based resources support to lowdb, you have 2 options.
 
-[Underscore-db](https://github.com/typicode/underscore-db) provides a set of helpers for creating and manipulating id-based resources.
+[underscore-db](https://github.com/typicode/underscore-db) provides a set of helpers for creating and manipulating id-based resources.
 
 ```javascript
 low.mixin(require('underscore-db'))
 
 var db = low('db.json')
 
-var songId = db('songs').insert({ title: 'low!' }).value().id
-var song   = db('songs').get(songId).value()
+var songId = db('songs').insert({ title: 'low!' }).id
+var song   = db('songs').get(songId)
 ```
 
-Or simply use [uuid](https://github.com/broofa/node-uuid).
+[uuid](https://github.com/broofa/node-uuid) returns a unique id.
 
 ```javascript
 var uuid = require('uuid')
 
-var songId = db('songs').push({ id: uuid(), title: 'low!' }).value().id
-var song   = db('songs').find({ id: songId }).value()
-```
-
-In both cases, your `db.json` will then look like this.
-
-```javascript
-{
-  "songs": [
-    {
-      "id": "e31aa48c-a9d8-4f79-9fce-ded4c16c3c4c",
-      "title": "low!"
-    }
-  ]
-}
+var songId = db('songs').push({ id: uuid(), title: 'low!' }).id
+var song   = db('songs').find({ id: songId })
 ```
 
 ### Encryption support
@@ -238,4 +227,4 @@ However, if you need high performance and scalability more than simplicity, you 
 
 ## License
 
-LowDB is released under the MIT License.
+MIT - [Typicode](https://github.com/typicode)
