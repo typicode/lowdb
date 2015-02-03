@@ -60,8 +60,8 @@ When a filename is provided you can set options.
 
 ```javascript
 var db = low('db.json', {
-  autosave: true, // changes are automatically written to file (true by default)
-  async: true     // changes are written synchronously or asynchronously (true by default)
+  autosave: true, // automatically save database on change (default: true)
+  async: true     // asyncrhonous write (default: true)
 })
 ```
 
