@@ -31,7 +31,7 @@
   },
   "homepage": "https://github.com/typicode/lowdb",
   "dependencies": {
-    "lodash": "^3.0.1",
+    "lodash": "^3.1.0",
     "steno": "^0.3.2"
   },
   "devDependencies": {
