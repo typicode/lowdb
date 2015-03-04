@@ -35,7 +35,7 @@
     "steno": "^0.3.2"
   },
   "devDependencies": {
-    "husky": "^0.6.2",
+    "husky": "^0.7.0",
     "mocha": "^1.21.4",
     "rimraf": "^2.2.8",
     "sinon": "^1.12.2",
