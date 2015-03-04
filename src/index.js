@@ -88,7 +88,12 @@ function low(file, options) {
   if (file) {
     var data = disk.read(file)
     if (data) {
-      db.object = low.parse(data)
+      try {
+        db.object = low.parse(data)
+      } catch (e) {
+        e.message += ' (' + file + ')'
+        throw e
+      }
     } else {
       db.saveSync()
     }
