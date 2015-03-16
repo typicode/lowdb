@@ -132,7 +132,7 @@ db('songs')
   .chain()
   .where({published: true})
   .sortBy('views')
-  .first(5)
+  .take(5)
   .value()
 ```
 
