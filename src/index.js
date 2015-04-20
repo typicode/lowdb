@@ -22,7 +22,7 @@ function lodashChain(array, cb) {
         return arg
       })
     })
-  
+
   return chain
 }
 
@@ -36,8 +36,8 @@ function lowChain(array, cb) {
         cb()
         return res
       })
-    }) 
-  
+    })
+
   return chain
 }
 
@@ -53,15 +53,15 @@ function low(file, options) {
     if (file && options.autosave) {
       var str = low.stringify(db.object)
       if (str === checksum) return
-      checksum = str 
+      checksum = str
       options.async ? disk.write(file, str) : disk.writeSync(file, str)
     }
-  } 
+  }
 
   function db(key) {
     if (db.object[key]) {
       var array = db.object[key]
-    } else { 
+    } else {
       var array = db.object[key] = []
       save()
     }
@@ -72,7 +72,7 @@ function low(file, options) {
     }
     return short
   }
-  
+
   db.save = function(f) {
     f = f ? f : file
     disk.write(f, low.stringify(db.object))
@@ -82,7 +82,7 @@ function low(file, options) {
     f = f ? f : file
     disk.writeSync(f, low.stringify(db.object))
   }
-  
+
   db.object = {}
 
   if (file) {
@@ -91,7 +91,7 @@ function low(file, options) {
       try {
         db.object = low.parse(data)
       } catch (e) {
-        e.message += ' (' + file + ')'
+        e.message += ' in file:' + file
         throw e
       }
     } else {
