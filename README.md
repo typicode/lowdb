@@ -43,7 +43,7 @@ npm install lowdb --save
 
 It's also __very easy to learn and use__ since it has __only 8 methods and properties__.
 
-_lowdb powers [json-server](https://github.com/typicode/json-server) package and [jsonplaceholder](http://jsonplaceholder.typicode.com/) website._
+_lowdb powers [json-server](https://github.com/typicode/json-server) package, [jsonplaceholder](http://jsonplaceholder.typicode.com/) website and [other projects](https://www.npmjs.com/browse/depended/lowdb)._
 
 ## API
 
