@@ -14,7 +14,7 @@ module.exports = {
   read: function (file) {
     if (fs.existsSync(file)) {
       var buf = fs.readFileSync(file)
-      return (buf || '').toString().trim()
+      return buf ? buf.toString().trim() : ''
     }
   },
 
