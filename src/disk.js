@@ -12,7 +12,10 @@ function getTempFile(file) {
 
 module.exports = {
   read: function (file) {
-    if (fs.existsSync(file)) return fs.readFileSync(file)
+    if (fs.existsSync(file)) {
+      var buf = fs.readFileSync(file)
+      return (buf || '').toString().trim()
+    }
   },
 
   write: function(file, data) {
