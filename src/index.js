@@ -1,6 +1,13 @@
 var _ = require('lodash')
 var disk = require('./disk')
 
+// Returns a lodash chain that calls cb() just after .value()
+//
+// For example:
+// lodashChain(array, cb).method().method().value()
+//
+// is the same as:
+// _.chain(array).method().method().value(); cb()
 function lodashChain(array, cb) {
   var chain = _.chain(array)
 
@@ -25,6 +32,14 @@ function lodashChain(array, cb) {
   return chain
 }
 
+// Returns a lodash chain that calls .value() and cb()
+// automatically after the first .method()
+//
+// For example:
+// lodashChain(array, cb).method()
+//
+// is the same as:
+// _.chain(array).method().value(); cb()
 function lowChain(array, cb) {
   var chain = _.chain(array)
 
