@@ -13,8 +13,7 @@ function getTempFile(file) {
 module.exports = {
   read: function (file) {
     if (fs.existsSync(file)) {
-      var buf = fs.readFileSync(file)
-      return buf ? buf.toString().trim() : ''
+      return fs.readFileSync(file, 'utf-8')
     }
   },
 

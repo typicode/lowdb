@@ -139,7 +139,7 @@ describe('LowDB', function() {
         var spy = sinon.spy(disk, 'writeSync')
         var songs = db('songs')
         assert(spy.calledOnce)
-        spy.reset() 
+        spy.reset()
 
         songs.find()
         assert(!spy.calledOnce)
@@ -220,21 +220,19 @@ describe('LowDB', function() {
     })
 
   })
+
   describe('empty database', function() {
-    it('load non existing file', function() {
-      if (fs.existsSync(syncFile)) {
-        fs.unlinkSync(syncFile)
-      }
-      assert.doesNotThrow(low(syncFile, { async: false }))
-    })
-    it('load an empty file', function() {
+
+    it('loads an empty file', function() {
       fs.writeFileSync(syncFile, '')
       assert.doesNotThrow(low(syncFile, { async: false }))
     })
-    it('load a file containing only whitespace', function() {
+
+    it('loads a file with whitespaces', function() {
       fs.writeFileSync(syncFile, '\n\t ')
       assert.doesNotThrow(low(syncFile, { async: false }))
     })
+
   })
 })
 

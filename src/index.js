@@ -87,15 +87,12 @@ function low(file, options) {
 
   if (file) {
     var data = disk.read(file)
-    if (data) {
+    if (data && data.trim() !== '') {
       try {
         db.object = low.parse(data)
       } catch (e) {
-        if (e instanceof SyntaxError) {
-          e.message = 'The "' + file + '" database is corrupted (malformed JSON)';
-        } else {
+        if (e instanceof SyntaxError) e.message = 'Malformed JSON'
         e.message += ' in file:' + file
-        }
         throw e
       }
     } else {
