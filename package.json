@@ -36,7 +36,7 @@
   },
   "devDependencies": {
     "husky": "^0.7.0",
-    "mocha": "^1.21.4",
+    "mocha": "^2.2.5",
     "rimraf": "^2.2.8",
     "sinon": "^1.12.2",
     "standard": "^4.0.1",
