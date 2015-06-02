@@ -17,7 +17,7 @@
   ],
   "main": "src/index.js",
   "scripts": {
-    "test": "mocha",
+    "test": "standard && mocha",
     "precommit": "npm test"
   },
   "repository": {
@@ -39,6 +39,7 @@
     "mocha": "^1.21.4",
     "rimraf": "^2.2.8",
     "sinon": "^1.12.2",
+    "standard": "^4.0.1",
     "underscore-db": "^0.8.0"
   }
 }

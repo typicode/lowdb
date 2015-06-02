@@ -1,9 +1,8 @@
 var fs = require('fs')
 var path = require('path')
-var _ = require('lodash')
 var steno = require('steno')
 
-function getTempFile(file) {
+function getTempFile (file) {
   return path.join(
     path.dirname(file),
     '.~' + path.basename(file)
@@ -17,11 +16,11 @@ module.exports = {
     }
   },
 
-  write: function(file, data) {
+  write: function (file, data) {
     steno(getTempFile(file))
-      .setCallback(function(err, data, next) {
+      .setCallback(function (err, data, next) {
         if (err) throw err
-        fs.rename(getTempFile(file), file, function(err) {
+        fs.rename(getTempFile(file), file, function (err) {
           if (err) throw err
           next()
         })
@@ -29,7 +28,7 @@ module.exports = {
       .write(data)
   },
 
-  writeSync: function(file, data) {
+  writeSync: function (file, data) {
     fs.writeFileSync(getTempFile(file), data)
     fs.renameSync(getTempFile(file), file)
   }
