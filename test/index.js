@@ -220,6 +220,22 @@ describe('LowDB', function() {
     })
 
   })
+  describe('empty database', function() {
+    it('load non existing file', function() {
+      if (fs.existsSync(syncFile)) {
+        fs.unlinkSync(syncFile)
+      }
+      assert.doesNotThrow(low(syncFile, { async: false }))
+    })
+    it('load an empty file', function() {
+      fs.writeFileSync(syncFile, '')
+      assert.doesNotThrow(low(syncFile, { async: false }))
+    })
+    it('load a file containing only whitespace', function() {
+      fs.writeFileSync(syncFile, '\n\t ')
+      assert.doesNotThrow(low(syncFile, { async: false }))
+    })
+  })
 })
 
 describe('underscore-db', function() {

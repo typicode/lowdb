@@ -1,4 +1,3 @@
-var fs = require('fs')
 var _ = require('lodash')
 var disk = require('./disk')
 
@@ -59,10 +58,11 @@ function low(file, options) {
   }
 
   function db(key) {
+    var array
     if (db.object[key]) {
-      var array = db.object[key]
+      array = db.object[key]
     } else {
-      var array = db.object[key] = []
+      array = db.object[key] = []
       save()
     }
 
@@ -91,7 +91,11 @@ function low(file, options) {
       try {
         db.object = low.parse(data)
       } catch (e) {
+        if (e instanceof SyntaxError) {
+          e.message = 'The "' + file + '" database is corrupted (malformed JSON)';
+        } else {
         e.message += ' in file:' + file
+        }
         throw e
       }
     } else {
