@@ -1,6 +1,6 @@
 {
   "name": "lowdb",
-  "version": "0.7.3",
+  "version": "0.8.0",
   "description": "Flat JSON file database",
   "keywords": [
     "flat",
@@ -17,7 +17,7 @@
   ],
   "main": "src/index.js",
   "scripts": {
-    "test": "mocha",
+    "test": "standard && mocha",
     "precommit": "npm test"
   },
   "repository": {
@@ -32,13 +32,14 @@
   "homepage": "https://github.com/typicode/lowdb",
   "dependencies": {
     "lodash": "^3.1.0",
-    "steno": "^0.3.2"
+    "steno": "^0.4.1"
   },
   "devDependencies": {
     "husky": "^0.7.0",
-    "mocha": "^1.21.4",
+    "mocha": "^2.2.5",
     "rimraf": "^2.2.8",
     "sinon": "^1.12.2",
+    "standard": "^4.0.1",
     "underscore-db": "^0.8.0"
   }
 }
