@@ -128,7 +128,8 @@ low.parse = function (str) {
   return JSON.parse(str)
 }
 
-low.exists = function(file) {
+low.exists = function (file) {
   return disk.exists(file)
 }
+
 module.exports = low
