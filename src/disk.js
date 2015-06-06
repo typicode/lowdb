@@ -16,5 +16,8 @@ module.exports = {
 
   writeSync: function (file, data) {
     steno.writeFileSync(file, data)
+  },
+  exists: function (file) {
+    return fs.existsSync(file)
   }
 }
