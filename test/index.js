@@ -1,4 +1,4 @@
-var fs = require('fs')
+var fs = require('graceful-fs')
 var assert = require('assert')
 var sinon = require('sinon')
 var rmrf = require('rimraf')
@@ -233,6 +233,20 @@ describe('LowDB', function () {
     it('loads a file with whitespaces', function () {
       fs.writeFileSync(syncFile, '\n\t ')
       assert.doesNotThrow(low(syncFile, { async: false }))
+    })
+
+  })
+
+  describe('file lazy creation and exists', function () {
+
+    it('lazy create file', function () {
+      if (fs.existsSync(syncFile)) {
+        fs.unlinkSync(syncFile)
+      }
+      var db = low(syncFile, { async: false })
+      assert(!low.exists(syncFile))
+      db.saveSync()
+      assert(low.exists(syncFile))
     })
 
   })
