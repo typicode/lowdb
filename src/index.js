@@ -110,8 +110,6 @@ function low (file, options) {
         e.message += ' in file:' + file
         throw e
       }
-    } else {
-      db.saveSync()
     }
   }
 
