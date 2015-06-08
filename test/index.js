@@ -249,7 +249,7 @@ describe('underscore-db', function () {
 
   it('is supported', function () {
     var id = db('foo').insert({ a: 1 }).id
-    assert(db('foo').get(id).a, 1)
+    assert(db('foo').getById(id).a, 1)
   })
 
 })

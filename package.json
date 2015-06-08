@@ -41,6 +41,6 @@
     "rimraf": "^2.2.8",
     "sinon": "^1.12.2",
     "standard": "^4.0.1",
-    "underscore-db": "^0.8.0"
+    "underscore-db": "^0.9.0"
   }
 }

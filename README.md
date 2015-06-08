@@ -30,7 +30,7 @@ db('posts').find({ title: 'lowdb is awesome' })
 ## Install
 
 ```bash
-npm install lowdb --save 
+npm install lowdb --save
 ````
 
 ## Features
@@ -182,7 +182,7 @@ low.mixin(require('underscore-db'))
 var db = low('db.json')
 
 var songId = db('songs').insert({ title: 'low!' }).id
-var song   = db('songs').get(songId)
+var song   = db('songs').getById(songId)
 ```
 
 [uuid](https://github.com/broofa/node-uuid) returns a unique id.
