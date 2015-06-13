@@ -1,5 +1,6 @@
 var _ = require('lodash')
 var disk = require('./disk')
+var fs = require('graceful-fs')
 
 // Returns a lodash chain that calls cb() just after .value()
 //
@@ -55,7 +56,7 @@ function lowChain (array, cb) {
   return chain
 }
 
-function low (file, options) {
+function low (path, options) {
   var checksum
 
   options = _.assign({
@@ -64,12 +65,96 @@ function low (file, options) {
   }, options)
 
   function save () {
-    if (file && options.autosave) {
+    if (options.autosave) {
       var str = low.stringify(db.object)
       if (str === checksum) return
       checksum = str
-      options.async ? disk.write(file, str) : disk.writeSync(file, str)
+      savePath(path, db.object, options.async)
     }
+  }
+
+  function savePath (path, obj, async) {
+    if (path) {
+      if (async) {
+        fs.exists(path, function (exists) {
+
+          if (exists) {
+            fs.stat(path, function (err, stat) {
+              if (err) throw err
+
+              if (stat.isFile()) {
+                saveFile(path, obj, async)
+              } else if (stat.isDirectory()) {
+                for (var key in obj) {
+                  var file = path + '/' + key + '.json'
+                  saveFile(file, obj[key], async)
+                }
+              }
+            })
+          } else {
+            saveFile(path, obj, async)
+          }
+
+        })
+      } else {
+        var stat = fs.existsSync(path) ? fs.statSync(path) : null
+        if (!stat || stat.isFile()) {
+          saveFile(path, obj, async)
+        } else if (stat.isDirectory()) {
+          for (var key in obj) {
+            var file = path + '/' + key + '.json'
+            saveFile(file, obj[key], async)
+          }
+        }
+      }
+    }
+  }
+
+  function saveFile (file, obj, async) {
+    var str = low.stringify(obj)
+    async ? disk.write(file, str) : disk.writeSync(file, str)
+  }
+
+  function readPath (path) {
+    var stat = fs.existsSync(path) ? fs.statSync(path) : null
+    var data = null
+    if (!stat || stat.isFile()) {
+      data = readFile(path)
+    } else if (stat.isDirectory()) {
+      _(fs.readdirSync(path))
+        .each(function (file) {
+          var match = file.match(/(.*)\.json$/)
+          var key = match && match[1]
+          if (key) {
+            var value = readFile(path + '/' + file)
+            if (value) {
+              data = data || {}
+              data[key] = value
+            }
+          }
+        }).value()
+    }
+
+    if (data) {
+      db.object = data
+    } else {
+      db.saveSync()
+    }
+  }
+
+  function readFile (file) {
+    var data = disk.read(file)
+    if (data && data.trim() !== '') {
+      try {
+        return low.parse(data)
+      } catch (e) {
+        if (e instanceof SyntaxError) e.message = 'Malformed JSON'
+        e.message += ' in file:' + file
+        throw e
+      }
+    }
+
+    return null
   }
 
   function db (key) {
@@ -88,31 +173,20 @@ function low (file, options) {
     return short
   }
 
-  db.save = function (f) {
-    f = f ? f : file
-    disk.write(f, low.stringify(db.object))
+  db.save = function (p) {
+    p = p ? p : path
+    savePath(p, db.object, true)
   }
 
-  db.saveSync = function (f) {
-    f = f ? f : file
-    disk.writeSync(f, low.stringify(db.object))
+  db.saveSync = function (p) {
+    p = p ? p : path
+    savePath(p, db.object, false)
   }
 
   db.object = {}
 
-  if (file) {
-    var data = disk.read(file)
-    if (data && data.trim() !== '') {
-      try {
-        db.object = low.parse(data)
-      } catch (e) {
-        if (e instanceof SyntaxError) e.message = 'Malformed JSON'
-        e.message += ' in file:' + file
-        throw e
-      }
-    } else {
-      db.saveSync()
-    }
+  if (path) {
+    readPath(path)
   }
 
   return db
