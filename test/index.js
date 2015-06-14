@@ -10,6 +10,12 @@ var disk = require('../src/disk')
 var tempDir = __dirname + '/../tmp'
 var syncFile = tempDir + '/sync.json'
 var asyncFile = tempDir + '/async.json'
+var asyncDir = tempDir + '/asyncDir'
+var asyncDirFoo = asyncDir + '/foo.json'
+var syncDir = tempDir + '/syncDir'
+var syncDirFoo = syncDir + '/foo.json'
+var syncDirBar = syncDir + '/bar.json'
+var syncDirDummy = syncDir + '/dummy'
 
 describe('LowDB', function () {
 
@@ -176,6 +182,20 @@ describe('LowDB', function () {
         assert(fs.existsSync(copy))
         assert(fs.readFileSync(copy), fs.readFileSync(syncFile))
       })
+
+      it('saves to another dir if a parameter is provided', function () {
+        var copy = tempDir + '/copyDir'
+        fs.mkdirSync(copy)
+        db.saveSync(copy)
+        assert(fs.existsSync(copy))
+        assert(fs.statSync(copy).isDirectory())
+
+        var dbCopy = low(copy)
+        assert.deepEqual(
+          dbCopy.object,
+          db.object
+        )
+      })
     })
 
   })
@@ -236,6 +256,108 @@ describe('LowDB', function () {
     })
 
   })
+
+  describe('Async Dir', function () {
+
+    beforeEach(function () {
+      fs.mkdirSync(asyncDir)
+      db = low(asyncDir)
+    })
+
+    // Since it's async need to wait between each test
+
+    describe('Autosave', function () {
+      beforeEach(function (done) {
+        db('foo').push({ a: 1 })
+        setTimeout(done, 10)
+      })
+
+      it('saves automatically to dir', function (done) {
+        assert.deepEqual(
+          JSON.parse(fs.readFileSync(asyncDirFoo)),
+          [{ a: 1 }]
+        )
+        setTimeout(done, 10)
+      })
+    })
+
+    describe('#save()', function () {
+      beforeEach(function (done) {
+        db.object.foo = [ { a: 1 } ]
+        db.save()
+        setTimeout(done, 10)
+      })
+
+      it('saves database', function (done) {
+        assert.deepEqual(
+          JSON.parse(fs.readFileSync(asyncDirFoo)),
+          [{ a: 1 }]
+        )
+        setTimeout(done, 10)
+      })
+    })
+
+  })
+
+  describe('sync Dir', function () {
+
+    beforeEach(function () {
+      fs.mkdirSync(syncDir)
+      fs.writeFileSync(syncDirFoo, JSON.stringify([{ a: 1 }]))
+      fs.writeFileSync(syncDirBar, JSON.stringify([{ b: 1 }]))
+      fs.writeFileSync(syncDirDummy, JSON.stringify([{ dummy: 1 }]))
+      db = low(syncDir, { async: false })
+    })
+
+    describe('Autoload', function () {
+      it('loads automatically files', function () {
+        assert.deepEqual(
+          db.object,
+          { bar: [ { b: 1 } ], foo: [ { a: 1 } ] }
+          )
+      })
+    })
+
+    describe('Autosave with short syntax', function () {
+      beforeEach(function () {
+        db('foo').push({ b: 2 })
+      })
+
+      it('saves automatically to file', function () {
+        assert.deepEqual(
+          JSON.parse(fs.readFileSync(syncDirFoo)),
+          [{ a: 1 }, { b: 2 }]
+        )
+      })
+    })
+
+    describe('#saveSync()', function () {
+      beforeEach(function () {
+        db.object.foo = [ { b: 2 } ]
+        db.saveSync()
+      })
+
+      it('saves database', function () {
+        assert.deepEqual(
+          JSON.parse(fs.readFileSync(syncDirFoo)),
+          [{ b: 2 }]
+        )
+      })
+
+      it('saves to another file if a parameter is provided', function () {
+        var copy = tempDir + '/copy.json'
+        db.saveSync(copy)
+        assert(fs.existsSync(copy))
+
+        var dbCopy = low(copy)
+        assert.deepEqual(
+          dbCopy.object,
+          db.object
+        )
+      })
+    })
+  })
+
 })
 
 describe('underscore-db', function () {
