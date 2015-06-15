@@ -31,7 +31,7 @@ db('posts').find({ title: 'lowdb is awesome' })
 
 ```bash
 npm install lowdb --save
-````
+```
 
 ## Features
 
@@ -65,13 +65,16 @@ var db = low('db.json', {
 })
 ```
 
-__low.mixin(source)__
+__low.stringify(obj)__ and __low.parse(str)__
 
-Use it to extend lodash globally with your own utility functions or third-party libraries.
+Overwrite these methods to customize JSON stringifying and parsing.
+
+__db.mixin(source)__
+
+Use it to extend db with your own utility functions or third-party libraries.
 
 ```javascript
-// Must be called before calling db('songs') for functions to be available.
-low.mixin({
+db.mixin({
   second: function(array) {
     return array[1]
   }
@@ -80,10 +83,6 @@ low.mixin({
 var song1 = db('songs').first()
 var song2 = db('songs').second()
 ```
-
-__low.stringify(obj)__ and __low.parse(str)__
-
-Overwrite these methods to customize JSON stringifying and parsing.
 
 __db.object__
 
@@ -177,9 +176,9 @@ Being able to retrieve data using an id can be quite useful, particularly in ser
 [underscore-db](https://github.com/typicode/underscore-db) provides a set of helpers for creating and manipulating id-based resources.
 
 ```javascript
-low.mixin(require('underscore-db'))
-
 var db = low('db.json')
+
+db.mixin(require('underscore-db'))
 
 var songId = db('songs').insert({ title: 'low!' }).id
 var song   = db('songs').getById(songId)
