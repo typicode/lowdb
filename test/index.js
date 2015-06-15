@@ -111,13 +111,13 @@ describe('LowDB', function () {
 
     describe('Autosave with short syntax', function () {
       beforeEach(function () {
-        db('foo').chain().find({ a: 1 }).assign({ a: 2 }).value()
+        db('foo').push({ b: 2 })
       })
 
       it('saves automatically to file', function () {
         assert.deepEqual(
           JSON.parse(fs.readFileSync(syncFile)),
-          { foo: [{ a: 2 }] }
+          { foo: [{ a: 1 }, { b: 2 }] }
         )
       })
     })
