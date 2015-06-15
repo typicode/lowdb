@@ -69,12 +69,12 @@ __low.stringify(obj)__ and __low.parse(str)__
 
 Overwrite these methods to customize JSON stringifying and parsing.
 
-__db.mixin(source)__
+__db.___
 
-Use it to extend db with your own utility functions or third-party libraries.
+Database lodash instance. Use it for example to add your own utility functions or third-party libraries.
 
 ```javascript
-db.mixin({
+db._.mixin({
   second: function(array) {
     return array[1]
   }
@@ -178,7 +178,7 @@ Being able to retrieve data using an id can be quite useful, particularly in ser
 ```javascript
 var db = low('db.json')
 
-db.mixin(require('underscore-db'))
+db._.mixin(require('underscore-db'))
 
 var songId = db('songs').insert({ title: 'low!' }).id
 var song   = db('songs').getById(songId)

@@ -80,10 +80,10 @@ function low (file, options) {
     disk.writeSync(f, low.stringify(db.object))
   }
 
-  db.mixin = function (arg) {
-    _.mixin(arg)
-  }
+  // Expose lodash instance
+  db._ = _
 
+  // Expose database object
   db.object = {}
 
   if (file) {

@@ -184,7 +184,7 @@ describe('LowDB', function () {
 
     beforeEach(function () {
       db = low(syncFile, { async: false })
-      db.mixin({
+      db._.mixin({
         hello: function (array, word) {
           array.push('hello ' + word)
         }
@@ -244,7 +244,7 @@ describe('underscore-db', function () {
 
   beforeEach(function () {
     db = low(syncFile)
-    db.mixin(require('underscore-db'))
+    db._.mixin(require('underscore-db'))
   })
 
   it('is supported', function () {
