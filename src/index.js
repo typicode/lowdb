@@ -87,8 +87,8 @@ function low (file, options) {
   db.object = {}
 
   if (file) {
-    var data = disk.read(file)
-    if (data && data.trim() !== '') {
+    var data = (disk.read(file) || '').trim()
+    if (data) {
       try {
         db.object = low.parse(data)
       } catch (e) {
@@ -96,8 +96,6 @@ function low (file, options) {
         e.message += ' in file:' + file
         throw e
       }
-    } else {
-      db.saveSync()
     }
   }
 
@@ -110,6 +108,10 @@ low.stringify = function (obj) {
 
 low.parse = function (str) {
   return JSON.parse(str)
+}
+
+low.exists = function (file) {
+  return disk.exists(file)
 }
 
 module.exports = low
