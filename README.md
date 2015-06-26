@@ -86,11 +86,10 @@ var song2 = db('songs').second()
 
 __db.object__
 
-Database object. Useful for batch operations or to directly access the content of your JSON file.
+Use whenever you want to access or modify the underlying database object.
 
 ```javascript
-console.log(db.object) // { songs: [ { title: 'low!' } ] }
-db('songs').value() === db.object.songs
+if (db.object[songs]) console.log('songs array exists')
 ```
 
 __db.save([filename])__
