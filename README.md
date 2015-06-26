@@ -89,7 +89,7 @@ __db.object__
 Use whenever you want to access or modify the underlying database object.
 
 ```javascript
-if (db.object[songs]) console.log('songs array exists')
+if (db.object.songs) console.log('songs array exists')
 ```
 
 __db.save([filename])__
