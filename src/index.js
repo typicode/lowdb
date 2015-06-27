@@ -1,36 +1,5 @@
-var _ = require('lodash')
+var lodash = require('lodash')
 var disk = require('./disk')
-
-// Returns a lodash chain that calls cb() just after .value()
-//
-// For example:
-// lodashChain(array, cb).method().method().value()
-//
-// is the same as:
-// _.chain(array).method().method().value(); cb()
-function lodashChain (array, cb) {
-  var chain = _.chain(array)
-
-  function addCallbackOnValue (c) {
-    c.value = _.flow(c.value, function (arg) {
-      cb()
-      return arg
-    })
-  }
-
-  addCallbackOnValue(chain)
-
-  _.functions(chain)
-    .forEach(function (method) {
-      chain[method] = _.flow(chain[method], function (arg) {
-        var isChain = _.isObject(arg) && arg.__chain__
-        if (isChain) addCallbackOnValue(arg)
-        return arg
-      })
-    })
-
-  return chain
-}
 
 // Returns a lodash chain that calls .value() and cb()
 // automatically after the first .method()
@@ -40,7 +9,7 @@ function lodashChain (array, cb) {
 //
 // is the same as:
 // _.chain(array).method().value(); cb()
-function lowChain (array, cb) {
+function lowChain (_, array, cb) {
   var chain = _.chain(array)
 
   _.functions(chain)
@@ -56,16 +25,29 @@ function lowChain (array, cb) {
 }
 
 function low (file, options) {
-  var checksum
+  // Create a fresh copy of lodash
+  var _ = lodash.runInContext()
 
   options = _.assign({
     autosave: true,
     async: true
   }, options)
 
+  // Modify value function to call save before returning result
+  var value = _.prototype.value
+  _.prototype.value = function () {
+    var res = value.apply(this, arguments)
+    save()
+    return res
+  }
+
+  // db.object checksum
+  var checksum
+
   function save () {
     if (file && options.autosave) {
       var str = low.stringify(db.object)
+      // Don't write if there's no changes
       if (str === checksum) return
       checksum = str
       options.async ? disk.write(file, str) : disk.writeSync(file, str)
@@ -81,9 +63,9 @@ function low (file, options) {
       save()
     }
 
-    var short = lowChain(array, save)
+    var short = lowChain(_, array, save)
     short.chain = function () {
-      return lodashChain(array, save)
+      return _.chain(array)
     }
     return short
   }
@@ -98,11 +80,17 @@ function low (file, options) {
     disk.writeSync(f, low.stringify(db.object))
   }
 
+  // Expose lodash instance
+  db._ = _
+
+  // Expose database object
   db.object = {}
 
   if (file) {
-    var data = (disk.read(file) || '').trim()
-    if (data) {
+    var data = disk.readSync(file)
+    // Parse file if there's some data
+    // Otherwise init file
+    if (data && data.trim() !== '') {
       try {
         db.object = low.parse(data)
       } catch (e) {
@@ -116,10 +104,6 @@ function low (file, options) {
   }
 
   return db
-}
-
-low.mixin = function (arg) {
-  _.mixin(arg)
 }
 
 low.stringify = function (obj) {

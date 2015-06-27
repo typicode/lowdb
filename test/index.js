@@ -124,13 +124,13 @@ describe('LowDB', function () {
 
     describe('Autosave with chain syntax', function () {
       beforeEach(function () {
-        db('foo').chain().push({ b: 2 }).value()
+        db('foo').chain().find({ a: 1 }).assign({ a: 2 }).value()
       })
 
       it('saves automatically to file', function () {
         assert.deepEqual(
           JSON.parse(fs.readFileSync(syncFile)),
-          { foo: [{ a: 1 }, { b: 2 }] }
+          { foo: [{ a: 2 }] }
         )
       })
     })
@@ -183,12 +183,12 @@ describe('LowDB', function () {
   describe('mixin', function () {
 
     beforeEach(function () {
-      low.mixin({
+      db = low(syncFile, { async: false })
+      db._.mixin({
         hello: function (array, word) {
           array.push('hello ' + word)
         }
       })
-      db = low(syncFile, { async: false })
     })
 
     it('adds functions', function () {
@@ -243,13 +243,13 @@ describe('underscore-db', function () {
   var db
 
   beforeEach(function () {
-    low.mixin(require('underscore-db'))
     db = low(syncFile)
+    db._.mixin(require('underscore-db'))
   })
 
   it('is supported', function () {
     var id = db('foo').insert({ a: 1 }).id
-    assert(db('foo').get(id).a, 1)
+    assert(db('foo').getById(id).a, 1)
   })
 
 })

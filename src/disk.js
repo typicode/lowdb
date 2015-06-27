@@ -2,7 +2,8 @@ var fs = require('graceful-fs')
 var steno = require('steno')
 
 module.exports = {
-  read: function (file) {
+  // No async read
+  readSync: function (file) {
     if (fs.existsSync(file)) {
       return fs.readFileSync(file, 'utf-8')
     }
