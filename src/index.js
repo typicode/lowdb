@@ -101,8 +101,8 @@ function low (file, options) {
   db.object = {}
 
   if (file) {
-    var data = disk.read(file)
-    if (data && data.trim() !== '') {
+    var data = (disk.read(file) || '').trim()
+    if (data) {
       try {
         db.object = low.parse(data)
       } catch (e) {
