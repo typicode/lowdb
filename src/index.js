@@ -87,10 +87,10 @@ function low (file, options) {
   db.object = {}
 
   if (file) {
-    var data = disk.readSync(file)
     // Parse file if there's some data
     // Otherwise init file
-    if (data && data.trim() !== '') {
+    var data = (disk.readSync(file) || '').trim()
+    if (data) {
       try {
         db.object = low.parse(data)
       } catch (e) {
