@@ -1,5 +1,6 @@
 var lodash = require('lodash')
 var disk = require('./disk')
+var jph = require('json-parse-helpfulerror')
 
 // Returns a lodash chain that calls .value() and cb()
 // automatically after the first .method()
@@ -94,8 +95,7 @@ function low (file, options) {
       try {
         db.object = low.parse(data)
       } catch (e) {
-        if (e instanceof SyntaxError) e.message = 'Malformed JSON'
-        e.message += ' in file:' + file
+        if (e instanceof SyntaxError) e.message = 'Malformed JSON in file: ' + file + '\n' + e.message;
         throw e
       }
     } else {
@@ -111,7 +111,7 @@ low.stringify = function (obj) {
 }
 
 low.parse = function (str) {
-  return JSON.parse(str)
+  return jph.parse(str)
 }
 
 module.exports = low
