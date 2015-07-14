@@ -95,7 +95,7 @@ function low (file, options) {
       try {
         db.object = low.parse(data)
       } catch (e) {
-        if (e instanceof SyntaxError) e.message = 'Malformed JSON in file: ' + file + '\n' + e.message;
+        if (e instanceof SyntaxError) e.message = 'Malformed JSON in file: ' + file + '\n' + e.message
         throw e
       }
     } else {
