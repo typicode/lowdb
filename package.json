@@ -1,6 +1,6 @@
 {
   "name": "lowdb",
-  "version": "0.10.1",
+  "version": "0.10.2",
   "description": "Flat JSON file database",
   "keywords": [
     "flat",
