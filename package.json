@@ -31,9 +31,10 @@
   },
   "homepage": "https://github.com/typicode/lowdb",
   "dependencies": {
+    "graceful-fs": "^3.0.8",
+    "json-parse-helpfulerror": "^1.0.3",
     "lodash": "^3.1.0",
-    "steno": "^0.4.1",
-    "graceful-fs": "^3.0.8"
+    "steno": "^0.4.1"
   },
   "devDependencies": {
     "husky": "^0.7.0",
