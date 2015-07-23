@@ -137,7 +137,7 @@ db('songs')
 Retrieve song titles.
 
 ```javascript
-db('songs').pluck('titles')
+db('songs').pluck('title')
 ```
 
 Get the number of songs.
