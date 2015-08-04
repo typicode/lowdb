@@ -15,7 +15,5 @@ module.exports = {
     })
   },
 
-  writeSync: function (file, data) {
-    steno.writeFileSync(file, data)
-  }
+  writeSync: steno.writeFileSync
 }
