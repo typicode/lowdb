@@ -39,6 +39,7 @@ npm install lowdb --save
 * Serverless
 * lodash rich API
 * In-memory or disk-based
+* BSON support
 * __Hackable__ (mixins, id, encryption, ...)
 
 It's also __very easy to learn and use__ since it has __only 8 methods and properties__.
@@ -53,7 +54,7 @@ Creates a disk-based or in-memory database instance. If a filename is provided, 
 
 ```javascript
 var db = low()          // in-memory
-var db = low('db.json') // disk-based
+var db = low('db.json') // disk-based, file extension is depending on what format you wish to use (JSON/BSON)
 ```
 
 When a filename is provided you can set options.
@@ -61,7 +62,8 @@ When a filename is provided you can set options.
 ```javascript
 var db = low('db.json', {
   autosave: true, // automatically save database on change (default: true)
-  async: true     // asynchronous write (default: true)
+  async: true,    // asynchronous write (default: true)
+  BSON: false     // use BSON as file format (default: false)
 })
 ```
 

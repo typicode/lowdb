@@ -10,6 +10,7 @@ var disk = require('../src/disk')
 var tempDir = __dirname + '/../tmp'
 var syncFile = tempDir + '/sync.json'
 var asyncFile = tempDir + '/async.json'
+var BSONSyncFile = tempDir + '/sync.bson'
 
 describe('LowDB', function () {
 
@@ -244,6 +245,24 @@ describe('underscore-db', function () {
 
   beforeEach(function () {
     db = low(syncFile)
+    db._.mixin(require('underscore-db'))
+  })
+
+  it('is supported', function () {
+    var id = db('foo').insert({ a: 1 }).id
+    assert(db('foo').getById(id).a, 1)
+  })
+
+})
+
+describe('BSON', function () {
+
+  var db
+
+  beforeEach(function () {
+    db = low(BSONSyncFile, {
+      bson: true
+    })
     db._.mixin(require('underscore-db'))
   })
 
