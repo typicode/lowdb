@@ -1,13 +1,14 @@
 {
   "name": "lowdb",
   "version": "0.10.2",
-  "description": "Flat JSON file database",
+  "description": "Flat JSON/BSON file database",
   "keywords": [
     "flat",
     "file",
     "local",
     "database",
     "JSON",
+    "BSON",
     "lo-dash",
     "lodash",
     "underscore",
@@ -31,6 +32,7 @@
   },
   "homepage": "https://github.com/typicode/lowdb",
   "dependencies": {
+    "bson": "^0.4.11",
     "graceful-fs": "^3.0.8",
     "json-parse-helpfulerror": "^1.0.3",
     "lodash": "^3.1.0",

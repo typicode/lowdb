@@ -1,6 +1,8 @@
 var lodash = require('lodash')
 var disk = require('./disk')
 var jph = require('json-parse-helpfulerror')
+var bson = require('bson')
+var BSON = new bson.BSONPure.BSON()
 
 // Returns a lodash chain that calls .value() and cb()
 // automatically after the first .method()
@@ -31,7 +33,8 @@ function low (file, options) {
 
   options = _.assign({
     autosave: true,
-    async: true
+    async: true,
+    BSON: false
   }, options)
 
   // Modify value function to call save before returning result
@@ -51,7 +54,12 @@ function low (file, options) {
       // Don't write if there's no changes
       if (str === checksum) return
       checksum = str
-      options.async ? disk.write(file, str) : disk.writeSync(file, str)
+      if (options.BSON) {
+        var BSONObj = BSON.serialize(db.object)
+        options.async ? disk.write(file, BSONObj) : disk.writeSync(file, BSONObj)
+      } else {
+        options.async ? disk.write(file, str) : disk.writeSync(file, str)
+      }
     }
   }
 
@@ -73,12 +81,22 @@ function low (file, options) {
 
   db.save = function (f) {
     f = f ? f : file
-    disk.write(f, low.stringify(db.object))
+    if (options.BSON) {
+      var BSONObj = BSON.serialize(db.object)
+      disk.write(f, BSONObj)
+    } else {
+      disk.write(f, low.stringify(db.object))
+    }
   }
 
   db.saveSync = function (f) {
     f = f ? f : file
-    disk.writeSync(f, low.stringify(db.object))
+    if (options.BSON) {
+      var BSONObj = BSON.serialize(db.object)
+      disk.writeSync(f, BSONObj)
+    } else {
+      disk.writeSync(f, low.stringify(db.object))
+    }
   }
 
   // Expose lodash instance
@@ -93,9 +111,13 @@ function low (file, options) {
     var data = (disk.readSync(file) || '').trim()
     if (data) {
       try {
-        db.object = low.parse(data)
+        if (options.BSON) {
+          db.object = BSON.deserialize(new Buffer(data))
+        } else {
+          db.object = low.parse(data)
+        }
       } catch (e) {
-        if (e instanceof SyntaxError) e.message = 'Malformed JSON in file: ' + file + '\n' + e.message
+        if (e instanceof SyntaxError) e.message = 'Malformed JSON/BSON in file: ' + file + '\n' + e.message
         throw e
       }
     } else {

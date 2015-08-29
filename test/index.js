@@ -10,6 +10,7 @@ var disk = require('../src/disk')
 var tempDir = __dirname + '/../tmp'
 var syncFile = tempDir + '/sync.json'
 var asyncFile = tempDir + '/async.json'
+var BSONSyncFile = tempDir + '/sync.bson'
 
 describe('LowDB', function () {
 
@@ -250,6 +251,45 @@ describe('underscore-db', function () {
   it('is supported', function () {
     var id = db('foo').insert({ a: 1 }).id
     assert(db('foo').getById(id).a, 1)
+  })
+
+})
+
+describe('BSON', function () {
+
+  var db
+
+  beforeEach(function () {
+    db = low(BSONSyncFile, {
+      bson: true
+    })
+  })
+
+  it('creates', function () {
+    db('foo').push({ a: 1 })
+    assert.equal(db('foo').size(), 1)
+    assert.deepEqual(db.object, { foo: [{ a: 1 }]})
+  })
+
+  it('reads', function () {
+    db('foo').push({ a: 1 })
+    assert.deepEqual(db('foo').find({ a: 1 }), { a: 1 })
+  })
+
+  it('updates', function () {
+    db('foo').push({ a: 1 })
+    db('foo')
+      .chain()
+      .find({ a: 1 })
+      .assign({ a: 2 })
+      .value()
+    assert(!db('foo').chain().find({ a: 2 }).isUndefined().value())
+  })
+
+  it('deletes', function () {
+    db('foo').push({ a: 1 })
+    db('foo').remove({ a: 1 })
+    assert(db('foo').isEmpty())
   })
 
 })
