@@ -10,6 +10,7 @@ var disk = require('../src/disk')
 var tempDir = __dirname + '/../tmp'
 var syncFile = tempDir + '/sync.json'
 var asyncFile = tempDir + '/async.json'
+var compressionFile = tempDir + '/compression.json'
 
 describe('LowDB', function () {
 
@@ -250,6 +251,23 @@ describe('underscore-db', function () {
   it('is supported', function () {
     var id = db('foo').insert({ a: 1 }).id
     assert(db('foo').getById(id).a, 1)
+  })
+
+})
+
+describe('Gzip compression', function () {
+
+  var db
+
+  beforeEach(function () {
+    db = low(compressionFile, {
+      compression: true
+    })
+  })
+
+  it('is supported', function () {
+    db('foo').push({ a: 1 })
+    assert.deepEqual(db('foo').find({ a: 1 }), { a: 1 })
   })
 
 })
