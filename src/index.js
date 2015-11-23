@@ -39,8 +39,19 @@ function low (file, options) {
   var value = _.prototype.value
   _.prototype.value = function () {
     var res = value.apply(this, arguments)
+    if(options.promise){
+      return save().then(
+        function () {
+          return res
+        },
+        function (err) {
+          throw err
+        }
+      )
+    } else {
     save()
     return res
+    }
   }
 
   // db.object checksum
