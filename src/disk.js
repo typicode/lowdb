@@ -24,7 +24,7 @@ module.exports = {
     var deferred = Q.defer()
     steno.writeFile(file, data, function (err) {
       if (err) {
-        deferred.reject(new Error(error))
+        deferred.reject(new Error(err))
       } else {
         deferred.resolve('success')
       }
