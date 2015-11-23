@@ -34,12 +34,12 @@ function low (file, options) {
     async: true,
     promise: false
   }, options)
-  
+
   // Modify value function to call save before returning result
   var value = _.prototype.value
   _.prototype.value = function () {
     var res = value.apply(this, arguments)
-    if(options.promise){
+    if (options.promise) {
       return save().then(
         function () {
           return res
@@ -49,8 +49,8 @@ function low (file, options) {
         }
       )
     } else {
-    save()
-    return res
+      save()
+      return res
     }
   }
 
@@ -64,7 +64,7 @@ function low (file, options) {
       if (str === checksum) {
         if (options.promise) {
           return Q.fcall(function () {
-            return 'no changes';
+            return 'no changes'
           })
         } else {
           return
@@ -72,7 +72,7 @@ function low (file, options) {
       }
       checksum = str
       if (options.async) {
-        if (options.promise){
+        if (options.promise) {
           return disk.writePromise(file, str)
         } else {
           disk.write(file, str)
@@ -82,8 +82,6 @@ function low (file, options) {
       }
     }
   }
-
-
 
   function db (key) {
     var array
@@ -111,7 +109,7 @@ function low (file, options) {
     disk.writeSync(f, low.stringify(db.object))
   }
 
-  db.savePromise = function(f){
+  db.savePromise = function (f) {
     f = f ? f : file
     return disk.writePromise(f, low.stringify(db.object))
   }

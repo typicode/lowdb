@@ -22,7 +22,7 @@ module.exports = {
 
   writePromise: function (file, data) {
     var deferred = Q.defer()
-    steno.writeFile(file, data, function(err){
+    steno.writeFile(file, data, function (err) {
       if (err) {
         deferred.reject(new Error(error))
       } else {
