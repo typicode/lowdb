@@ -1,7 +1,7 @@
 var lodash = require('lodash')
 var disk = require('./disk')
 var jph = require('json-parse-helpfulerror')
-
+var Q = require('q')
 // Returns a lodash chain that calls .value() and cb()
 // automatically after the first .method()
 //
@@ -31,9 +31,10 @@ function low (file, options) {
 
   options = _.assign({
     autosave: true,
-    async: true
+    async: true,
+    promise: false
   }, options)
-
+  
   // Modify value function to call save before returning result
   var value = _.prototype.value
   _.prototype.value = function () {
@@ -49,11 +50,29 @@ function low (file, options) {
     if (file && options.autosave) {
       var str = low.stringify(db.object)
       // Don't write if there's no changes
-      if (str === checksum) return
+      if (str === checksum) {
+        if (options.promise) {
+          return Q.fcall(function () {
+            return 'no changes';
+          })
+        } else {
+          return
+        }
+      }
       checksum = str
-      options.async ? disk.write(file, str) : disk.writeSync(file, str)
+      if (options.async) {
+        if (options.promise){
+          return disk.writePromise(file, str)
+        } else {
+          disk.write(file, str)
+        }
+      } else {
+        disk.writeSync(file, str)
+      }
     }
   }
+
+
 
   function db (key) {
     var array
@@ -79,6 +98,11 @@ function low (file, options) {
   db.saveSync = function (f) {
     f = f ? f : file
     disk.writeSync(f, low.stringify(db.object))
+  }
+
+  db.savePromise = function(f){
+    f = f ? f : file
+    return disk.writePromise(f, low.stringify(db.object))
   }
 
   // Expose lodash instance
