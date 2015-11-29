@@ -1,5 +1,6 @@
 var fs = require('graceful-fs')
 var steno = require('steno')
+var Q = require('q')
 
 module.exports = {
   // No async read
@@ -17,5 +18,18 @@ module.exports = {
 
   writeSync: function (file, data) {
     steno.writeFileSync(file, data)
+  },
+
+  writePromise: function (file, data) {
+    var deferred = Q.defer()
+    steno.writeFile(file, data, function (err) {
+      if (err) {
+        deferred.reject(new Error(err))
+      } else {
+        deferred.resolve('success')
+      }
+    })
+    return deferred.promise
   }
+
 }

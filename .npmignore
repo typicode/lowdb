@@ -1,2 +1,4 @@
 .travis.yml
 test
+.idea
+.DS_Store
