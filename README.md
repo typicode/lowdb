@@ -61,7 +61,7 @@ When a filename is provided you can set options.
 ```javascript
 var db = low('db.json', {
   autosave: true, // automatically save database on change (default: true)
-  async: true     // asynchronous write (default: true)
+  async: true,    // asynchronous write (default: true)
   promise: false  // .save() and .value() return a promise (default: false)
 })
 ```
