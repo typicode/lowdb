@@ -1,255 +1,97 @@
-var fs = require('fs')
-var assert = require('assert')
-var sinon = require('sinon')
-var rmrf = require('rimraf')
-var low = require('../src')
-var disk = require('../src/disk')
+const test = require('tape')
+const sinon = require('sinon')
+const low = require('../src')
 
-/* global beforeEach, afterEach, describe, it */
+const _test = (str, { source, read, write, promise, writeOnChange} = {}) => {
+  test(str, async function (t) {
+    try {
+      let db = source
+      ? low(source, { storage: { read, write }}, writeOnChange)
+      : low({ storage: { read, write }}, writeOnChange)
 
-var tempDir = __dirname + '/../tmp'
-var syncFile = tempDir + '/sync.json'
-var asyncFile = tempDir + '/async.json'
+      let users = db('users')
 
-describe('LowDB', function () {
+      // short syntax
+      let [ foo ] = promise
+        ? await users.push('foo')
+        : users.push('foo')
 
-  var db
+      t.is(foo, 'foo')
+      t.is(users.value().length, 1)
 
-  beforeEach(function () {
-    rmrf.sync(tempDir)
-    fs.mkdirSync(tempDir)
+      if (write) {
+        let count = writeOnChange ? 1 : 0
+        t.is(write.callCount, count)
+      }
+
+      // chain syntax
+      let chain = users.chain().push('bar')
+      let [, bar ] = promise
+        ? await chain.value()
+        : chain.value()
+
+      t.is(bar, 'bar')
+      t.is(users.value().length, 2)
+
+      if (write) {
+        let count
+
+        count = writeOnChange ? 2 : 0
+        t.is(write.callCount, count)
+
+        db.object = {}
+
+        // write
+        promise
+          ? await db.write()
+          : db.write()
+
+        count = writeOnChange ? 3 : 1
+        t.is(write.callCount, count)
+
+        // write dest
+        promise
+          ? await db.write('backup.json')
+          : db.write('backup.json')
+
+        // Get last write call
+        let args = write.args.slice(-1)[0]
+        t.same(args, ['backup.json', {}, undefined])
+      }
+
+      t.end()
+    } catch (err) {
+      t.end(err)
+    }
   })
+}
 
-  describe('CRUD', function () {
-
-    beforeEach(function () {
-      db = low()
-    })
-
-    it('creates', function () {
-      db('foo').push({ a: 1 })
-      assert.equal(db('foo').size(), 1)
-      assert.deepEqual(db.object, { foo: [{ a: 1 }]})
-    })
-
-    it('reads', function () {
-      db('foo').push({ a: 1 })
-      assert.deepEqual(db('foo').find({ a: 1 }), { a: 1 })
-    })
-
-    it('updates', function () {
-      db('foo').push({ a: 1 })
-      db('foo')
-        .chain()
-        .find({ a: 1 })
-        .assign({ a: 2 })
-        .value()
-      assert(!db('foo').chain().find({ a: 2 }).isUndefined().value())
-    })
-
-    it('deletes', function () {
-      db('foo').push({ a: 1 })
-      db('foo').remove({ a: 1 })
-      assert(db('foo').isEmpty())
-    })
-
-  })
-
-  describe('Async', function () {
-
-    beforeEach(function () {
-      db = low(asyncFile)
-    })
-
-    // Since it's async need to wait between each test
-
-    describe('Autosave', function () {
-      beforeEach(function (done) {
-        db('foo').push({ a: 1 })
-        setTimeout(done, 10)
-      })
-
-      it('saves automatically to file', function (done) {
-        assert.deepEqual(
-          JSON.parse(fs.readFileSync(asyncFile)),
-          { foo: [{ a: 1 }] }
-        )
-        setTimeout(done, 10)
-      })
-    })
-
-    describe('#save()', function () {
-      beforeEach(function (done) {
-        db.object.foo = [ { a: 1 } ]
-        db.save()
-        setTimeout(done, 10)
-      })
-
-      it('saves database', function (done) {
-        assert.deepEqual(
-          JSON.parse(fs.readFileSync(asyncFile)),
-          { foo: [{ a: 1 }] }
-        )
-        setTimeout(done, 10)
-      })
-    })
-
-  })
-
-  describe('sync', function () {
-
-    beforeEach(function () {
-      fs.writeFileSync(syncFile, JSON.stringify({ foo: [{ a: 1 }] }))
-      db = low(syncFile, { async: false })
-    })
-
-    describe('Autoload', function () {
-      it('loads automatically file', function () {
-        assert.deepEqual(db('foo').value(), [{ a: 1 }])
-      })
-    })
-
-    describe('Autosave with short syntax', function () {
-      beforeEach(function () {
-        db('foo').push({ b: 2 })
-      })
-
-      it('saves automatically to file', function () {
-        assert.deepEqual(
-          JSON.parse(fs.readFileSync(syncFile)),
-          { foo: [{ a: 1 }, { b: 2 }] }
-        )
-      })
-    })
-
-    describe('Autosave with chain syntax', function () {
-      beforeEach(function () {
-        db('foo').chain().find({ a: 1 }).assign({ a: 2 }).value()
-      })
-
-      it('saves automatically to file', function () {
-        assert.deepEqual(
-          JSON.parse(fs.readFileSync(syncFile)),
-          { foo: [{ a: 2 }] }
-        )
-      })
-    })
-
-    describe('Autosave checksum', function () {
-
-      it('writes to disk only if db.object has changed', function () {
-        var spy = sinon.spy(disk, 'writeSync')
-        var songs = db('songs')
-        assert(spy.calledOnce)
-        spy.reset()
-
-        songs.find()
-        assert(!spy.calledOnce)
-        spy.reset()
-
-        songs.push({ a: 1 })
-        assert(spy.calledOnce)
-        spy.reset()
-
-        songs.chain().push({ a: 1}).value()
-        assert(spy.calledOnce)
-      })
-
-    })
-
-    describe('#saveSync()', function () {
-      beforeEach(function () {
-        db.object.foo = [ { b: 2 } ]
-        db.saveSync()
-      })
-
-      it('saves database', function () {
-        assert.deepEqual(
-          JSON.parse(fs.readFileSync(syncFile)),
-          { foo: [{ b: 2 }] }
-        )
-      })
-
-      it('saves to another file if a parameter is provided', function () {
-        var copy = tempDir + '/copy.json'
-        db.saveSync(copy)
-        assert(fs.existsSync(copy))
-        assert(fs.readFileSync(copy), fs.readFileSync(syncFile))
-      })
-    })
-
-  })
-
-  describe('mixin', function () {
-
-    beforeEach(function () {
-      db = low(syncFile, { async: false })
-      db._.mixin({
-        hello: function (array, word) {
-          array.push('hello ' + word)
-        }
-      })
-    })
-
-    it('adds functions', function () {
-      db('foo').hello('world')
-      assert.deepEqual(JSON.parse(fs.readFileSync(syncFile)), { foo: [ 'hello world' ] })
-    })
-
-  })
-
-  describe('stringify and parse', function () {
-
-    var stringify = low.stringify
-    var parse = low.parse
-
-    beforeEach(function () {
-      low.stringify = function () { return '{ "foo": [] }' }
-      low.parse = function () { return { bar: [] } }
-      fs.writeFileSync(syncFile, '{}')
-      db = low(syncFile, { async: false })
-    })
-
-    afterEach(function () {
-      low.stringify = stringify
-      low.parse = parse
-    })
-
-    it('can be overriden', function () {
-      assert.deepEqual(db.object, { bar: [] })
-      db.saveSync() // will stringify object
-      assert.equal(fs.readFileSync(syncFile, 'utf-8'), '{ "foo": [] }')
-    })
-
-  })
-
-  describe('empty database', function () {
-
-    it('loads an empty file', function () {
-      fs.writeFileSync(syncFile, '')
-      assert.doesNotThrow(low(syncFile, { async: false }))
-    })
-
-    it('loads a file with whitespaces', function () {
-      fs.writeFileSync(syncFile, '\n\t ')
-      assert.doesNotThrow(low(syncFile, { async: false }))
-    })
-
-  })
+_test('in-memory')
+_test('sync', {
+  source: 'db.json',
+  read: sinon.spy(),
+  write: sinon.spy(),
+  writeOnChange: true
 })
-
-describe('underscore-db', function () {
-
-  var db
-
-  beforeEach(function () {
-    db = low(syncFile)
-    db._.mixin(require('underscore-db'))
-  })
-
-  it('is supported', function () {
-    var id = db('foo').insert({ a: 1 }).id
-    assert(db('foo').getById(id).a, 1)
-  })
-
+_test('async', {
+  source: 'db.json',
+  read: sinon.spy(),
+  write: sinon.spy(() => Promise.resolve(true)),
+  promise: true,
+  writeOnChange: true
+})
+_test('read-only', {
+  source: 'db.json',
+  read: sinon.spy(),
+  writeOnChange: true
+})
+_test('write-only', {
+  source: 'db.json',
+  write: sinon.spy(),
+  writeOnChange: true
+})
+_test('writeOnChange = false', {
+  source: 'db.json',
+  write: sinon.spy(),
+  writeOnChange: false
 })
