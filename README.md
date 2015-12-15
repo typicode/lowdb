@@ -225,6 +225,8 @@ Please note that data is returned by reference, this means that modifications to
 
 Also, the execution of chained methods is lazy, that is, execution is deferred until `.value()` is called.
 
+#### Examples
+
 Sort the top five songs.
 
 ```js
