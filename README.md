@@ -306,14 +306,16 @@ For example, if you want to store database in `.bson` files ([MongoDB file forma
 const low = require('lowdb')
 const storage = require('lowdb/file-sync')
 const bson = require('bson')
+const BSON = new bson.BSONPure.BSON()
 
 low('db.bson', { storage, format: {
-  serialize: bson.serialize
-  deserialize: bson.deserialize
+  serialize: BSON.serialize
+  deserialize: BSON.deserialize
 })
 
 // Alternative ES2015 short syntax
-const format = require('bson')
+const bson = require('bson')
+const format = new bson.BSONPure.BSON() 
 low('db.bson', { storage, format })
 ```
 
