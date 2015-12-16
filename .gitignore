@@ -3,4 +3,4 @@ node_modules
 tmp
 .DS_Store
 .idea
-./*.js
+/*.js
