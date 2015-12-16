@@ -16,12 +16,12 @@
     "embeddable",
     "extendable"
   ],
-  "main": "lib",
+  "main": ".",
   "scripts": {
-    "test": "babel-node test/all && standard",
+    "test": "babel-node test/all && standard {src,test}/**/*.js",
     "prepublish": "npm run build",
     "precommit": "npm test",
-    "build": "babel src --out-dir lib"
+    "build": "babel src --out-dir ."
   },
   "repository": {
     "type": "git",

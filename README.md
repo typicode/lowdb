@@ -108,7 +108,7 @@ In the browser, `lowdb/browser` will add `localStorage` support.
 const low = require('lowdb')
 const storage = require('lowdb/browser')
 
-const db = low('db.json', { storage })
+const db = low('db', { storage })
 
 db('users').push({ name: 'typicode' })
 const user = db('users').find({ name: 'typicode' })
@@ -317,7 +317,7 @@ low('db.bson', { storage, format: {
 
 // Alternative ES2015 short syntax
 const bson = require('bson')
-const format = new bson.BSONPure.BSON() 
+const format = new bson.BSONPure.BSON()
 low('db.bson', { storage, format })
 ```
 

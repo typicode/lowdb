@@ -80,7 +80,9 @@ function low (source, options = {}, writeOnChange = true) {
   db.source = source
 
   // Init
-  db.source && db.read && db.read(source, db.deserialize)
+  if (db.source && db.read) {
+    db.object = db.read(db.source, db.deserialize)
+  }
 
   return db
 }

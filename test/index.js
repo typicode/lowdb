@@ -7,8 +7,7 @@ const _test = (str, { source, read, write, promise, writeOnChange} = {}) => {
     try {
       let db = source
       ? low(source, { storage: { read, write }}, writeOnChange)
-      : low({ storage: { read, write }}, writeOnChange)
-
+      : low()
       let users = db('users')
 
       // short syntax
@@ -69,20 +68,20 @@ const _test = (str, { source, read, write, promise, writeOnChange} = {}) => {
 _test('in-memory')
 _test('sync', {
   source: 'db.json',
-  read: sinon.spy(),
+  read: sinon.spy(() => ({})),
   write: sinon.spy(),
   writeOnChange: true
 })
 _test('async', {
   source: 'db.json',
-  read: sinon.spy(),
+  read: sinon.spy(() => ({})),
   write: sinon.spy(() => Promise.resolve(true)),
   promise: true,
   writeOnChange: true
 })
 _test('read-only', {
   source: 'db.json',
-  read: sinon.spy(),
+  read: sinon.spy(() => ({})),
   writeOnChange: true
 })
 _test('write-only', {

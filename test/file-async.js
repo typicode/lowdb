@@ -6,22 +6,24 @@ const fileAsync = require('../src/file-async')
 const obj = { a: 1 }
 
 test('file-async', t => {
-  t.plan(1)
-
   const filename = tempfile()
+
+  t.same(
+    fileAsync.read(filename),
+    {}
+  )
 
   fileAsync
     .write(filename, obj)
     .then(() => {
       const actual = fileAsync.read(filename)
       t.same(actual, obj)
+      t.end()
     })
     .catch(t.end)
 })
 
 test('serializer/deserializer', t => {
-  t.plan(3)
-
   const filename = tempfile()
   const stringify = sinon.spy(JSON.stringify)
   const parse = sinon.spy(JSON.parse)
@@ -33,6 +35,7 @@ test('serializer/deserializer', t => {
       t.same(actual, obj)
       t.true(stringify.calledOnce)
       t.true(parse.calledOnce)
+      t.end()
     })
     .catch(t.end)
 })

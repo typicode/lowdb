@@ -9,11 +9,20 @@ global.localStorage = {
   getItem: (key) => localStorage.store[key]
 }
 
-const key = 'db'
+const source = 'db'
 const obj = { a: 1 }
 
 test('browser', t => {
-  browser.write(key, obj)
-  t.same(browser.read(key), obj)
+  t.same(
+    browser.read(source),
+    {}
+  )
+
+  browser.write(source, obj)
+  t.same(
+    browser.read(source),
+    obj
+  )
+
   t.end()
 })

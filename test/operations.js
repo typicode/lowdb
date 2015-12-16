@@ -2,7 +2,7 @@ const test = require('tape')
 const low = require('../src')
 
 test('operations', t => {
-  let db = low()
+  const db = low()
 
   // Create
   db('foo').push({ a: 1 })
