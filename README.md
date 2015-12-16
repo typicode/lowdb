@@ -63,9 +63,9 @@ For CLIs, it's easier to use `lowdb/file-sync` synchronous file storage .
 
 ```js
 const low = require('lowdb')
-const fileSync = require('lowdb/file-sync')
+const storage = require('lowdb/file-sync')
 
-const db = low('db.json', fileSync)
+const db = low('db.json', { storage })
 
 db('users').push({ name: 'typicode' })
 const user = db('users').find({ name: 'typicode' })
