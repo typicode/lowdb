@@ -18,7 +18,7 @@
   ],
   "main": ".",
   "scripts": {
-    "test": "babel-node test/all && standard {src,test}/**/*.js",
+    "test": "babel-node test/all && standard",
     "prepublish": "npm run build",
     "precommit": "npm test",
     "build": "babel src --out-dir ."
