@@ -139,9 +139,8 @@ low()                                      // in-memory
 low('db.json', { storage: /* */ })         // persisted
 low('db.json', { storage: /* */ }, false)  // auto write disabled
 
-// To create read-only or write-only database
-// pass only the read or write function.
-// For example:
+// To create read-only or write-only database,
+// set only storage.read or storage.write
 const fileSync = require('lowdb/fileSync')
 
 // write-only
