@@ -29,7 +29,9 @@ You can query and manipulate it using __any__ [lodash](https://lodash.com/docs) 
 db('posts').find({ title: 'lowdb is awesome' })
 ```
 
-Please note that lowdb can only be run in one instance of Node, it doesn't support Cluster.
+_Examples use ES2015 syntax, it's supported by Node 5+. Node 0.12 is supported too but you need to use the older syntax._
+
+_Please note that lowdb can only be run in one instance of Node, it doesn't support Cluster._
 
 ## Install
 
