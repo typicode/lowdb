@@ -5,9 +5,15 @@ const low = require('../src')
 const _test = (str, { source, read, write, promise, writeOnChange} = {}) => {
   test(str, async function (t) {
     try {
-      let db = source
-      ? low(source, { storage: { read, write }}, writeOnChange)
-      : low()
+      let db
+      if (source) {
+        db = promise
+          ? await low(source, { storage: { read, write }}, writeOnChange)
+          : low(source, { storage: { read, write }}, writeOnChange)
+      } else {
+        db = low()
+      }
+
       let users = db('users')
 
       // short syntax
@@ -72,10 +78,10 @@ _test('sync', {
   write: sinon.spy(),
   writeOnChange: true
 })
-_test('async', {
+_test('promises', {
   source: 'db.json',
-  read: sinon.spy(() => ({})),
-  write: sinon.spy(() => Promise.resolve(true)),
+  read: sinon.spy(() => Promise.resolve({})),
+  write: sinon.spy(() => Promise.resolve()),
   promise: true,
   writeOnChange: true
 })

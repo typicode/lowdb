@@ -49,7 +49,7 @@ npm install lowdb --save
   * __Mixins__ (id support, ...)
   * __Encryption__
 
-Lowdb is also very easy to learn since it has __only 4 methods and properties__.
+Lowdb is also very easy to learn since it has __only a few methods and properties__.
 
 _lowdb powers [json-server](https://github.com/typicode/json-server) package, [jsonplaceholder](http://jsonplaceholder.typicode.com/) website and [many other great projects](https://www.npmjs.com/browse/depended/lowdb)._
 
@@ -161,7 +161,7 @@ Full method signature:
 ```js
 low(source, {
   storage: {
-    read: (source, deserialize) => // obj
+    read: (source, deserialize) => // obj or a Promise
     write: (dest, obj, serialize) => // undefined or a Promise
   },
   format: {

@@ -1,4 +1,5 @@
 const lodash = require('lodash')
+const isPromise = require('is-promise')
 
 // Returns a lodash chain that calls .value()
 // automatically after the first .method()
@@ -81,7 +82,15 @@ function low (source, options = {}, writeOnChange = true) {
 
   // Init
   if (db.source && db.read) {
-    db.object = db.read(db.source, db.deserialize)
+    const res = db.read(db.source, db.deserialize)
+    if (isPromise(res)) {
+      return res.then((obj) => {
+        db.object = obj
+        return db
+      })
+    } else {
+      db.object = res
+    }
   }
 
   return db
