@@ -31,6 +31,11 @@ db('posts').find({ title: 'lowdb is awesome' })
 
 _Examples use ES2015 syntax, it's supported by Node 5+. Node 0.12 is supported too but you need to use the older syntax._
 
+```js
+// For Node 0.12
+var db = low('db.json', { storage: storage })
+```
+
 _Please note that lowdb can only be run in one instance of Node, it doesn't support Cluster._
 
 ## Install
@@ -182,8 +187,8 @@ db._.mixin({
   }
 })
 
-var song1 = db('songs').first()
-var song2 = db('songs').second()
+const song1 = db('songs').first()
+const song2 = db('songs').second()
 ```
 
 __db.object__
@@ -280,21 +285,21 @@ Being able to retrieve data using an id can be quite useful, particularly in ser
 [underscore-db](https://github.com/typicode/underscore-db) provides a set of helpers for creating and manipulating id-based resources.
 
 ```js
-var db = low('db.json')
+const db = low('db.json')
 
 db._.mixin(require('underscore-db'))
 
-var songId = db('songs').insert({ title: 'low!' }).id
-var song   = db('songs').getById(songId)
+const songId = db('songs').insert({ title: 'low!' }).id
+const song = db('songs').getById(songId)
 ```
 
 [uuid](https://github.com/broofa/node-uuid) is more minimalist and returns a unique id that you can use when creating resources.
 
 ```js
-var uuid = require('uuid')
+const uuid = require('uuid')
 
-var songId = db('songs').push({ id: uuid(), title: 'low!' }).id
-var song   = db('songs').find({ id: songId })
+const songId = db('songs').push({ id: uuid(), title: 'low!' }).id
+const song = db('songs').find({ id: songId })
 ```
 
 ### How to use custom format
