@@ -43,11 +43,15 @@ function low (source, options = {}, writeOnChange = true) {
           if (isPromise(res)) {
             return res.then((obj) => {
               db.object = obj
+              db._checksum = JSON.stringify(db.object)
+
               return db
             })
           }
 
           db.object = res
+          db._checksum = JSON.stringify(db.object)
+
           return db
         }
       }
@@ -69,16 +73,13 @@ function low (source, options = {}, writeOnChange = true) {
     return v
   })
 
-  // Init db.object checksum
-  let checksum = JSON.stringify(db.object)
-
   // Return a promise or nothing in sync mode or if the database hasn't changed
   function _save () {
     if (db.source && db.write && writeOnChange) {
       const str = JSON.stringify(db.object)
 
-      if (str !== checksum) {
-        checksum = str
+      if (str !== db._checksum) {
+        db._checksum = str
         return db.write(db.source, db.object)
       }
     }
@@ -98,7 +99,7 @@ function low (source, options = {}, writeOnChange = true) {
 
   // Init
   if (db.read) {
-    return db.read(source)
+    return db.read()
   } else {
     return db
   }

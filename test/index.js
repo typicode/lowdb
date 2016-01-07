@@ -59,13 +59,13 @@ const _test = (str, { source, read, write, promise, writeOnChange} = {}) => {
           ? await db.write('backup.json')
           : db.write('backup.json')
 
-        // Get last write call
+        // get last write call
         let args = write.args.slice(-1)[0]
         t.same(args, ['backup.json', {}, undefined])
       }
 
       if (read) {
-        // Read
+        // read
         promise
           ? await db.read()
           : db.read()
