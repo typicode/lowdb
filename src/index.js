@@ -35,10 +35,26 @@ function low (source, options = {}, writeOnChange = true) {
   if (source) {
     if (options.storage) {
       const { storage } = options
-      db.read = storage.read
-      db.write = storage.write
-        ? (dest = source) => storage.write(dest, db.object, db.serialize)
-        : null
+
+      if (storage.read) {
+        db.read = (s = source) => {
+          const res = storage.read(s, db.deserialize)
+
+          if (isPromise(res)) {
+            return res.then((obj) => {
+              db.object = obj
+              return db
+            })
+          }
+
+          db.object = res
+          return db
+        }
+      }
+
+      if (storage.write) {
+        db.write = (dest = source) => storage.write(dest, db.object, db.serialize)
+      }
     }
 
     options.format && Object.assign(db, options.format)
@@ -81,19 +97,11 @@ function low (source, options = {}, writeOnChange = true) {
   db.source = source
 
   // Init
-  if (db.source && db.read) {
-    const res = db.read(db.source, db.deserialize)
-    if (isPromise(res)) {
-      return res.then((obj) => {
-        db.object = obj
-        return db
-      })
-    } else {
-      db.object = res
-    }
+  if (db.read) {
+    return db.read(source)
+  } else {
+    return db
   }
-
-  return db
 }
 
 module.exports = low

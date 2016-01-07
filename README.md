@@ -161,19 +161,22 @@ low('db.json', {
 })
 ```
 
-Full method signature:
+You can also define custom storages and formats:
 
 ```js
-low(source, {
-  storage: {
-    read: (source, deserialize) => // obj or a Promise
-    write: (dest, obj, serialize) => // undefined or a Promise
-  },
+const myStorage = {
+  read: (source, deserialize) => // obj or a Promise
+  write: (dest, obj, serialize) => // undefined or a Promise
+}
+
+const myFormat = {
   format: {
     deserialize: (data) => // obj
     serialize: (obj) => // data
   }
-}, writeOnChange)
+}
+
+low(source, { storage: myStorage, format: myFormat }, writeOnChange)
 ```
 
 __db.___
@@ -213,12 +216,24 @@ db.write()
 
 __db.write([source])__
 
-Persists database using `storage.write` method.
+Persists database using `storage.write` method. Depending on the storage, it may return a promise.
+
+Note: by default, lowdb automatically calls it when database changes.
 
 ```js
-const db = low('db.json')
-db.write()             // writes to db.json
-db.write('copy.json')  // writes to copy.json
+const db = low('db.json', { storage })
+db.write()            // writes to db.json
+db.write('copy.json') // writes to copy.json
+```
+
+__db.read([source])__
+
+Reads source using `storage.read` method. Depending on the storage, it may return a promise.
+
+```js
+const db = low('db.json', { storage })
+db.read()            // re-reads db.json
+db.read('copy.json') // reads copy.json
 ```
 
 ## Guide

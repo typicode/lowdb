@@ -64,6 +64,22 @@ const _test = (str, { source, read, write, promise, writeOnChange} = {}) => {
         t.same(args, ['backup.json', {}, undefined])
       }
 
+      if (read) {
+        // Read
+        promise
+          ? await db.read()
+          : db.read()
+
+        t.is(read.callCount, 2)
+
+        promise
+          ? await db.read('backup.json')
+          : db.read('backup.json')
+
+        let args = read.args.slice(-1)[0]
+        t.same(args, ['backup.json', undefined])
+      }
+
       t.end()
     } catch (err) {
       t.end(err)
