@@ -18,7 +18,7 @@
   ],
   "main": ".",
   "scripts": {
-    "test": "babel-node test/all && standard",
+    "test": "babel-node test/all | tap-spec",
     "prepublish": "npm run build",
     "precommit": "npm test",
     "build": "babel src --out-dir ."
@@ -37,7 +37,7 @@
     "graceful-fs": "^3.0.8",
     "is-promise": "^2.1.0",
     "json-parse-helpfulerror": "^1.0.3",
-    "lodash": "^3.1.0",
+    "lodash": "^4.0.0",
     "steno": "^0.4.1"
   },
   "devDependencies": {
@@ -48,6 +48,7 @@
     "husky": "^0.9.0",
     "sinon": "^1.17.2",
     "standard": "^4.0.1",
+    "tap-spec": "^4.1.1",
     "tape": "^4.2.2",
     "tempfile": "^1.1.1",
     "underscore-db": "^0.9.0"

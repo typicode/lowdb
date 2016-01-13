@@ -14,7 +14,7 @@ const isPromise = require('is-promise')
 function lowChain (_, array, save) {
   const chain = _.chain(array)
 
-  _.functions(chain)
+  _.functionsIn(chain)
     .forEach((method) => {
       chain[method] = _.flow(chain[method], (arg) => {
         const v = arg.value ? arg.value() : arg
