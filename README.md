@@ -189,8 +189,8 @@ db._.mixin({
   }
 })
 
-const song1 = db('songs').first()
-const song2 = db('songs').second()
+const post1 = db('posts').first()
+const post2 = db('posts').second()
 ```
 
 __db.object__
@@ -198,14 +198,14 @@ __db.object__
 Use whenever you want to access or modify the underlying database object.
 
 ```js
-db.object // { songs: [ ... ] }
+db.object // { posts: [ ... ] }
 ```
 
 If you directly modify the content of the database object, you will need to manually call `write` to persist changes.
 
 ```js
 // Delete an array
-delete db.object.songs
+delete db.object.posts
 db.write()
 
 // Drop database
@@ -247,49 +247,49 @@ Also, the execution of chained methods is lazy, that is, execution is deferred u
 
 #### Examples
 
-Sort the top five songs.
+Sort the top five posts.
 
 ```js
-db('songs')
+db('posts')
   .chain()
-  .where({published: true})
+  .filter({published: true})
   .sortBy('views')
   .take(5)
   .value()
 ```
 
-Retrieve song titles.
+Retrieve post titles.
 
 ```js
-db('songs').pluck('title')
+db('posts').map('title')
 ```
 
-Get the number of songs.
+Get the number of posts.
 
 ```js
-db('songs').size()
+db('posts').size()
 ```
 
-Make a deep clone of songs.
+Make a deep clone of posts.
 
 ```js
-db('songs').cloneDeep()
+db('posts').cloneDeep()
 ```
 
-Update a song.
+Update a post.
 
 ```js
-db('songs')
+db('posts')
   .chain()
   .find({ title: 'low!' })
   .assign({ title: 'hi!'})
   .value()
 ```
 
-Remove songs.
+Remove posts.
 
 ```js
-db('songs').remove({ title: 'low!' })
+db('posts').remove({ title: 'low!' })
 ```
 
 ### How to use id based resources
@@ -303,8 +303,8 @@ const db = low('db.json')
 
 db._.mixin(require('underscore-db'))
 
-const songId = db('songs').insert({ title: 'low!' }).id
-const song = db('songs').getById(songId)
+const postId = db('posts').insert({ title: 'low!' }).id
+const post = db('posts').getById(postId)
 ```
 
 [uuid](https://github.com/broofa/node-uuid) is more minimalist and returns a unique id that you can use when creating resources.
@@ -312,8 +312,8 @@ const song = db('songs').getById(songId)
 ```js
 const uuid = require('uuid')
 
-const songId = db('songs').push({ id: uuid(), title: 'low!' }).id
-const song = db('songs').find({ id: songId })
+const postId = db('posts').push({ id: uuid(), title: 'low!' }).id
+const post = db('posts').find({ id: postId })
 ```
 
 ### How to use custom format
