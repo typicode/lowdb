@@ -61,7 +61,11 @@ function low (source, options = {}, writeOnChange = true) {
       }
     }
 
-    options.format && Object.assign(db, options.format)
+    if (options.format) {
+      const { format } = options
+      db.serialize = format.serialize
+      db.deserialize = format.deserialize
+    }
   }
 
   // Modify value function to call save before returning result
