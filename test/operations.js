@@ -11,6 +11,7 @@ test('operations', t => {
 
   // Read
   t.same(db('foo').find({ a: 1 }), { a: 1 })
+  t.same(db('foo').find({ b: 2}), undefined)
 
   // Update
   db('foo')

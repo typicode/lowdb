@@ -17,7 +17,11 @@ function lowChain (_, array, save) {
   _.functionsIn(chain)
     .forEach((method) => {
       chain[method] = _.flow(chain[method], (arg) => {
-        const v = arg.value ? arg.value() : arg
+        let v
+        if (arg) {
+          v = arg.value ? arg.value() : arg
+        }
+
         const s = save()
 
         if (s) return s.then(() => Promise.resolve(v))
