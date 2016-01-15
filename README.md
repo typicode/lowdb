@@ -147,7 +147,7 @@ low('db.json', { storage: /* */ }, false)  // auto write disabled
 
 // To create read-only or write-only database,
 // set only storage.read or storage.write
-const fileSync = require('lowdb/fileSync')
+const fileSync = require('lowdb/file-sync')
 
 // write-only
 low('db.json', {
