@@ -331,9 +331,9 @@ const bson = require('bson')
 const BSON = new bson.BSONPure.BSON()
 
 low('db.bson', { storage, format: {
-  serialize: BSON.serialize
+  serialize: BSON.serialize,
   deserialize: BSON.deserialize
-})
+}})
 
 // Alternative ES2015 short syntax
 const bson = require('bson')
