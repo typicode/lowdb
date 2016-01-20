@@ -19,7 +19,7 @@ function lowChain (_, array, save) {
       chain[method] = _.flow(chain[method], (arg) => {
         let v
         if (arg) {
-          v = arg.value ? arg.value() : arg
+          v = _.isFunction(arg.value) ? arg.value() : arg
         }
 
         const s = save()

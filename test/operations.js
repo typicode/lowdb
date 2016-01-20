@@ -34,3 +34,13 @@ test('operations', t => {
 
   t.end()
 })
+
+test('Issue #89', t => {
+  const db = low()
+  db('foo').push({ id: 1, value: 1})
+
+  t.equal(db('foo').find({ id: 1 }).value, 1)
+  t.deepEqual(db('foo').find({ id: 1 }), { id: 1, value: 1})
+
+  t.end()
+})
