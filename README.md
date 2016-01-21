@@ -1,6 +1,6 @@
 # lowdb [![NPM version](https://badge.fury.io/js/lowdb.svg)](http://badge.fury.io/js/lowdb) [![Build Status](https://travis-ci.org/typicode/lowdb.svg?branch=master)](https://travis-ci.org/typicode/lowdb)
 
-> Need a quick way to get a local database for a CLI, a small server or the browser?
+> Need a quick way to get a local database for a CLI, an Electron app, a small server or the browser?
 
 ## Example
 
