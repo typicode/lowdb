@@ -28,7 +28,7 @@ You can query and manipulate it using __any__ [lodash](https://lodash.com/docs) 
 db('posts').find({ title: 'lowdb is awesome' })
 ```
 
-Click [here](http://typicode.github.io/lowdb/) to try lowdb in the browser.
+__[Click here to try lowdb in the browser.](http://typicode.github.io/lowdb/)__
 
 ## Support
 
