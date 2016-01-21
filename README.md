@@ -2,8 +2,6 @@
 
 > Need a quick way to get a local database for a CLI, a small server or the browser?
 
-## Example
-
 ```js
 const low = require('lowdb')
 const storage = require('lowdb/file-sync')
@@ -28,14 +26,18 @@ You can query and manipulate it using __any__ [lodash](https://lodash.com/docs) 
 db('posts').find({ title: 'lowdb is awesome' })
 ```
 
-_Examples use ES2015 syntax, it's supported by Node 5+. Node 0.12 is supported too but you need to use the older syntax._
+Click [here](http://typicode.github.io/lowdb/) to try lowdb in the browser.
+
+## Support
+
+Examples use ES2015 syntax, it's supported by Node 5+. Node 0.12 is supported too but you need to use the older syntax.
 
 ```js
 // For Node 0.12
 var db = low('db.json', { storage: storage })
 ```
 
-_Please note that lowdb can only be run in one instance of Node, it doesn't support Cluster._
+Please note also that lowdb can only be run in one instance of Node, it doesn't support Cluster.
 
 ## Install
 
