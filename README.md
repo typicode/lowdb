@@ -2,6 +2,8 @@
 
 > Need a quick way to get a local database for a CLI, a small server or the browser?
 
+## Example
+
 ```js
 const low = require('lowdb')
 const storage = require('lowdb/file-sync')
