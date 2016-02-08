@@ -4,3 +4,5 @@ tmp
 .DS_Store
 .idea
 /*.js
+dist
+!webpack.config.js

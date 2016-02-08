@@ -19,9 +19,16 @@
   "main": ".",
   "scripts": {
     "test": "babel-node test/all | tap-spec",
-    "prepublish": "npm run build",
+    "prepublish": "npm run build && npm run dist",
     "precommit": "npm test",
-    "build": "babel src --out-dir ."
+    "build": "npm run commonjs && npm run umd && npm run min",
+    "commonjs": "babel src --out-dir .",
+    "umd": "npm run umd:lowdb && npm run umd:lowdb.localstorage",
+    "min": "npm run min:lowdb && npm run min:lowdb.localstorage",
+    "umd:lowdb": "webpack src/index.js dist/lowdb.js --output-library lowdb",
+    "min:lowdb": "webpack src/index.js dist/lowdb.js --output-library lowdb -p",
+    "umd:lowdb.localstorage": "webpack src/browser.js dist/lowdb.localstorage.js --output-library lowdb.localStorage",
+    "min:lowdb.localstorage": "webpack src/browser.js dist/lowdb.localstorage.js --output-library lowdb.localStorage -p"
   },
   "repository": {
     "type": "git",
@@ -37,12 +44,12 @@
     "graceful-fs": "^3.0.8",
     "is-promise": "^2.1.0",
     "json-parse-helpfulerror": "^1.0.3",
-    "lodash": "^4.0.0",
     "steno": "^0.4.1"
   },
   "devDependencies": {
     "babel-cli": "^6.2.0",
     "babel-eslint": "^4.1.6",
+    "babel-loader": "^6.2.2",
     "babel-preset-es2015": "^6.1.18",
     "babel-preset-stage-3": "^6.3.13",
     "husky": "^0.10.2",
@@ -51,10 +58,17 @@
     "tap-spec": "^4.1.1",
     "tape": "^4.2.2",
     "tempfile": "^1.1.1",
-    "underscore-db": "^0.9.0"
+    "underscore-db": "^0.9.0",
+    "webpack": "^1.12.13"
+  },
+  "peerDependencies": {
+    "lodash": "^4"
   },
   "engines": {
     "node": ">= 0.12"
+  },
+  "browser": {
+    "lodash": false
   },
   "standard": {
     "parser": "babel-eslint"

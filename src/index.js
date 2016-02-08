@@ -15,8 +15,8 @@ function lowChain (_, array, save) {
   const chain = _.chain(array)
 
   _.functionsIn(chain)
-    .forEach((method) => {
-      chain[method] = _.flow(chain[method], (arg) => {
+    .forEach(method => {
+      chain[method] = _.flow(chain[method], arg => {
         let v
         if (arg) {
           v = _.isFunction(arg.value) ? arg.value() : arg
