@@ -1,6 +1,6 @@
-const webpack = require('webpack')
-const pkg = require('./package.json')
-const banner = `lowdb v${pkg.version}`
+var webpack = require('webpack')
+var pkg = require('./package.json')
+var banner = 'lowdb v' + pkg.version
 
 module.exports = {
   output: {
