@@ -53,6 +53,7 @@
     "babel-preset-es2015": "^6.1.18",
     "babel-preset-stage-3": "^6.3.13",
     "husky": "^0.10.2",
+    "lodash": "^4.3.0",
     "sinon": "^1.17.2",
     "standard": "^4.0.1",
     "tap-spec": "^4.1.1",
