@@ -19,7 +19,7 @@
   "main": ".",
   "scripts": {
     "test": "babel-node test/all | tap-spec",
-    "prepublish": "npm run build && npm run dist",
+    "prepublish": "npm run build",
     "precommit": "npm test",
     "build": "npm run commonjs && npm run umd && npm run min",
     "commonjs": "babel src --out-dir .",
