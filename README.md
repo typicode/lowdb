@@ -66,6 +66,7 @@ To use `localStorage`, add:
 <script>
   var db = low('db', { storage: low.localStorage })
 </script>
+```
 
 ## Features
 
