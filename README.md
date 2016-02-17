@@ -30,21 +30,32 @@ db('posts').find({ title: 'lowdb is awesome' })
 
 __[Click here to try lowdb in the browser.](http://typicode.github.io/lowdb/)__
 
-## Support
+## ES2015
 
-Examples use ES2015 syntax, it's supported by Node 5+. Node 0.12 is supported too but you need to use the older syntax.
+Examples use ES2015 syntax for convenience, but you can use ES5 syntax too. For example:
 
 ```js
-// For Node 0.12
 var db = low('db.json', { storage: storage })
 ```
 
 Please note also that lowdb can only be run in one instance of Node, it doesn't support Cluster.
 
-## Install
+## Installation
+
+Using npm:
 
 ```bash
 npm install lowdb --save
+```
+
+A standalone UMD build is also available on [npmcdn](https://npmcdn.com/):
+
+```html
+<script src="http://npmcdn.com/lowdb@^0.12.4/dist/lowdb.min.js"></script>
+<script>
+  var db = low() // in-memory
+  var db = low('db', { storage: low.localStorage }) // localStorage
+</script>
 ```
 
 ## Features
