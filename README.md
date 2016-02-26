@@ -61,7 +61,7 @@ A standalone UMD build is also available on [npmcdn](https://npmcdn.com/) for qu
 <script src="http://npmcdn.com/lowdb/dist/lowdb.min.js"></script>
 <script>
   var db = low() // in-memory database
-  var db = low('db', { storage: low.localStorage }) // Enables localStorage
+  var db = low('db', { storage: low.localStorage }) // enables localStorage
 </script>
 ```
 
