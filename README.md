@@ -7,12 +7,13 @@
 ```js
 const low = require('lowdb')
 const storage = require('lowdb/file-sync')
+
 const db = low('db.json', { storage })
 
 db('posts').push({ title: 'lowdb is awesome'})
 ```
 
-Database is __automatically__ saved to `db.json`
+Database is __automatically__ saved to `db.json`.
 
 ```js
 {
@@ -26,6 +27,12 @@ You can query and manipulate it using __any__ [lodash](https://lodash.com/docs) 
 
 ```js
 db('posts').find({ title: 'lowdb is awesome' })
+```
+
+And access underlying database object any time.
+
+```js
+db.object.posts
 ```
 
 __[Click here to try lowdb in the browser.](http://typicode.github.io/lowdb/)__
