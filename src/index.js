@@ -94,7 +94,10 @@ function low (source, options = {}, writeOnChange = true) {
   }
 
   function db (key) {
-    let array = db.object[key] = db.object[key] || []
+    if (typeof db.object[key] === 'undefined') {
+      db.object[key] = []
+    }
+    let array = db.object[key]
     let short = lowChain(_, array, _save)
     short.chain = () => _.chain(array)
     return short
