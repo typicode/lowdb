@@ -16,6 +16,9 @@ const _test = (str, { source, read, write, promise, writeOnChange} = {}) => {
 
       let users = db('users')
 
+      // db('').value() should always return a value (Fix #82)
+      if (promise) t.deepEqual(users.value(), [])
+
       // short syntax
       let [ foo ] = promise
         ? await users.push('foo')

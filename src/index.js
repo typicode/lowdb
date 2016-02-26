@@ -100,6 +100,8 @@ function low (source, options = {}, writeOnChange = true) {
     let array = db.object[key]
     let short = lowChain(_, array, _save)
     short.chain = () => _.chain(array)
+    // Prevents db.write being called when just calling db('foo').value()
+    short.value = () => db.object[key]
     return short
   }
 
