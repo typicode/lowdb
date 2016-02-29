@@ -35,9 +35,7 @@ And access underlying database object any time.
 db.object.posts
 ```
 
-__[Click here to try lowdb in the browser.](http://typicode.github.io/lowdb/)__
-
-__Note_: examples use ES2015 syntax for convenience, but you can use ES5 syntax too. For example:
+__Note__: examples use ES2015 syntax for convenience, but you can use ES5 syntax too. For example:
 
 ```js
 var db = low('db.json', { storage: storage })
