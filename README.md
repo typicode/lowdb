@@ -329,8 +329,9 @@ const post = db('posts').getById(postId)
 
 ```js
 const uuid = require('uuid')
+const postId = uuid()
 
-const postId = db('posts').push({ id: uuid(), title: 'low!' }).id
+db('posts').push({ id: postId , title: 'low!' })
 const post = db('posts').find({ id: postId })
 ```
 
