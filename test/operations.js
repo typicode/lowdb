@@ -4,43 +4,51 @@ const low = require('../src')
 test('operations', t => {
   const db = low()
 
+  // Defaults
+  db.defaults({
+    foo: []
+  }).value()
+
   // Create
-  db('foo').push({ a: 1 })
-  t.equal(db('foo').size(), 1)
-  t.same(db.object, { foo: [{ a: 1 }]})
+  db.get('foo').push({ a: 1 }).value()
+  t.equal(db.get('foo').size().value(), 1)
+  t.same(db.getObject(), { foo: [{ a: 1 }]})
 
   // Read
-  t.same(db('foo').find({ a: 1 }), { a: 1 })
-  t.same(db('foo').find({ b: 2}), undefined)
+  t.same(db.get('foo').find({ a: 1 }).value(), { a: 1 })
+  t.same(db.get('foo').find({ b: 2 }).value(), undefined)
 
   // Update
-  db('foo')
-    .chain()
+  db.get('foo')
     .find({ a: 1 })
     .assign({ a: 2 })
     .value()
 
   t.true(
-    !db('foo')
-      .chain()
+    !db.get('foo')
       .find({ a: 2 })
       .isUndefined()
       .value()
   )
 
   // Delete
-  db('foo').remove({ a: 2 })
-  t.true(db('foo').isEmpty())
+  db.get('foo').remove({ a: 2 }).value()
+  t.true(db.get('foo').isEmpty())
 
   t.end()
 })
 
 test('Issue #89', t => {
   const db = low()
-  db('foo').push({ id: 1, value: 1})
 
-  t.equal(db('foo').find({ id: 1 }).value, 1)
-  t.deepEqual(db('foo').find({ id: 1 }), { id: 1, value: 1})
+  db.defaults({
+    foo: []
+  }).value()
+
+  db.get('foo').push({ id: 1, value: 1}).value()
+
+  t.equal(db.get('foo').find({ id: 1 }).value().value, 1)
+  t.deepEqual(db.get('foo').find({ id: 1 }).value(), { id: 1, value: 1})
 
   t.end()
 })

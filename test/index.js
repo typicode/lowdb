@@ -2,10 +2,12 @@ const test = require('tape')
 const sinon = require('sinon')
 const low = require('../src')
 
-const _test = (str, { source, read, write, promise, writeOnChange} = {}) => {
+const _test = (str, { source, read, write, promise, writeOnChange } = {}) => {
   test(str, async function (t) {
     try {
       let db
+      let count
+
       if (source) {
         db = promise
           ? await low(source, { storage: { read, write }}, writeOnChange)
@@ -14,40 +16,28 @@ const _test = (str, { source, read, write, promise, writeOnChange} = {}) => {
         db = low()
       }
 
-      let users = db('users')
+      db.defaults({
+        users: []
+      }).value()
+
+      let users = db.get('users')
 
       // db('').value() should always return a value (Fix #82)
       if (promise) t.deepEqual(users.value(), [])
 
       // short syntax
-      let [ foo ] = promise
-        ? await users.push('foo')
-        : users.push('foo')
+      let [ foo ] = users.push('foo').value()
 
       t.is(foo, 'foo')
       t.is(users.value().length, 1)
 
       if (write) {
-        let count = writeOnChange ? 1 : 0
+        count = writeOnChange ? 2 : 0
         t.is(write.callCount, count)
       }
 
-      // chain syntax
-      let chain = users.chain().push('bar')
-      let [, bar ] = promise
-        ? await chain.value()
-        : chain.value()
-
-      t.is(bar, 'bar')
-      t.is(users.value().length, 2)
-
       if (write) {
-        let count
-
-        count = writeOnChange ? 2 : 0
-        t.is(write.callCount, count)
-
-        db.object = {}
+        db.setObject({})
 
         // write
         promise

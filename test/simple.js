@@ -9,7 +9,11 @@ test('write', (t) => {
   const filename = tempfile()
   const db = low(filename, { storage })
 
-  db('foo').push(1)
+  db.defaults({
+    foo: []
+  }).value()
+
+  db.get('foo').push(1).value()
 
   const actual = JSON.parse(fs.readFileSync(filename))
   t.same(actual, { foo: [1] })
@@ -19,6 +23,6 @@ test('write', (t) => {
 test('read', (t) => {
   const filename = path.join(__dirname, 'fixtures/db.json')
   const db = low(filename, { storage })
-  t.same(db.object, { foo: [1] })
+  t.same(db.getObject(), { foo: [1] })
   t.end()
 })
