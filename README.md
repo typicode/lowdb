@@ -57,7 +57,7 @@ __Important__ lowdb doesn't support Cluster.
 ## Install
 
 ```sh
-npm install lowdb lodash@4 --save
+npm install lowdb@next lodash@4 --save
 ```
 
 A standalone UMD build is also available on [npmcdn](https://npmcdn.com/) for testing and quick prototyping:
@@ -76,7 +76,7 @@ __low([source, [options])__
 
 * `source` string or null, will be passed to storage 
 * `options` object
-  * `storage` object, by default `lowdb/lib/file-sync` or `lowdb/lib/browser` depending on where you run it
+  * `storage` object, by default `lowdb/lib/file-sync` or `lowdb/lib/browser`.
     * `read` function or null
     * `write` function or null
   * `format` object
@@ -91,10 +91,10 @@ Creates a database instance. Use options to configure lowdb, here are some examp
 low()
 
 // persisted using async file storage
-low('db.json', { storage: require('lowdb/lib/file-async' })
+low('db.json', { storage: require('lowdb/lib/file-async') })
 
 // persisted using a custom storage
-low('some-source', { storage: require('./my-custom-storage' })
+low('some-source', { storage: require('./my-custom-storage') })
 
 // write on change disabled
 low('db.json', { writeOnChange: false })
@@ -141,8 +141,8 @@ db.state() // { posts: [ ... ] }
 You can use it to drop database or replace it with a new object
 
 ```js
-const newDataObject = {}
-db.state(newDataObject)
+const newState = {}
+db.state(newState)
 db.write()
 ```
 
@@ -153,7 +153,7 @@ Persists database using `storage.write` option. Depending on the storage, it may
 By default, lowdb automatically calls it when database changes.
 
 ```js
-const db = low('db.json', { storage })
+const db = low('db.json')
 db.write()            // writes to db.json
 db.write('copy.json') // writes to copy.json
 ```
@@ -163,7 +163,7 @@ __db.read([source])__
 Reads source using `storage.read` option. Depending on the storage, it may return a promise.
 
 ```js
-const db = low('db.json', { storage })
+const db = low('db.json')
 db.read()            // reads db.json
 db.read('copy.json') // reads copy.json
 ```
@@ -284,55 +284,6 @@ low(source, {
   format: myFormat
 })
 ```
-
-### How to use another format than JSON
-
-By default, lowdb storages will use `JSON` to `parse` and `stringify` database object.
-
-But it's also possible to specify custom `format.serializer` and `format.deserializer` methods that will be passed by lowdb to `storage.read` and `storage.write` methods.
-
-For example, if you want to store database in `.bson` files ([MongoDB file format](https://github.com/mongodb/js-bson)):
-
-```js
-const low = require('lowdb')
-const storage = require('lowdb/file-sync')
-const bson = require('bson')
-const BSON = new bson.BSONPure.BSON()
-
-low('db.bson', { storage, format: {
-  serialize: BSON.serialize,
-  deserialize: BSON.deserialize
-}})
-
-// Alternative ES2015 short syntax
-const bson = require('bson')
-const format = new bson.BSONPure.BSON()
-low('db.bson', { storage, format })
-```
-
-### How to use a custom storage
-
-Simply create objects with `read/write` or `serialize/deserialize` methods. See `src/file-sync.js` code source for a full example.
-
-```js
-const myStorage = {
-  read: (source, deserialize) => // must return an object or a Promise
-  write: (dest, obj, serialize) => // must return undefined or a Promise
-}
-
-const myFormat = {
-  format: {
-    serialize: (obj) => // must return data (usually string)
-    deserialize: (data) => // must return an object
-  }
-}
-
-low(source, {
-  storage: myStorage,
-  format: myFormat
-})
-```
-
 
 ### How to encrypt data
 
