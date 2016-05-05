@@ -43,7 +43,7 @@
     "steno": "^0.4.1"
   },
   "peerDependencies": {
-    "lodash": "4",
+    "lodash": "4"
   },
   "devDependencies": {
     "babel-cli": "^6.2.0",
