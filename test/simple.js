@@ -3,17 +3,17 @@ const path = require('path')
 const test = require('tape')
 const tempfile = require('tempfile')
 const low = require('../src')
-const storage = require('../src/file-sync')
 
 test('write', (t) => {
   const filename = tempfile()
-  const db = low(filename, { storage })
+  const db = low(filename)
 
-  db.defaults({
-    foo: []
-  }).value()
+  db.defaults({ foo: [] })
+    .value()
 
-  db.get('foo').push(1).value()
+  db.get('foo')
+    .push(1)
+    .value()
 
   const actual = JSON.parse(fs.readFileSync(filename))
   t.same(actual, { foo: [1] })
@@ -22,7 +22,7 @@ test('write', (t) => {
 
 test('read', (t) => {
   const filename = path.join(__dirname, 'fixtures/db.json')
-  const db = low(filename, { storage })
-  t.same(db.getObject(), { foo: [1] })
+  const db = low(filename)
+  t.same(db.state(), { foo: [1] })
   t.end()
 })

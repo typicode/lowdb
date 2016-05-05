@@ -1,19 +1,18 @@
 const lodash = require('lodash')
 const isPromise = require('is-promise')
+const defaultStorage = require('./file-sync')
 
-function low (source, options = {}, writeOnChange = true) {
+const defaultOptions = {
+  storage: defaultStorage,
+  writeOnChange: true
+}
+
+function low (source, options = defaultOptions) {
   // Create a fresh copy of lodash
   const _ = lodash.runInContext()
 
   // Apply mixin option
   if (options.mixin) _.mixin(options.mixin)
-
-  // Create shortcut functions
-  _.functions(_)
-    .forEach(fn => _.mixin({
-      [`$${fn}`]: fn,
-      chain: false
-    }))
 
   const db = _.chain({})
 
@@ -57,7 +56,7 @@ function low (source, options = {}, writeOnChange = true) {
   _.prototype.value = _.wrap(_.prototype.value, function (value) {
     const v = value.apply(this)
 
-    if (db.source && db.write && writeOnChange) {
+    if (db.source && db.write && options.writeOnChange) {
       const str = JSON.stringify(db.__wrapped__)
 
       if (str !== db._checksum) {
@@ -69,10 +68,20 @@ function low (source, options = {}, writeOnChange = true) {
     return v
   })
 
+
+  // Get or set database state
+  db.state = (obj) => {
+    if (obj) {
+      db.__wrapped__ = obj
+    } else {
+      return db.__wrapped__
+    }
+  }
+
   db._ = _
-  db.getObject = () => db.__wrapped__
-  db.setObject = (obj) => db.__wrapped__ = obj
   db.source = source
+
+
 
   // Read
   if (db.read) {

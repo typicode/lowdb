@@ -12,7 +12,7 @@ test('operations', t => {
   // Create
   db.get('foo').push({ a: 1 }).value()
   t.equal(db.get('foo').size().value(), 1)
-  t.same(db.getObject(), { foo: [{ a: 1 }]})
+  t.same(db.state(), { foo: [{ a: 1 }]})
 
   // Read
   t.same(db.get('foo').find({ a: 1 }).value(), { a: 1 })

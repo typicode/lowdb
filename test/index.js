@@ -10,8 +10,8 @@ const _test = (str, { source, read, write, promise, writeOnChange } = {}) => {
 
       if (source) {
         db = promise
-          ? await low(source, { storage: { read, write }}, writeOnChange)
-          : low(source, { storage: { read, write }}, writeOnChange)
+          ? await low(source, { storage: { read, write }, writeOnChange })
+          : low(source, { storage: { read, write }, writeOnChange })
       } else {
         db = low()
       }
@@ -37,7 +37,7 @@ const _test = (str, { source, read, write, promise, writeOnChange } = {}) => {
       }
 
       if (write) {
-        db.setObject({})
+        db.state({})
 
         // write
         promise

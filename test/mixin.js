@@ -13,7 +13,7 @@ test('mixin', t => {
     .hello('world')
     .value()
 
-  t.same(db.getObject().msg, [ 'hello world' ])
+  t.same(db.state().msg, [ 'hello world' ])
 
   t.end()
 })

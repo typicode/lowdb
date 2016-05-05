@@ -22,7 +22,7 @@
     "prepublish": "npm run build",
     "precommit": "npm test",
     "build": "npm run babel && npm run umd && npm run min",
-    "babel": "babel src --out-dir . --ignore dist.js",
+    "babel": "babel src --out-dir lib --ignore dist.js",
     "umd": "webpack src/dist.js dist/lowdb.js --output-library low",
     "min": "webpack -p src/dist.js dist/lowdb.min.js --output-library low"
   },
@@ -40,8 +40,10 @@
     "graceful-fs": "^4.1.3",
     "is-promise": "^2.1.0",
     "json-parse-helpfulerror": "^1.0.3",
-    "lodash": "^4.0.0",
     "steno": "^0.4.1"
+  },
+  "peerDependencies": {
+    "lodash": "4",
   },
   "devDependencies": {
     "babel-cli": "^6.2.0",
@@ -60,6 +62,9 @@
   },
   "engines": {
     "node": ">= 0.12"
+  },
+  "browser": {
+    "./src/file-sync.js": "./src/browser.js"
   },
   "standard": {
     "parser": "babel-eslint"
