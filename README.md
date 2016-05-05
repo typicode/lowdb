@@ -120,7 +120,7 @@ app.post('/posts', (req, res) => {
   // Returns a Promise that resolves to a post
   db('posts')
     .push(req.body)
-    .then(post => res.send(post))
+    .then(() => req.body)
 })
 ```
 
