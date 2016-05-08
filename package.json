@@ -16,7 +16,7 @@
     "embeddable",
     "extendable"
   ],
-  "main": ".",
+  "main": "./lib",
   "scripts": {
     "test": "babel-node test/all | tap-spec",
     "prepublish": "npm run build",

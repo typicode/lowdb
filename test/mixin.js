@@ -2,10 +2,10 @@ const test = require('tape')
 const low = require('../src')
 
 test('mixin', t => {
-  const db = low(undefined, {
-    mixin: {
-      hello: (array, word) => array.push('hello ' + word)
-    }
+  const db = low()
+  
+  db._.mixin({
+    hello: (array, word) => array.push('hello ' + word)
   })
 
   db.set('msg', [])

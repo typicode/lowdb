@@ -11,9 +11,6 @@ function low (source, options = defaultOptions) {
   // Create a fresh copy of lodash
   const _ = lodash.runInContext()
 
-  // Apply mixin option
-  if (options.mixin) _.mixin(options.mixin)
-
   const db = _.chain({})
 
   if (source) {
@@ -80,8 +77,6 @@ function low (source, options = defaultOptions) {
 
   db._ = _
   db.source = source
-
-
 
   // Read
   if (db.read) {
