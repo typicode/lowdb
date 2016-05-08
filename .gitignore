@@ -3,6 +3,5 @@ node_modules
 tmp
 .DS_Store
 .idea
-/*.js
+lib
 dist
-!webpack.config.js
