@@ -1,6 +1,6 @@
 {
   "name": "lowdb",
-  "version": "0.13.0-beta.1",
+  "version": "0.13.0-beta.2",
   "description": "JSON database for Node and the browser powered by lodash",
   "keywords": [
     "flat",
@@ -64,6 +64,7 @@
     "node": ">= 0.12"
   },
   "browser": {
+    "./src/file-sync.js": "./src/browser.js",
     "./lib/file-sync.js": "./lib/browser.js"
   },
   "standard": {
