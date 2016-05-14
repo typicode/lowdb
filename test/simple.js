@@ -23,6 +23,6 @@ test('write', (t) => {
 test('read', (t) => {
   const filename = path.join(__dirname, 'fixtures/db.json')
   const db = low(filename)
-  t.same(db.state(), { foo: [1] })
+  t.same(db.getState(), { foo: [1] })
   t.end()
 })

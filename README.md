@@ -74,7 +74,7 @@ A standalone UMD build is also available on [npmcdn](https://npmcdn.com/) for te
 
 __low([source, [options])__
 
-* `source` string or null, will be passed to storage 
+* `source` string or null, will be passed to storage
 * `options` object
   * `storage` object, by default `lowdb/lib/file-sync` or `lowdb/lib/browser`.
     * `read` function or null
@@ -99,7 +99,7 @@ low('some-source', { storage: require('./my-custom-storage') })
 // write on change disabled
 low('db.json', { writeOnChange: false })
 
-// read-only 
+// read-only
 const fileSync = require('lowdb/lib/file-sync')
 low('db.json', {
   storage: {
@@ -130,20 +130,21 @@ const post1 = db.get('posts').first().value()
 const post2 = db.get('posts').second().value()
 ```
 
-__db.state()__
+__db.getState()__
 
-Use whenever you want to access or modify the underlying database object.
+Use whenever you want to access the database state.
 
 ```js
-db.state() // { posts: [ ... ] }
+db.getState() // { posts: [ ... ] }
 ```
 
-You can use it to drop database or replace it with a new object
+__db.setState()__
+
+You can use it to drop database or replace it with a new object. New state will be automatically persisted.
 
 ```js
 const newState = {}
-db.state(newState)
-db.write()
+db.setState(newState)
 ```
 
 __db.write([source])__

@@ -33,27 +33,23 @@ const _test = (str, { source, read, write, promise, writeOnChange } = {}) => {
       // db('').value() should always return a value (Fix #82)
       if (promise) t.deepEqual(users.value(), [])
 
-      // short syntax
+      // Add user
       let [ foo ] = users.push('foo').value()
 
       t.is(foo, 'foo')
-      t.is(users.value().length, 1)
+      t.is(users.value().length, 1, 'should add user')
 
       if (write) {
         count = writeOnChange ? 2 : 0
-        t.is(write.callCount, count)
+        t.is(write.callCount, count, 'should auto write')
       }
 
       if (write) {
-        db.state({})
+        db.setState({})
 
-        // write
-        promise
-          ? await db.write()
-          : db.write()
-
-        count = writeOnChange ? 3 : 1
-        t.is(write.callCount, count)
+        // Should automatically write new state
+        count = writeOnChange ? 3 : 0
+        t.is(write.callCount, count, 'should auto write after setState()')
 
         // write dest
         promise
@@ -62,7 +58,7 @@ const _test = (str, { source, read, write, promise, writeOnChange } = {}) => {
 
         // get last write call
         let args = write.args.slice(-1)[0]
-        t.same(args, ['backup.json', {}, undefined])
+        t.same(args, ['backup.json', {}, undefined], 'should write to backup.json')
       }
 
       if (read) {
@@ -78,7 +74,7 @@ const _test = (str, { source, read, write, promise, writeOnChange } = {}) => {
           : db.read('backup.json')
 
         let args = read.args.slice(-1)[0]
-        t.same(args, ['backup.json', undefined])
+        t.same(args, ['backup.json', undefined], 'should read from backup.json')
       }
 
       t.end()

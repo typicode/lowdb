@@ -3,7 +3,7 @@ const low = require('../src')
 
 test('mixin', t => {
   const db = low()
-  
+
   db._.mixin({
     hello: (array, word) => array.push('hello ' + word)
   })
@@ -13,7 +13,7 @@ test('mixin', t => {
     .hello('world')
     .value()
 
-  t.same(db.state().msg, [ 'hello world' ])
+  t.same(db.getState().msg, [ 'hello world' ])
 
   t.end()
 })

@@ -51,10 +51,8 @@ function low (source, {
     }
   }
 
-  // Modify value function to call save before returning result
-  _.prototype.value = _.wrap(_.prototype.value, function (value) {
-    const v = value.apply(this)
-
+  // Persist database state
+  function persist() {
     if (db.source && db.write && writeOnChange) {
       const str = JSON.stringify(db.__wrapped__)
 
@@ -63,18 +61,21 @@ function low (source, {
         db.write(db.source, db.__wrapped__)
       }
     }
+  }
 
+  // Modify value function to call save before returning result
+  _.prototype.value = _.wrap(_.prototype.value, function (value) {
+    const v = value.apply(this)
+    persist()
     return v
   })
 
 
   // Get or set database state
-  db.state = (obj) => {
-    if (obj) {
-      db.__wrapped__ = obj
-    } else {
-      return db.__wrapped__
-    }
+  db.getState = () => db.__wrapped__
+  db.setState = (state) => {
+    db.__wrapped__ = state
+    persist()
   }
 
   db._ = _
