@@ -1,6 +1,6 @@
 {
   "name": "lowdb",
-  "version": "0.13.0-beta.2",
+  "version": "0.13.0-beta.3",
   "description": "JSON database for Node and the browser powered by lodash",
   "keywords": [
     "flat",
