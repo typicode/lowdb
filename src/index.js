@@ -2,21 +2,23 @@ const lodash = require('lodash')
 const isPromise = require('is-promise')
 const defaultStorage = require('./file-sync')
 
-const defaultOptions = {
-  storage: defaultStorage,
-  writeOnChange: true
-}
+// const defaultOptions = {
+//   storage: defaultStorage,
+//   writeOnChange: true
+// }
 
-function low (source, options = defaultOptions) {
+function low (source, {
+  storage = defaultStorage,
+  format = null,
+  writeOnChange = true
+} = {}) {
   // Create a fresh copy of lodash
   const _ = lodash.runInContext()
 
   const db = _.chain({})
 
   if (source) {
-    if (options.storage) {
-      const { storage } = options
-
+    if (storage) {
       if (storage.read) {
         db.read = (s = source) => {
           const res = storage.read(s, db.deserialize)
@@ -42,7 +44,7 @@ function low (source, options = defaultOptions) {
       }
     }
 
-    if (options.format) {
+    if (format) {
       const { format } = options
       db.serialize = format.serialize
       db.deserialize = format.deserialize
@@ -53,7 +55,7 @@ function low (source, options = defaultOptions) {
   _.prototype.value = _.wrap(_.prototype.value, function (value) {
     const v = value.apply(this)
 
-    if (db.source && db.write && options.writeOnChange) {
+    if (db.source && db.write && writeOnChange) {
       const str = JSON.stringify(db.__wrapped__)
 
       if (str !== db._checksum) {

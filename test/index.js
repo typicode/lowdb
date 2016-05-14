@@ -9,9 +9,17 @@ const _test = (str, { source, read, write, promise, writeOnChange } = {}) => {
       let count
 
       if (source) {
-        db = promise
-          ? await low(source, { storage: { read, write }, writeOnChange })
-          : low(source, { storage: { read, write }, writeOnChange })
+        if (writeOnChange) {
+          // Test that writeOnChange is true by default
+          db = promise
+            ? await low(source, { storage: { read, write }})
+            : low(source, { storage: { read, write }})
+        } else {
+          db = promise
+            ? await low(source, { storage: { read, write }, writeOnChange })
+            : low(source, { storage: { read, write }, writeOnChange })
+        }
+
       } else {
         db = low()
       }
