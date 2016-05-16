@@ -88,7 +88,9 @@ __low([source, [options])__
     * `deserialize` function, by default `JSON.parse`
   * `writeOnChange`boolean
 
-Creates a database instance. Use options to configure lowdb, here are some examples:
+Creates a __lodash chain__, so you can use __any__ lodash method on it.
+
+Use `options` to configure how lowdb should persist data. Here are some examples:
 
 ```js
 // in-memory
