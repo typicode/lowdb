@@ -67,7 +67,7 @@ npm install lowdb@next lodash@4 --save
 A standalone UMD build is also available on [npmcdn](https://npmcdn.com/) for testing and quick prototyping:
 
 ```html
-<script src="http://npmcdn.com/lodash/dist/lodash.min.js"></script>
+<script src="https://npmcdn.com/lodash@4/lodash.min.js"></script>
 <script src="http://npmcdn.com/lowdb/dist/lowdb.min.js"></script>
 <script>
   var db = low('db')
