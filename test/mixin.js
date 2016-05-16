@@ -1,4 +1,5 @@
 const test = require('tape')
+const underscoreDB = require('underscore-db')
 const low = require('../src')
 
 test('mixin', t => {
@@ -14,6 +15,30 @@ test('mixin', t => {
     .value()
 
   t.same(db.getState().msg, [ 'hello world' ])
+
+  t.end()
+})
+
+test('underscore-db mixin', t => {
+  const db = low()
+  db.defaults({ posts: [] }).value()
+
+  db._.mixin(underscoreDB)
+  db._.id = '_id'
+
+  const posts = db.get('posts')
+
+  // Get _id value
+  const id = posts
+    .insert({ title: 'test' })
+    .value()
+    ._id
+
+  const post = db.get('posts')
+    .getById(id)
+    .value()
+
+  t.notEqual(post, undefined)
 
   t.end()
 })
