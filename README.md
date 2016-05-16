@@ -14,15 +14,11 @@ db.get('posts')
   .push({ id: 1, title: 'lowdb is awesome'})
   .value()
 
-db.get('posts')
-  .find({ id: 1 })
-  .value()
-
 db.set('user.name', 'typicode')
   .value()
 ```
 
-Data is __automatically__ saved to `db.json`.
+Data is __automatically__ saved to `db.json`
 
 ```json
 {
@@ -33,6 +29,14 @@ Data is __automatically__ saved to `db.json`.
     "name": "typicode"
   }
 }
+```
+
+And you can query it using lodash API
+
+```js
+db.get('posts')
+  .find({ id: 1 })
+  .value()
 ```
 
 Lowdb is perfect for CLIs, small servers, Electron apps and npm packages in general.
