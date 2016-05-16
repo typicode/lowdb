@@ -88,7 +88,7 @@ __low([source, [options])__
     * `deserialize` function, by default `JSON.parse`
   * `writeOnChange`boolean
 
-Creates a __lodash chain__, so you can use __any__ lodash method on it.
+Creates a __lodash chain__, you can use __any__ lodash method on it.
 
 Use `options` to configure how lowdb should persist data. Here are some examples:
 
@@ -144,9 +144,9 @@ Use whenever you want to access the database state.
 db.getState() // { posts: [ ... ] }
 ```
 
-__db.setState()__
+__db.setState(newState)__
 
-You can use it to drop database or replace it with a new object. New state will be automatically persisted.
+Use it to drop database or set a new state (database will be automatically persisted).
 
 ```js
 const newState = {}
@@ -209,7 +209,7 @@ db.get('posts')
   .value()
 ```
 
-Retrieve post titles.
+Get post titles.
 
 ```js
 db.get('posts')
@@ -232,8 +232,7 @@ db.get('posts').cloneDeep()
 Update a post.
 
 ```js
-db('posts')
-  .chain()
+db.get('posts')
   .find({ title: 'low!' })
   .assign({ title: 'hi!'})
   .value()
@@ -242,12 +241,14 @@ db('posts')
 Remove posts.
 
 ```js
-db.get('posts').remove({ title: 'low!' })
+db.get('posts')
+  .remove({ title: 'low!' })
+  .value()
 ```
 
 ### How to use id based resources
 
-Being able to retrieve data using an id can be quite useful, particularly in servers. To add id-based resources support to lowdb, you have 2 options.
+Being able to get data using an id can be quite useful, particularly in servers. To add id-based resources support to lowdb, you have 2 options.
 
 [underscore-db](https://github.com/typicode/underscore-db) provides a set of helpers for creating and manipulating id-based resources.
 
@@ -276,7 +277,7 @@ const post = db.get('posts').find({ id: postId }).value()
 ```js
 const myStorage = {
   read: (source, deserialize) => // must return an object or a Promise
-  write: (dest, obj, serialize) => // must return undefined or a Promise
+  write: (source, obj, serialize) => // must return undefined or a Promise
 }
 
 const myFormat = {
