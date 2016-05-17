@@ -64,7 +64,7 @@ __Important__ lowdb doesn't support Cluster.
 npm install lowdb@next lodash@4 --save
 ```
 
-A standalone UMD build is also available on [npmcdn](https://npmcdn.com/) for testing and quick prototyping:
+A UMD build is also available on [npmcdn](https://npmcdn.com/) for testing and quick prototyping:
 
 ```html
 <script src="https://npmcdn.com/lodash@4/lodash.min.js"></script>
