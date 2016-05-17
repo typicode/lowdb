@@ -2,11 +2,6 @@ const lodash = require('lodash')
 const isPromise = require('is-promise')
 const defaultStorage = require('./file-sync')
 
-// const defaultOptions = {
-//   storage: defaultStorage,
-//   writeOnChange: true
-// }
-
 function low (source, {
   storage = defaultStorage,
   format = null,
