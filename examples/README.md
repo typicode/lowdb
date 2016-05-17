@@ -5,11 +5,12 @@
 ```js
 // cli.js
 const low = require('lowdb')
-
 const db = low('db.json')
-const posts = db.get('posts', [])
 
-const result = posts
+db.defauls({ posts: [] })
+  .value()
+
+const result = db.get('posts')
   .push({ name: process.argv[2] })
   .value()
 
@@ -25,19 +26,20 @@ $ node cli.js hello
 
 ```js
 import low from 'lowdb'
-
 const db = low('db')
-const posts = db.get('posts', [])
+
+db.defauls({ posts: [] })
+  .value()
 
 // Data is automatically saved to localStorage
-posts
+db.get('posts')
   .push({ title: 'lowdb' })
   .value()
 ```
 
 ## Server
 
-Please __note__ that for local server with no concurrent requests, it's often easier to use lowdb with `file-sync` storage which is the default.
+Please __note__ that if you're developing a local server and don't expect to get concurrent requests, it's often easier to use `file-sync` storage, which is the default.
 
 But if you need to avoid blocking requests, you can do so by using `file-async` storage.
 
@@ -54,8 +56,12 @@ const db = low('db.json', {
   storage: fileAsync
 })
 
+// Init
+db.defauls({ posts: [] })
+  .value()
+
 // Define posts
-const posts = db.get('posts', [])
+const posts = db.get('posts')
 
 // Routes
 // GET /posts/:id
@@ -115,12 +121,15 @@ You can still persist data but you'll have to do it yourself. Here's an example:
 const fs = require('fs')
 const db = low()
 
-db.get('posts', [])
+db.defauls({ posts: [] })
+  .value()
+
+db.get('posts')
   .push({ title: 'lowdb' })
   .value()
 
 // Manual writing
-fs.writeFileSync('db.json', JSON.stringify(db.data()))
+fs.writeFileSync('db.json', JSON.stringify(db.getState()))
 ```
 
-In this case, you may want to consider creating a custom storage instead.
+In this case, it's recommended to create a custom storage.
