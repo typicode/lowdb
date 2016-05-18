@@ -1,7 +1,5 @@
 # Lowdb [![NPM version](https://badge.fury.io/js/lowdb.svg)](http://badge.fury.io/js/lowdb) [![Build Status](https://travis-ci.org/typicode/lowdb.svg?branch=master)](https://travis-ci.org/typicode/lowdb)
 
-__Work in progress__
-
 > A small local database for small projects :cat: (powered by lodash API)
 
 ```js
