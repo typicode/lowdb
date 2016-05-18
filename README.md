@@ -189,12 +189,14 @@ Check if posts exists.
 
 ```js
 db.has('posts')
+  .value()
 ```
 
 Set posts.
 
 ```js
-db.set('posts', []).value()
+db.set('posts', [])
+  .value()
 ```
 
 Sort the top five posts.
@@ -218,13 +220,17 @@ db.get('posts')
 Get the number of posts.
 
 ```js
-db.get('posts').size()
+db.get('posts')
+  .size()
+  .value()
 ```
 
 Make a deep clone of posts.
 
 ```js
-db.get('posts').cloneDeep()
+db.get('posts')
+  .cloneDeep()
+  .value()
 ```
 
 Update a post.
@@ -270,7 +276,7 @@ const post = db.get('posts').find({ id: postId }).value()
 
 ### How to use custom storage or format
 
-`low()` accepts custom storage or format. Simply create objects with `read/write` or `serialize/deserialize` methods. See `src/file-sync.js` code source for a full example.
+`low()` accepts custom storage or format. Simply create objects with `read/write` or `serialize/deserialize` methods. See `src/browser.js` code source for a full example.
 
 ```js
 const myStorage = {
