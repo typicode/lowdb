@@ -23,8 +23,8 @@
     "precommit": "npm test",
     "build": "npm run babel && npm run umd && npm run min",
     "babel": "babel src --out-dir lib --ignore dist.js",
-    "umd": "webpack src/index.js dist/lowdb.js --output-library low",
-    "min": "webpack -p src/index.js dist/lowdb.min.js --output-library low"
+    "umd": "webpack lib/index.js dist/lowdb.js --output-library low",
+    "min": "npm run umd -- -p"
   },
   "repository": {
     "type": "git",
@@ -65,8 +65,7 @@
     "node": ">= 0.12"
   },
   "browser": {
-    "lodash": false,
-    "./src/file-sync.js": "./src/browser.js",
+    "lodash": "./lib/shims/lodash",
     "./lib/file-sync.js": "./lib/browser.js"
   },
   "standard": {
