@@ -16,15 +16,15 @@
     "embed",
     "embeddable"
   ],
-  "main": "./lib",
+  "main": "./lib/index.node.js",
   "scripts": {
     "test": "babel-node test/all | tap-spec",
     "prepublish": "npm run build",
     "precommit": "npm test",
-    "build": "npm run babel && npm run umd && npm run min",
-    "babel": "babel src --out-dir lib --ignore dist.js",
-    "umd": "webpack lib/index.js dist/lowdb.js --output-library low",
-    "min": "npm run umd -- -p"
+    "build": "npm run babel && npm run browserify && npm run uglify",
+    "babel": "babel src --out-dir lib",
+    "browserify": "mkdir -p dist && browserify lib/index.browser.js -o dist/lowdb.js --standalone low",
+    "uglify": "uglifyjs dist/lowdb.js -o dist/lowdb.min.js"
   },
   "repository": {
     "type": "git",
@@ -51,6 +51,7 @@
     "babel-loader": "^6.2.2",
     "babel-preset-es2015": "^6.1.18",
     "babel-preset-stage-3": "^6.3.13",
+    "browserify": "^13.0.1",
     "husky": "^0.11.4",
     "lodash": "^4.12.0",
     "sinon": "^1.17.2",
@@ -58,6 +59,7 @@
     "tap-spec": "^4.1.1",
     "tape": "^4.2.2",
     "tempfile": "^1.1.1",
+    "uglify-js": "^2.6.2",
     "underscore-db": "^0.10.0",
     "webpack": "^1.12.13"
   },
@@ -65,8 +67,7 @@
     "node": ">= 0.12"
   },
   "browser": {
-    "lodash": "./lib/shims/lodash",
-    "./lib/file-sync.js": "./lib/browser.js"
+    "./lib/index.node.js": "./lib/index.browser.js"
   },
   "standard": {
     "parser": "babel-eslint"

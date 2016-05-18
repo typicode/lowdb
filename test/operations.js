@@ -1,5 +1,5 @@
 const test = require('tape')
-const low = require('../src')
+const low = require('../src/index.node')
 
 test('operations', t => {
   const db = low()

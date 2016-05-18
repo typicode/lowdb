@@ -1,12 +1,10 @@
-const lodash = require('lodash')
 const isPromise = require('is-promise')
-const defaultStorage = require('./file-sync')
 
-function low (source, {
-  storage = defaultStorage,
+module.exports = function (source, {
   format = null,
+  storage = null,
   writeOnChange = true
-} = {}) {
+} = {}, lodash) {
   // Create a fresh copy of lodash
   const _ = lodash.runInContext()
 
@@ -83,5 +81,3 @@ function low (source, {
     return db
   }
 }
-
-module.exports = low

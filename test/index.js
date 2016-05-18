@@ -1,6 +1,6 @@
 const test = require('tape')
 const sinon = require('sinon')
-const low = require('../src')
+const low = require('../src/index.node')
 
 const _test = (str, { source, read, write, promise, writeOnChange } = {}) => {
   test(str, async function (t) {

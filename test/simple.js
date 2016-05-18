@@ -2,7 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const test = require('tape')
 const tempfile = require('tempfile')
-const low = require('../src')
+const low = require('../src/index.node')
 
 test('write', (t) => {
   const filename = tempfile()
