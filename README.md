@@ -41,7 +41,12 @@ Lowdb is perfect for CLIs, small servers, Electron apps and npm packages in gene
 
 It supports __Node__, the __browser__ and uses __lodash API__, so it's very simple to learn. Actually... you may already know how to use lowdb :wink:
 
-[__Migrating from 0.12 to 0.13? See this guide.__](https://github.com/typicode/lowdb/releases/tag/v0.13.0-beta.4)
+* [Usage examples](https://github.com/typicode/lowdb/tree/master/examples)
+  * [CLI](https://github.com/typicode/lowdb/tree/master/examples#cli)
+  * [Browser](https://github.com/typicode/lowdb/tree/master/examples#browser)
+  * [Server](https://github.com/typicode/lowdb/tree/master/examples#server)
+  * [In-memory](https://github.com/typicode/lowdb/tree/master/examples#in-memory)
+* [__Migrating from 0.12 to 0.13? See this guide.__](https://github.com/typicode/lowdb/releases/tag/v0.13.0-beta.4)
 
 ## Why lowdb?
 
