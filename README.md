@@ -66,7 +66,7 @@ A UMD build is also available on [npmcdn](https://npmcdn.com/) for testing and q
 
 ```html
 <script src="https://npmcdn.com/lodash@4/lodash.min.js"></script>
-<script src="http://npmcdn.com/lowdb/dist/lowdb.min.js"></script>
+<script src="https://npmcdn.com/lowdb/dist/lowdb.min.js"></script>
 <script>
   var db = low('db')
 </script>
@@ -86,9 +86,9 @@ __low([source, [options])__
     * `deserialize` function, by default `JSON.parse`
   * `writeOnChange`boolean
 
-Creates a __lodash chain__, you can use __any__ lodash method on it.
+Creates a __lodash chain__, you can use __any__ lodash method on it. When `.value()` is called data is saved using `storage`.
 
-Use `options` to configure how lowdb should persist data. Here are some examples:
+You can use `options` to configure how lowdb should persist data. Here are some examples:
 
 ```js
 // in-memory
@@ -274,7 +274,7 @@ const postId = db.get('posts').push({ id: uuid(), title: 'low!' }).value().id
 const post = db.get('posts').find({ id: postId }).value()
 ```
 
-### How to use custom storage or format
+### How to use a custom storage or format
 
 `low()` accepts custom storage or format. Simply create objects with `read/write` or `serialize/deserialize` methods. See `src/browser.js` code source for a full example.
 
