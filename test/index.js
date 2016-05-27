@@ -1,61 +1,55 @@
 const test = require('tape')
 const sinon = require('sinon')
-const low = require('../src')
+const low = require('../src/index.node')
 
-const _test = (str, { source, read, write, promise, writeOnChange} = {}) => {
+const _test = (str, { source, read, write, promise, writeOnChange } = {}) => {
   test(str, async function (t) {
     try {
       let db
+      let count
+
       if (source) {
-        db = promise
-          ? await low(source, { storage: { read, write }}, writeOnChange)
-          : low(source, { storage: { read, write }}, writeOnChange)
+        if (writeOnChange) {
+          // Test that writeOnChange is true by default
+          db = promise
+            ? await low(source, { storage: { read, write }})
+            : low(source, { storage: { read, write }})
+        } else {
+          db = promise
+            ? await low(source, { storage: { read, write }, writeOnChange })
+            : low(source, { storage: { read, write }, writeOnChange })
+        }
+
       } else {
         db = low()
       }
 
-      let users = db('users')
+      db.defaults({
+        users: []
+      }).value()
+
+      let users = db.get('users')
 
       // db('').value() should always return a value (Fix #82)
       if (promise) t.deepEqual(users.value(), [])
 
-      // short syntax
-      let [ foo ] = promise
-        ? await users.push('foo')
-        : users.push('foo')
+      // Add user
+      let [ foo ] = users.push('foo').value()
 
       t.is(foo, 'foo')
-      t.is(users.value().length, 1)
+      t.is(users.value().length, 1, 'should add user')
 
       if (write) {
-        let count = writeOnChange ? 1 : 0
-        t.is(write.callCount, count)
+        count = writeOnChange ? 2 : 0
+        t.is(write.callCount, count, 'should auto write')
       }
 
-      // chain syntax
-      let chain = users.chain().push('bar')
-      let [, bar ] = promise
-        ? await chain.value()
-        : chain.value()
-
-      t.is(bar, 'bar')
-      t.is(users.value().length, 2)
-
       if (write) {
-        let count
+        db.setState({})
 
-        count = writeOnChange ? 2 : 0
-        t.is(write.callCount, count)
-
-        db.object = {}
-
-        // write
-        promise
-          ? await db.write()
-          : db.write()
-
-        count = writeOnChange ? 3 : 1
-        t.is(write.callCount, count)
+        // Should automatically write new state
+        count = writeOnChange ? 3 : 0
+        t.is(write.callCount, count, 'should auto write after setState()')
 
         // write dest
         promise
@@ -64,7 +58,7 @@ const _test = (str, { source, read, write, promise, writeOnChange} = {}) => {
 
         // get last write call
         let args = write.args.slice(-1)[0]
-        t.same(args, ['backup.json', {}, undefined])
+        t.same(args, ['backup.json', {}, undefined], 'should write to backup.json')
       }
 
       if (read) {
@@ -80,7 +74,7 @@ const _test = (str, { source, read, write, promise, writeOnChange} = {}) => {
           : db.read('backup.json')
 
         let args = read.args.slice(-1)[0]
-        t.same(args, ['backup.json', undefined])
+        t.same(args, ['backup.json', undefined], 'should read from backup.json')
       }
 
       t.end()

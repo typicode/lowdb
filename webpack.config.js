@@ -3,8 +3,10 @@ var pkg = require('./package.json')
 var banner = 'lowdb v' + pkg.version
 
 module.exports = {
+  entry: './src/index.js',
   output: {
     path: './dist',
+    library: 'low',
     libraryTarget: 'umd'
   },
   plugins: [

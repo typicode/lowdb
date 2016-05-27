@@ -1,18 +1,44 @@
 const test = require('tape')
-const low = require('../src')
+const underscoreDB = require('underscore-db')
+const low = require('../src/index.node')
 
 test('mixin', t => {
   const db = low()
-  db._.mixin({ hello: (array, word) => array.push('hello ' + word) })
 
-  // Test short syntax
-  db('msg').hello('world')
-  t.same(db.object.msg, [ 'hello world' ])
+  db._.mixin({
+    hello: (array, word) => array.push('hello ' + word)
+  })
 
-  // Test chaining
-  db.object.msg = []
-  db('msg').chain().hello('world').value()
-  t.same(db.object.msg, [ 'hello world' ])
+  db.set('msg', [])
+    .get('msg')
+    .hello('world')
+    .value()
+
+  t.same(db.getState().msg, [ 'hello world' ])
+
+  t.end()
+})
+
+test('underscore-db mixin', t => {
+  const db = low()
+  db.defaults({ posts: [] }).value()
+
+  db._.mixin(underscoreDB)
+  db._.id = '_id'
+
+  const posts = db.get('posts')
+
+  // Get _id value
+  const id = posts
+    .insert({ title: 'test' })
+    .value()
+    ._id
+
+  const post = db.get('posts')
+    .getById(id)
+    .value()
+
+  t.notEqual(post, undefined)
 
   t.end()
 })

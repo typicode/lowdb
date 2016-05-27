@@ -1,30 +1,30 @@
 {
   "name": "lowdb",
-  "version": "0.12.5",
-  "description": "JSON database for Node and the browser powered by lodash",
+  "version": "0.13.0-beta.4",
+  "description": "JSON database for Node and the browser powered by lodash API",
   "keywords": [
     "flat",
     "file",
     "local",
     "database",
+    "storage",
     "JSON",
     "lo-dash",
     "lodash",
     "underscore",
     "localStorage",
     "embed",
-    "embeddable",
-    "extendable"
+    "embeddable"
   ],
-  "main": ".",
+  "main": "./lib/index.node.js",
   "scripts": {
     "test": "babel-node test/all | tap-spec",
     "prepublish": "npm run build",
     "precommit": "npm test",
-    "build": "npm run babel && npm run umd && npm run min",
-    "babel": "babel src --out-dir . --ignore dist.js",
-    "umd": "webpack src/dist.js dist/lowdb.js --output-library low",
-    "min": "webpack -p src/dist.js dist/lowdb.min.js --output-library low"
+    "build": "npm run babel && npm run browserify && npm run uglify",
+    "babel": "babel src --out-dir lib",
+    "browserify": "mkdir -p dist && browserify lib/index.browser.js -o dist/lowdb.js --standalone low",
+    "uglify": "uglifyjs dist/lowdb.js -o dist/lowdb.min.js"
   },
   "repository": {
     "type": "git",
@@ -40,8 +40,10 @@
     "graceful-fs": "^4.1.3",
     "is-promise": "^2.1.0",
     "json-parse-helpfulerror": "^1.0.3",
-    "lodash": "^4.0.0",
     "steno": "^0.4.1"
+  },
+  "peerDependencies": {
+    "lodash": "4"
   },
   "devDependencies": {
     "babel-cli": "^6.2.0",
@@ -49,17 +51,23 @@
     "babel-loader": "^6.2.2",
     "babel-preset-es2015": "^6.1.18",
     "babel-preset-stage-3": "^6.3.13",
-    "husky": "^0.11.0",
+    "browserify": "^13.0.1",
+    "husky": "^0.11.4",
+    "lodash": "^4.12.0",
     "sinon": "^1.17.2",
     "standard": "^4.0.1",
     "tap-spec": "^4.1.1",
     "tape": "^4.2.2",
     "tempfile": "^1.1.1",
-    "underscore-db": "^0.9.0",
+    "uglify-js": "^2.6.2",
+    "underscore-db": "^0.10.0",
     "webpack": "^1.12.13"
   },
   "engines": {
     "node": ">= 0.12"
+  },
+  "browser": {
+    "./lib/index.node.js": "./lib/index.browser.js"
   },
   "standard": {
     "parser": "babel-eslint"
