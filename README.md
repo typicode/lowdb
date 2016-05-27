@@ -29,7 +29,7 @@ Data is __automatically__ saved to `db.json`
 }
 ```
 
-And you can query it using lodash API
+And you can query it using [lodash API](https://lodash.com/docs)
 
 ```js
 db.get('posts')
