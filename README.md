@@ -46,6 +46,7 @@ It supports __Node__, the __browser__ and uses __lodash API__, so it's very simp
   * [Browser](https://github.com/typicode/lowdb/tree/master/examples#browser)
   * [Server](https://github.com/typicode/lowdb/tree/master/examples#server)
   * [In-memory](https://github.com/typicode/lowdb/tree/master/examples#in-memory)
+* [JSFiddle live example](https://jsfiddle.net/typicode/4kd7xxbu/)
 * [__Migrating from 0.12 to 0.13? See this guide.__](https://github.com/typicode/lowdb/releases/tag/v0.13.0-beta.4)
 
 ## Why lowdb?
