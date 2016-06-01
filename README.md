@@ -38,9 +38,6 @@ db.get('posts')
   
 db.get('posts[0].title')
   .value()
-
-db.get('user.name')
-  .value()
 ```
 
 Lowdb is perfect for CLIs, small servers, Electron apps and npm packages in general.
