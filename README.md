@@ -35,9 +35,6 @@ And you can query it using [lodash API](https://lodash.com/docs)
 db.get('posts')
   .find({ id: 1 })
   .value()
-  
-db.get('posts[0].title')
-  .value()
 ```
 
 Lowdb is perfect for CLIs, small servers, Electron apps and npm packages in general.
@@ -208,6 +205,7 @@ db.set('posts', [])
   .value()
 ```
 
+
 Sort the top five posts.
 
 ```js
@@ -234,11 +232,10 @@ db.get('posts')
   .value()
 ```
 
-Make a deep clone of posts.
+Get the title of first post using a path.
 
 ```js
-db.get('posts')
-  .cloneDeep()
+db.get('posts[0].title')
   .value()
 ```
 
@@ -258,6 +255,15 @@ db.get('posts')
   .remove({ title: 'low!' })
   .value()
 ```
+
+Make a deep clone of posts.
+
+```js
+db.get('posts')
+  .cloneDeep()
+  .value()
+```
+
 
 ### How to use id based resources
 
