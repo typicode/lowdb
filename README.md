@@ -35,6 +35,12 @@ And you can query it using [lodash API](https://lodash.com/docs)
 db.get('posts')
   .find({ id: 1 })
   .value()
+  
+db.get('posts[0].title')
+  .value()
+
+db.get('user.name')
+  .value()
 ```
 
 Lowdb is perfect for CLIs, small servers, Electron apps and npm packages in general.
