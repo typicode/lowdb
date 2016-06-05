@@ -71,5 +71,9 @@
   },
   "standard": {
     "parser": "babel-eslint"
+  },
+  "typings": "./lowdb.d.ts",
+  "typescript": {
+    "definition": "./lowdb.d.ts"
   }
 }
