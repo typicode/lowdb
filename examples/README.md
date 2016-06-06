@@ -7,7 +7,7 @@
 const low = require('lowdb')
 const db = low('db.json')
 
-db.defauls({ posts: [] })
+db.defaults({ posts: [] })
   .value()
 
 const result = db.get('posts')
@@ -28,7 +28,7 @@ $ node cli.js hello
 import low from 'lowdb'
 const db = low('db')
 
-db.defauls({ posts: [] })
+db.defaults({ posts: [] })
   .value()
 
 // Data is automatically saved to localStorage
@@ -57,7 +57,7 @@ const db = low('db.json', {
 })
 
 // Init
-db.defauls({ posts: [] })
+db.defaults({ posts: [] })
   .value()
 
 // Define posts
@@ -121,7 +121,7 @@ You can still persist data but you'll have to do it yourself. Here's an example:
 const fs = require('fs')
 const db = low()
 
-db.defauls({ posts: [] })
+db.defaults({ posts: [] })
   .value()
 
 db.get('posts')
