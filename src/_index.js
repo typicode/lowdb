@@ -38,7 +38,6 @@ module.exports = function (source, {
     }
 
     if (format) {
-      const { format } = options
       db.serialize = format.serialize
       db.deserialize = format.deserialize
     }
