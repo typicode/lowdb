@@ -300,10 +300,8 @@ const myStorage = {
 }
 
 const myFormat = {
-  format: {
-    serialize: (obj) => // must return data (usually string)
-    deserialize: (data) => // must return an object
-  }
+  serialize: (obj) => // must return data (usually string)
+  deserialize: (data) => // must return an object
 }
 
 low(source, {
