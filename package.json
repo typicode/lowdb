@@ -18,7 +18,7 @@
   ],
   "main": "./lib/index.node.js",
   "scripts": {
-    "test": "babel-node test/all | tap-spec",
+    "test": "tape -r babel-register -r babel-polyfill test/*.js | tap-spec",
     "prepublish": "npm run build",
     "precommit": "npm test",
     "build": "npm run babel && npm run browserify && npm run uglify",

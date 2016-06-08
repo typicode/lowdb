@@ -11,6 +11,15 @@ module.exports = function (source, {
   const db = _.chain({})
 
   if (source) {
+    if (format) {
+      if (format.serialize) {
+        db.serialize = format.serialize
+      }
+      if (format.deserialize) {
+        db.deserialize = format.deserialize
+      }
+    }
+
     if (storage) {
       if (storage.read) {
         db.read = (s = source) => {
@@ -36,11 +45,6 @@ module.exports = function (source, {
         db.write = (dest = source) => storage.write(dest, db.__wrapped__, db.serialize)
       }
     }
-
-    if (format) {
-      db.serialize = format.serialize
-      db.deserialize = format.deserialize
-    }
   }
 
   // Persist database state
@@ -50,7 +54,7 @@ module.exports = function (source, {
 
       if (str !== db._checksum) {
         db._checksum = str
-        db.write(db.source, db.__wrapped__)
+        db.write(db.source)
       }
     }
   }
