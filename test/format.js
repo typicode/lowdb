@@ -19,7 +19,7 @@ test('format', (t) => {
     .push({ title: 'foo' })
     .value()
 
-  t.ok(format.serialize.calledOnce, 'serialize should be called')
+  t.ok(format.serialize.called, 'serialize should be called')
   t.ok(format.deserialize.calledOnce, 'deserialize should be called')
 
   t.end()
