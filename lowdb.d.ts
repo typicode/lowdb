@@ -523,8 +523,9 @@ interface Low extends LoDashWrapper, Format {
 
 interface LowFactory {
   new (source?: string, opts?: Options): Low;
+  (source?: string, opts?: Options) : Low;
 }
+//declare function LowFactory (source?: string, opts?: Options): Low;
+declare var lowFactory: LowFactory;
 
-declare var low: LowFactory;
-
-export = low
+export = lowFactory;
