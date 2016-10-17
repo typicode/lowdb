@@ -1,4 +1,4 @@
-declare namespace LowDB {
+declare namespace Lowdb {
   interface PromiseLike<T> {
     /**
     * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -528,5 +528,5 @@ declare namespace LowDB {
   }
 }
 
-declare var LowDB: LowDB.LowFactory;
-export = LowDB;
+declare var Lowdb: Lowdb.LowFactory;
+export = Lowdb;
