@@ -9,6 +9,9 @@ module.exports = {
     library: 'low',
     libraryTarget: 'umd'
   },
+  externals: {
+    'lodash': '_'
+  },
   plugins: [
     new webpack.BannerPlugin(banner)
   ],
