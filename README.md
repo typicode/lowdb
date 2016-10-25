@@ -66,7 +66,12 @@ __Important__ lowdb doesn't support Cluster.
 
 ```sh
 npm install lowdb --save
-yarn add lowdb # if you prefer to use yarn
+```
+
+Alternatively, if you're using [yarn](https://yarnpkg.com/)
+
+```sh
+yarn add lowdb
 ```
 
 A UMD build is also available on [unpkg](https://unpkg.com/) for testing and quick prototyping:
