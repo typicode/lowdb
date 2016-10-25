@@ -1,6 +1,8 @@
 # Lowdb [![NPM version](https://badge.fury.io/js/lowdb.svg)](http://badge.fury.io/js/lowdb) [![Build Status](https://travis-ci.org/typicode/lowdb.svg?branch=master)](https://travis-ci.org/typicode/lowdb)
 
-> A small local database for small projects :cat: (powered by lodash API)
+> A small local database powered by lodash API.
+
+Used by [json-server](https://github.com/typicode/json-server) and [more than 60 awesome projects on npm](https://www.npmjs.com/browse/depended/lowdb).
 
 ```js
 const db = low('db.json')
