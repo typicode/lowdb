@@ -2,7 +2,7 @@
 
 > A small local database powered by lodash API
 
-Used by [json-server](https://github.com/typicode/json-server) and [more than 60 awesome projects on npm](https://www.npmjs.com/browse/depended/lowdb).
+Used by [json-server](https://github.com/typicode/json-server) and [more than 70 awesome projects on npm](https://www.npmjs.com/browse/depended/lowdb).
 
 ```js
 const db = low('db.json')
