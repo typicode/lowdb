@@ -7,24 +7,27 @@ Used by [json-server](https://github.com/typicode/json-server) and [more than 70
 ```js
 const db = low('db.json')
 
-db.defaults({ user: {}, posts: [] })
-  .write()
+const posts = db
+  .defaults({ posts: [] })
+  .get('posts')
 
-db.set('user.name', 'typicode')
-  .write()
-
-const posts = db.get('posts')
-
-posts
+const result = posts
   .push({ id: 1, title: 'lowdb is awesome'})
   .write()
   
-posts
-   .find({ id: 1 })
+const post = posts
+  .find({ id: 1 })
   .value()
 ```
 
-Data is saved to `db.json`
+You can use any lodash method like `_.set` and `.get` with shorthand syntax.
+
+```js
+db.set('user.name', 'typicode')
+db.get('user.name') // typicode
+```
+
+Data is automatically saved to `db.json`
 
 ```json
 {
