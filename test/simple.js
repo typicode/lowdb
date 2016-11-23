@@ -13,7 +13,7 @@ test('write', (t) => {
 
   db.get('foo')
     .push(1)
-    .value()
+    .write()
 
   const actual = JSON.parse(fs.readFileSync(filename))
   t.same(actual, { foo: [1] })

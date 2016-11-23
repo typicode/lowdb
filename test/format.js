@@ -17,7 +17,7 @@ test('format', (t) => {
   db.defaults({ posts: [] })
     .get('posts')
     .push({ title: 'foo' })
-    .value()
+    .write()
 
   t.ok(format.serialize.calledOnce, 'serialize should be called')
   t.ok(format.deserialize.calledOnce, 'deserialize should be called')

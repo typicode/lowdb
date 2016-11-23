@@ -1,86 +1,58 @@
 const isPromise = require('is-promise')
+const memory = require('./memory')
 
-module.exports = function (source, {
-  format = null,
-  storage = null,
-  writeOnChange = true
-} = {}, lodash) {
+function plant(db, obj) {
+  db.__wrapped__ = obj
+  return db
+}
+
+module.exports = function (source, opts = {}, lodash) {
   // Create a fresh copy of lodash
   const _ = lodash.runInContext()
 
   const db = _.chain({})
 
-  if (source) {
-    if (format) {
-      if (format.serialize) {
-        db.serialize = format.serialize
-      }
-      if (format.deserialize) {
-        db.deserialize = format.deserialize
-      }
+  // assign format.serialize and format.deserialize if present
+  _.assign(db, opts.format)
+
+  // Set storage
+  // In-memory if no source is provided
+  const storage = source
+    ? _.defaults({}, opts.storage, memory)
+    : _.defaults({}, memory)
+
+  db.read = (s = source) => {
+    const r = storage.read(s, db.deserialize)
+    if (isPromise(r)) {
+      return r.then(obj => plant(db, obj))
     }
-
-    if (storage) {
-      if (storage.read) {
-        db.read = (s = source) => {
-          const res = storage.read(s, db.deserialize)
-          const init = (obj) => {
-            db.__wrapped__ = obj
-            db._checksum = JSON.stringify(db.__wrapped__)
-          }
-
-          if (isPromise(res)) {
-            return res.then((obj) => {
-              init(obj)
-              return db
-            })
-          }
-
-          init(res)
-          return db
-        }
-      }
-
-      if (storage.write) {
-        db.write = (dest = source) => storage.write(dest, db.__wrapped__, db.serialize)
-      }
-    }
+    return plant(db, r)
   }
 
-  // Persist database state
-  function persist() {
-    if (db.source && db.write && writeOnChange) {
-      const str = JSON.stringify(db.__wrapped__)
+  // Add write function to call save before returning result
+  _.prototype.write = _.wrap(_.prototype.value, function (func, dest = source) {
+    const funcRes = func.apply(this)
 
-      if (str !== db._checksum) {
-        db._checksum = str
-        db.write(db.source)
-      }
+    const p = storage.write(dest, db.value(), db.serialize)
+    if (isPromise(p)) {
+      return p.then(() => funcRes)
     }
-  }
 
-  // Modify value function to call save before returning result
-  _.prototype.value = _.wrap(_.prototype.value, function (value) {
-    const v = value.apply(this)
-    persist()
-    return v
+    return funcRes
   })
 
 
   // Get or set database state
-  db.getState = () => db.__wrapped__
-  db.setState = (state) => {
-    db.__wrapped__ = state
-    persist()
+  db.getState = db.value
+  db.setState = async (state) => {
+    plant(db, state)
+    await db.write()
   }
 
   db._ = _
   db.source = source
 
   // Read
-  if (db.read) {
-    return db.read()
-  } else {
-    return db
-  }
+  db.read()
+  return db
 }

@@ -12,7 +12,7 @@ test('mixin', t => {
   db.set('msg', [])
     .get('msg')
     .hello('world')
-    .value()
+    .write()
 
   t.same(db.getState().msg, [ 'hello world' ])
 
@@ -31,7 +31,7 @@ test('underscore-db mixin', t => {
   // Get _id value
   const id = posts
     .insert({ title: 'test' })
-    .value()
+    .write()
     ._id
 
   const post = db.get('posts')

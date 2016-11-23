@@ -5,12 +5,10 @@ test('operations', t => {
   const db = low()
 
   // Defaults
-  db.defaults({
-    foo: []
-  }).value()
+  db.defaults({ foo: [] }).write()
 
   // Create
-  db.get('foo').push({ a: 1 }).value()
+  db.get('foo').push({ a: 1 }).write()
   t.equal(db.get('foo').size().value(), 1)
   t.same(db.getState(), { foo: [{ a: 1 }]})
 
@@ -22,7 +20,7 @@ test('operations', t => {
   db.get('foo')
     .find({ a: 1 })
     .assign({ a: 2 })
-    .value()
+    .write()
 
   t.true(
     !db.get('foo')
@@ -32,7 +30,7 @@ test('operations', t => {
   )
 
   // Delete
-  db.get('foo').remove({ a: 2 }).value()
+  db.get('foo').remove({ a: 2 }).write()
   t.true(db.get('foo').isEmpty())
 
   t.end()
@@ -41,11 +39,9 @@ test('operations', t => {
 test('Issue #89', t => {
   const db = low()
 
-  db.defaults({
-    foo: []
-  }).value()
+  db.defaults({ foo: [] }).write()
 
-  db.get('foo').push({ id: 1, value: 1}).value()
+  db.get('foo').push({ id: 1, value: 1}).write()
 
   t.equal(db.get('foo').find({ id: 1 }).value().value, 1)
   t.deepEqual(db.get('foo').find({ id: 1 }).value(), { id: 1, value: 1})
