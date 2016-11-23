@@ -11,7 +11,7 @@ const posts = db
   .defaults({ posts: [] })
   .get('posts')
 
-const result = posts
+posts
   .push({ id: 1, title: 'lowdb is awesome'})
   .write()
   
