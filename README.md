@@ -15,9 +15,9 @@ posts
   .push({ id: 1, title: 'lowdb is awesome'})
   .write()
   
-const post = posts
+posts
   .find({ id: 1 })
-  .value()
+  .value() // { id: 1, title: 'lowdb is awesome'}
 ```
 
 You can use any lodash method like `_.set` and `.get` with shorthand syntax.
