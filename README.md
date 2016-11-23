@@ -13,7 +13,7 @@ const posts = db
 
 const result = posts
   .push({ id: 1, title: 'lowdb is awesome'})
-  .save()
+  .write()
   
 const post = posts
   .find({ id: 1 })
