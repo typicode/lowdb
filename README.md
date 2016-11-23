@@ -7,18 +7,24 @@ Used by [json-server](https://github.com/typicode/json-server) and [more than 70
 ```js
 const db = low('db.json')
 
-db.defaults({ posts: [], user: {} })
-  .value()
-
-db.get('posts')
-  .push({ id: 1, title: 'lowdb is awesome'})
-  .value()
+db.defaults({ user: {}, posts: [] })
+  .write()
 
 db.set('user.name', 'typicode')
+  .write()
+
+const posts = db.get('posts')
+
+posts
+  .push({ id: 1, title: 'lowdb is awesome'})
+  .write()
+  
+posts
+   .find({ id: 1 })
   .value()
 ```
 
-Data is __automatically__ saved to `db.json`
+Data is saved to `db.json`
 
 ```json
 {
@@ -32,12 +38,6 @@ Data is __automatically__ saved to `db.json`
 ```
 
 And you can query it using [lodash API](https://lodash.com/docs)
-
-```js
-db.get('posts')
-  .find({ id: 1 })
-  .value()
-```
 
 Lowdb is perfect for CLIs, small servers, Electron apps and npm packages in general.
 
