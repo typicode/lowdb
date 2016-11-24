@@ -23,10 +23,10 @@ module.exports = function (source, opts = {}, lodash) {
 
   db.read = (s = source) => {
     const r = storage.read(s, db.deserialize)
-    if (isPromise(r)) {
-      return r.then(obj => plant(db, obj))
-    }
-    return plant(db, r)
+    
+    return isPromise(r)
+      ? r.then(obj => plant(db, obj))
+      : plant(db, r)
   }
 
   // Add write function to call save before returning result
@@ -34,11 +34,9 @@ module.exports = function (source, opts = {}, lodash) {
     const funcRes = func.apply(this)
 
     const p = storage.write(dest, db.value(), db.serialize)
-    if (isPromise(p)) {
-      return p.then(() => funcRes)
-    }
-
-    return funcRes
+    return isPromise(p)
+      ? p.then(() => funcRes)
+      : funcRes
   })
 
 
