@@ -1,5 +1,5 @@
 const fs = require('graceful-fs')
-const { parse, stringify } = require('./json')
+const { parse, stringify } = require('./_json')
 
 module.exports = {
   read: (source, deserialize = parse) => {

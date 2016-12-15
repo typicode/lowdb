@@ -1,5 +1,5 @@
 const isPromise = require('is-promise')
-const memory = require('./memory')
+const memory = require('./storages/memory')
 
 function plant(db, obj) {
   db.__wrapped__ = obj
@@ -8,7 +8,10 @@ function plant(db, obj) {
 
 module.exports = function (source, opts = {}, lodash) {
   // Create a fresh copy of lodash
-  const _ = lodash.runInContext()
+  // lodash core doesn't have runInContext
+  const _ = lodash.runInContext
+    ? lodash.runInContext()
+    : lodash
 
   const db = _.chain({})
 

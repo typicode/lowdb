@@ -1,5 +1,5 @@
 const steno = require('steno')
-const { stringify } = require('./json')
+const { stringify } = require('./_json')
 
 module.exports = {
   read: require('./file-sync').read,
