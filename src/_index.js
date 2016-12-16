@@ -26,7 +26,7 @@ module.exports = function (source, {
           const res = storage.read(s, db.deserialize)
           const init = (obj) => {
             db.__wrapped__ = obj
-            db._checksum = JSON.stringify(db.__wrapped__)
+            db._checksum = (db.serialize || JSON.stringify)(db.__wrapped__)
           }
 
           if (isPromise(res)) {
@@ -50,7 +50,7 @@ module.exports = function (source, {
   // Persist database state
   function persist() {
     if (db.source && db.write && writeOnChange) {
-      const str = JSON.stringify(db.__wrapped__)
+      const str = (db.serialize || JSON.stringify)(db.__wrapped__)
 
       if (str !== db._checksum) {
         db._checksum = str
