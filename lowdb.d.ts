@@ -525,6 +525,7 @@ interface LowFactory {
   new (source?: string, opts?: Options): Low;
 }
 
-declare var low: LowFactory;
+declare var lowFactory: LowFactory;
 
-export = low
+export { Low }
+export { lowFactory as LowFactory}
