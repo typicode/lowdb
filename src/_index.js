@@ -26,7 +26,7 @@ module.exports = function (source, opts = {}, lodash) {
 
   db.read = (s = source) => {
     const r = storage.read(s, db.deserialize)
-    
+
     return isPromise(r)
       ? r.then(obj => plant(db, obj))
       : plant(db, r)

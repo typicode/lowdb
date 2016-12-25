@@ -14,7 +14,7 @@ const posts = db
 posts
   .push({ id: 1, title: 'lowdb is awesome'})
   .write()
-  
+
 posts
   .find({ id: 1 })
   .value() // { id: 1, title: 'lowdb is awesome'}
