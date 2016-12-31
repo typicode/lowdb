@@ -13,12 +13,16 @@ function plant(db, obj) {
 }
 
 module.exports = function (source, opts = {}) {
-  const db = (path, defaultValue) => (...funcs) => {
-    const value = get(db.getState(), path, defaultValue)
-    const result = flow(funcs)(value)
+  const db = (path, defaultValue) => {
+    function value(...funcs) {
+      const result = get(db.getState(), path, defaultValue)
+      return flow(...funcs)(result)
+    }
 
-    if (result !== value) {
+    value.write = (...funcs) => {
+      const result = value(...funcs)
       set(db.getState(), path, result)
+
       const w = db.write()
 
       return isPromise(w)
@@ -26,7 +30,7 @@ module.exports = function (source, opts = {}) {
         : result
     }
 
-    return result
+    return value
   }
 
   // assign format.serialize and format.deserialize if present

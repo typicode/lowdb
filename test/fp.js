@@ -6,7 +6,7 @@ const defaults = require('lodash/fp/defaults')
 const get = require('lodash/fp/get')
 const concat = require('lodash/fp/concat')
 const set = require('lodash/fp/set')
-const low = require('../src/fp')
+const low = require('../src/fp.node')
 
 test('fp', (t) => {
   const filename = tempfile()
@@ -14,12 +14,13 @@ test('fp', (t) => {
 
   const posts = db('posts', [])
 
-  posts(concat(1))
+  t.same(posts(concat(1)), [ 1 ], 'should return a new array')
+  t.same(db.getState(), {}, 'shouldn\'t change state')
 
-  t.same(posts(), [ 1 ])
-  t.same(db.getState(), { posts: [ 1 ] })
+  posts.write(concat(1))
+  t.same(db.getState(), { posts: [ 1 ] }, 'should change state')
 
-  // const actual = JSON.parse(fs.readFileSync(filename))
-  // t.same(actual, { foo: [1] })
+  const actual = JSON.parse(fs.readFileSync(filename))
+  t.same(actual, { posts: [ 1 ] })
   t.end()
 })
