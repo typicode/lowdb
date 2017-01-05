@@ -54,6 +54,7 @@
     "browserify": "^13.0.1",
     "husky": "^0.12.0",
     "lodash": "^4.12.0",
+    "ramda": "^0.23.0",
     "sinon": "^1.17.2",
     "standard": "^8.5.0",
     "tap-spec": "^4.1.1",
