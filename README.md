@@ -98,7 +98,7 @@ __low([source, [options])__
   * `format` object
     * `serialize` function, by default `JSON.stringify`
     * `deserialize` function, by default `JSON.parse`
-  * `writeOnChange`boolean
+  * `writeOnChange`boolean, by default `true`
 
 Creates a __lodash chain__, you can use __any__ lodash method on it. When `.value()` is called data is saved using `storage`.
 
