@@ -14,9 +14,9 @@ function plant(db, obj) {
 
 module.exports = function (source, opts = {}) {
   const db = (path, defaultValue) => {
-    function value(...funcs) {
+    function value(funcs) {
       const result = get(db.getState(), path, defaultValue)
-      return flow(...funcs)(result)
+      return flow(funcs)(result)
     }
 
     value.write = (...funcs) => {
