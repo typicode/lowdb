@@ -2,45 +2,37 @@
 
 > A small local database powered by lodash API
 
-Used by [json-server](https://github.com/typicode/json-server) and [more than 70 awesome projects on npm](https://www.npmjs.com/package/lowdb).
+Used by [json-server](https://github.com/typicode/json-server) and [more than 80 awesome projects on npm](https://www.npmjs.com/package/lowdb).
 
 ```js
+const low = require('lowdb')
 const db = low('db.json')
 
-const posts = db
-  .defaults({ posts: [] })
-  .get('posts')
-
-posts
-  .push({ id: 1, title: 'lowdb is awesome'})
+db.defaults({ posts: [] })
   .write()
 
-posts
-  .find({ id: 1 })
-  .value() // { id: 1, title: 'lowdb is awesome'}
+db.get('posts')
+  .push({ id: 1, title: 'lowdb is awesome'})
+  .write()
 ```
 
-You can use any lodash method like `_.set` and `.get` with shorthand syntax.
-
-```js
-db.set('user.name', 'typicode')
-db.get('user.name') // typicode
-```
-
-Data is automatically saved to `db.json`
+Data is saved to `db.json`
 
 ```json
 {
   "posts": [
-    { "id": 1, "title": "lowdb is awesome"}
-  ],
-  "user": {
-    "name": "typicode"
-  }
+    { "title": "lowdb is awesome"}
+  ]
 }
 ```
 
-And you can query it using [lodash API](https://lodash.com/docs)
+You can use any [lodash](https://lodash.com/docs) function like `_.get` and `_.find` with shorthand syntax.
+
+```js
+db.get('posts')
+  .find({ id: 1 })
+  .value()
+```
 
 Lowdb is perfect for CLIs, small servers, Electron apps and npm packages in general.
 
@@ -101,7 +93,6 @@ __low([source, [options])__
   * `format` object
     * `serialize` function, by default `JSON.stringify`
     * `deserialize` function, by default `JSON.parse`
-  * `writeOnChange`boolean
 
 Creates a __lodash chain__, you can use __any__ lodash method on it. When `.value()` is called data is saved using `storage`.
 
@@ -213,7 +204,7 @@ Set posts.
 
 ```js
 db.set('posts', [])
-  .value()
+  .write()
 ```
 
 
@@ -256,7 +247,7 @@ Update a post.
 db.get('posts')
   .find({ title: 'low!' })
   .assign({ title: 'hi!'})
-  .value()
+  .write()
 ```
 
 Remove posts.
@@ -264,7 +255,7 @@ Remove posts.
 ```js
 db.get('posts')
   .remove({ title: 'low!' })
-  .value()
+  .write()
 ```
 
 Make a deep clone of posts.
@@ -287,7 +278,7 @@ const db = low('db.json')
 
 db._.mixin(require('underscore-db'))
 
-const postId = db.get('posts').insert({ title: 'low!' }).value().id
+const postId = db.get('posts').insert({ title: 'low!' }).write().id
 const post = db.get('posts').getById(postId).value()
 ```
 
@@ -296,7 +287,7 @@ const post = db.get('posts').getById(postId).value()
 ```js
 const uuid = require('uuid')
 
-const postId = db.get('posts').push({ id: uuid(), title: 'low!' }).value().id
+const postId = db.get('posts').push({ id: uuid(), title: 'low!' }).write().id
 const post = db.get('posts').find({ id: postId }).value()
 ```
 

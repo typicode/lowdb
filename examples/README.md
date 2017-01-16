@@ -12,7 +12,7 @@ db.defaults({ posts: [] })
 
 const result = db.get('posts')
   .push({ name: process.argv[2] })
-  .value()
+  .write()
 
 console.log(result)
 ```
@@ -29,12 +29,12 @@ import low from 'lowdb'
 const db = low('db')
 
 db.defaults({ posts: [] })
-  .value()
+  .write()
 
 // Data is automatically saved to localStorage
 db.get('posts')
   .push({ title: 'lowdb' })
-  .value()
+  .write()
 ```
 
 ## Server
@@ -56,60 +56,44 @@ const db = low('db.json', {
   storage: fileAsync
 })
 
-// Init
-db.defaults({ posts: [] })
-  .value()
-
-// Define posts
-const posts = db.get('posts')
-
 // Routes
 // GET /posts/:id
 app.get('/posts/:id', (req, res) => {
-  const post = posts
+  db.get('posts')
     .find({ id: req.params.id })
-    .value()
-
-  res.send(post)
+    .write()
+    .then(post => res.send(post))
 })
 
 // POST /posts
 app.post('/posts', (req, res) => {
-  // Some basic id generation, use uuid ideally
-  req.body.id = Date.now()
-
-  // post will be created asynchronously in the background
-  const post = posts
+  db.get('posts')
     .push(req.body)
     .last()
-    .value()
+    .assign({ id: Date.now() })
+    .write()
+    .then(post => res.send(post))
+})
+
+// Init
+db.defaults({ posts: [] })
+  .write()
+  .then(() => {
+    app.listen(3000, () => console.log('Server is listening')
+  })
+```
+
+Using ES7 `async/await` and [Babel](https://babeljs.io/), you can write:
+
+```js
+app.get('/posts/:id', async (req, res) => {
+  const post = await db.get('posts')
+    .find({ id: req.params.id })
+    .write()
 
   res.send(post)
 })
 
-app.listen(3000, () => console.log('Server is listening'))
-```
-
-In the example above, data is written asynchronously in the background. If you want to send the response only after it has been written, set `writeOnChange` to `false` and call `db.write()` manually.
-
-```js
-const db = low('db.json', {
-  storage: fileAsync,
-  writeOnChange: false
-})
-
-//...
-app.post('/posts', (req, res) => {
-  const post = posts
-    .push(req.body)
-    .last()
-    .value()
-
-  db.write()
-    .then(() => res.send(post))
-})
-// ...
-```
 
 ## In-memory
 
@@ -122,11 +106,11 @@ const fs = require('fs')
 const db = low()
 
 db.defaults({ posts: [] })
-  .value()
+  .write()
 
 db.get('posts')
   .push({ title: 'lowdb' })
-  .value()
+  .write()
 
 // Manual writing
 fs.writeFileSync('db.json', JSON.stringify(db.getState()))
