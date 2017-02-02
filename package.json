@@ -67,7 +67,7 @@
     "node": ">= 0.12"
   },
   "browser": {
-    "./lib/index.node.js": "./lib/index.browser.js"
+    "./lib/storages/file-sync.js": "./lib/storages/browser.js"
   },
   "standard": {
     "parser": "babel-eslint"

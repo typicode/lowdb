@@ -1,6 +1,6 @@
 const test = require('tape')
 const sinon = require('sinon')
-const low = require('../src/index.node')
+const low = require('../src/main')
 
 const _test = (str, { source, read, write } = {}) => {
   test(str, async function (t) {
@@ -9,7 +9,7 @@ const _test = (str, { source, read, write } = {}) => {
       let count = 0
 
       if (source) {
-        db = await low(source, { storage: { read, write }})
+        db = await low(source, { storage: { read, write } })
       } else {
         db = low()
       }
@@ -45,7 +45,7 @@ const _test = (str, { source, read, write } = {}) => {
         t.same(args, ['backup.json', {}, undefined], 'should write to backup.json')
 
         // assert write result
-        t.same(writeValue, db.value(), 'should return db.value')
+        t.same(writeValue, db.getState(), 'should return db.getState()')
       }
 
       if (read) {
@@ -78,7 +78,7 @@ _test('sync', {
 _test('promises', {
   source: 'db.json',
   read: sinon.spy(() => Promise.resolve({})),
-  write: sinon.spy(() => Promise.resolve()),
+  write: sinon.spy(() => Promise.resolve())
 })
 
 _test('read-only', {

@@ -1,6 +1,6 @@
 const test = require('tape')
 const underscoreDB = require('underscore-db')
-const low = require('../src/index.node')
+const low = require('../src/main')
 
 test('mixin', t => {
   const db = low()

@@ -1,9 +1,8 @@
 const fs = require('fs')
-const path = require('path')
 const test = require('tape')
 const sinon = require('sinon')
 const tempfile = require('tempfile')
-const low = require('../src/index.node')
+const low = require('../src/main')
 
 test('format', (t) => {
   const filename = tempfile()

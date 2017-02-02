@@ -1,5 +1,5 @@
 const test = require('tape')
-const low = require('../src/index.node')
+const low = require('../src/main')
 
 test('operations', t => {
   const db = low()
@@ -10,7 +10,7 @@ test('operations', t => {
   // Create
   db.get('foo').push({ a: 1 }).write()
   t.equal(db.get('foo').size().value(), 1)
-  t.same(db.getState(), { foo: [{ a: 1 }]})
+  t.same(db.getState(), { foo: [{ a: 1 }] })
 
   // Read
   t.same(db.get('foo').find({ a: 1 }).value(), { a: 1 })
@@ -41,10 +41,10 @@ test('Issue #89', t => {
 
   db.defaults({ foo: [] }).write()
 
-  db.get('foo').push({ id: 1, value: 1}).write()
+  db.get('foo').push({ id: 1, value: 1 }).write()
 
   t.equal(db.get('foo').find({ id: 1 }).value().value, 1)
-  t.deepEqual(db.get('foo').find({ id: 1 }).value(), { id: 1, value: 1})
+  t.deepEqual(db.get('foo').find({ id: 1 }).value(), { id: 1, value: 1 })
 
   t.end()
 })
