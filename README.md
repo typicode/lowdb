@@ -161,7 +161,7 @@ db.setState(newState)
 
 __db.write([source])__
 
-Persists database using `storage.write` option. Depending on the storage, it may return a promise (for example, with `file-async').
+Persists database using `storage.write` option. Depending on the storage, it may return a promise (for example, with `file-async`).
 
 By default, lowdb automatically calls it when database changes.
 
