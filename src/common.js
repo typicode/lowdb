@@ -1,5 +1,3 @@
-const assign = require('lodash/assign')
-const defaults = require('lodash/defaults')
 const isPromise = require('is-promise')
 const memory = require('./storages/memory')
 const defaultStorage = require('./storages/file-sync')
@@ -10,13 +8,13 @@ const init = (db, key, source, opts) => {
   db.source = source
 
   // assign format.serialize and format.deserialize if present
-  assign(db, opts.format)
+  db = { ...db, ...opts.format }
 
   // Set storage
   // In-memory if no source is provided
   db.storage = db.source
-    ? defaults({}, opts.storage, memory)
-    : defaults({}, memory)
+    ? { ...opts.storage, ...memory }
+    : { ...memory }
 
   db.read = (s = source) => {
     const r = db.storage.read(s, db.deserialize)

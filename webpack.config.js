@@ -3,21 +3,24 @@ var pkg = require('./package.json')
 var banner = 'lowdb v' + pkg.version
 
 module.exports = {
-  entry: './src/index.js',
+  entry: './src/main.js',
   output: {
     path: './dist',
+    filename: 'lowdb.js',
     library: 'low',
-    libraryTarget: 'umd'
+    libraryTarget: 'var'
   },
   externals: {
-    'lodash': '_'
+    lodash: {
+      root: "_" // indicates global variable
+    }
   },
   plugins: [
     new webpack.BannerPlugin(banner)
   ],
   module: {
     loaders: [
-      { test: /\.js$/, exclude: /node_modules/, loader: 'babel' }
+      { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' }
     ]
   }
 }
