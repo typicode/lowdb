@@ -1,11 +1,11 @@
 /* global localStorage */
 const test = require('tape')
-const browser = require('../src/browser')
+const browser = require('../../src/storages/browser')
 
 // Mock
 global.localStorage = {
   store: [],
-  setItem: (key, value) => localStorage.store[key] = value,
+  setItem: (key, value) => { localStorage.store[key] = value },
   getItem: (key) => localStorage.store[key]
 }
 

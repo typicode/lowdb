@@ -2,23 +2,26 @@
 
 > A small local database powered by lodash API
 
-Used by [json-server](https://github.com/typicode/json-server) and [more than 80 awesome projects on npm](https://www.npmjs.com/package/lowdb).
+Used by [json-server](https://github.com/typicode/json-server) and [more than 90 awesome projects on npm](https://www.npmjs.com/package/lowdb).
 
 ```js
 const db = low('db.json')
 
+// Set some defaults if your JSON file is empty
 db.defaults({ posts: [], user: {} })
-  .value()
+  .write()
 
+// Add a post
 db.get('posts')
   .push({ id: 1, title: 'lowdb is awesome'})
-  .value()
+  .write()
 
+// Set a user
 db.set('user.name', 'typicode')
   .value()
 ```
 
-Data is __automatically__ saved to `db.json`
+Data is saved to `db.json`
 
 ```json
 {
@@ -31,7 +34,7 @@ Data is __automatically__ saved to `db.json`
 }
 ```
 
-And you can query it using [lodash API](https://lodash.com/docs)
+You can use any [lodash](https://lodash.com/docs) function like `_.get` and `_.find` with shorthand syntax.
 
 ```js
 db.get('posts')
@@ -93,12 +96,11 @@ __low([source, [options])__
 * `source` string or null, will be passed to storage
 * `options` object
   * `storage` object, by default `lowdb/lib/file-sync` or `lowdb/lib/browser`.
-    * `read` function or null
-    * `write` function or null
+    * `read` function
+    * `write` function
   * `format` object
     * `serialize` function, by default `JSON.stringify`
     * `deserialize` function, by default `JSON.parse`
-  * `writeOnChange`boolean
 
 Creates a __lodash chain__, you can use __any__ lodash method on it. When `.value()` is called data is saved using `storage`.
 
@@ -113,9 +115,6 @@ low('db.json', { storage: require('lowdb/lib/file-async') })
 
 // persisted using a custom storage
 low('some-source', { storage: require('./my-custom-storage') })
-
-// write on change disabled
-low('db.json', { writeOnChange: false })
 
 // read-only
 const fileSync = require('lowdb/lib/file-sync')
@@ -167,7 +166,7 @@ db.setState(newState)
 
 __db.write([source])__
 
-Persists database using `storage.write` option. Depending on the storage, it may return a promise (for example, with `file-async').
+Persists database using `storage.write` option. Depending on the storage, it may return a promise (for example, with `file-async`).
 
 By default, lowdb automatically calls it when database changes.
 
@@ -210,7 +209,7 @@ Set posts.
 
 ```js
 db.set('posts', [])
-  .value()
+  .write()
 ```
 
 
@@ -253,7 +252,7 @@ Update a post.
 db.get('posts')
   .find({ title: 'low!' })
   .assign({ title: 'hi!'})
-  .value()
+  .write()
 ```
 
 Remove posts.
@@ -261,7 +260,14 @@ Remove posts.
 ```js
 db.get('posts')
   .remove({ title: 'low!' })
-  .value()
+  .write()
+```
+
+Remove a property.
+
+```js
+db.unset('user.name')
+  .write()
 ```
 
 Make a deep clone of posts.
@@ -284,7 +290,7 @@ const db = low('db.json')
 
 db._.mixin(require('underscore-db'))
 
-const postId = db.get('posts').insert({ title: 'low!' }).value().id
+const postId = db.get('posts').insert({ title: 'low!' }).write().id
 const post = db.get('posts').getById(postId).value()
 ```
 
@@ -293,7 +299,7 @@ const post = db.get('posts').getById(postId).value()
 ```js
 const uuid = require('uuid')
 
-const postId = db.get('posts').push({ id: uuid(), title: 'low!' }).value().id
+const postId = db.get('posts').push({ id: uuid(), title: 'low!' }).write().id
 const post = db.get('posts').find({ id: postId }).value()
 ```
 

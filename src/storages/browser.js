@@ -1,7 +1,7 @@
 /* global localStorage */
 
 module.exports = {
-  read: (source, deserialize = JSON.parse) => {
+  read: function browserRead (source, deserialize = JSON.parse) {
     const data = localStorage.getItem(source)
     if (data) {
       return deserialize(data)
@@ -10,5 +10,7 @@ module.exports = {
       return {}
     }
   },
-  write: (dest, obj, serialize = JSON.stringify) => localStorage.setItem(dest, serialize(obj))
+  write: function browserWrite (dest, obj, serialize = JSON.stringify) {
+    localStorage.setItem(dest, serialize(obj))
+  }
 }

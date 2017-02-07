@@ -18,13 +18,12 @@
   ],
   "main": "./lib/index.node.js",
   "scripts": {
-    "test": "tape -r babel-register -r babel-polyfill test/*.js | tap-spec",
+    "test": "npm run tape && standard",
+    "fix": "standard --fix",
+    "tape": "tape -r babel-register -r babel-polyfill test/*.js | tap-spec",
     "prepublish": "npm run build",
     "precommit": "npm test",
-    "build": "npm run babel && npm run browserify && npm run uglify",
-    "babel": "babel src --out-dir lib",
-    "browserify": "mkdir -p dist && browserify lib/index.browser.js -o dist/lowdb.js --standalone low",
-    "uglify": "uglifyjs dist/lowdb.js -o dist/lowdb.min.js"
+    "build": "rimraf dist && webpack && webpack -p"
   },
   "repository": {
     "type": "git",
@@ -41,7 +40,8 @@
     "is-promise": "^2.1.0",
     "json-parse-helpfulerror": "^1.0.3",
     "lodash": "4",
-    "steno": "^0.4.1"
+    "steno": "^0.4.1",
+    "webpack": "^2.2.1"
   },
   "devDependencies": {
     "babel-cli": "^6.2.0",
@@ -51,29 +51,24 @@
     "babel-preset-es2015": "^6.1.18",
     "babel-preset-stage-3": "^6.3.13",
     "babel-register": "^6.9.0",
-    "browserify": "^13.0.1",
-    "husky": "^0.11.9",
-    "lodash": "^4.12.0",
+    "husky": "^0.13.0",
+    "ramda": "^0.23.0",
+    "rimraf": "^2.5.4",
     "sinon": "^1.17.2",
     "standard": "^8.5.0",
     "tap-spec": "^4.1.1",
     "tape": "^4.2.2",
     "tempfile": "^1.1.1",
-    "uglify-js": "^2.6.2",
-    "underscore-db": "^0.12.0",
-    "webpack": "^1.12.13"
+    "underscore-db": "^0.12.0"
   },
   "engines": {
     "node": ">= 0.12"
   },
   "browser": {
-    "./lib/index.node.js": "./lib/index.browser.js"
+    "./src/storages/file-sync.js": "./src/storages/browser.js",
+    "./lib/storages/file-sync.js": "./lib/storages/browser.js"
   },
   "standard": {
     "parser": "babel-eslint"
-  },
-  "typings": "./lowdb.d.ts",
-  "typescript": {
-    "definition": "./lowdb.d.ts"
   }
 }
