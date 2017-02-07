@@ -2,18 +2,23 @@
 
 > A small local database powered by lodash API
 
-Used by [json-server](https://github.com/typicode/json-server) and [more than 80 awesome projects on npm](https://www.npmjs.com/package/lowdb).
+Used by [json-server](https://github.com/typicode/json-server) and [more than 90 awesome projects on npm](https://www.npmjs.com/package/lowdb).
 
 ```js
-const low = require('lowdb')
 const db = low('db.json')
 
-db.defaults({ posts: [] })
+// Set some defaults if your JSON file is empty
+db.defaults({ posts: [], user: {} })
   .write()
 
+// Add a post
 db.get('posts')
   .push({ id: 1, title: 'lowdb is awesome'})
   .write()
+
+// Set a user
+db.set('user.name', 'typicode')
+  .value()
 ```
 
 Data is saved to `db.json`
@@ -21,8 +26,11 @@ Data is saved to `db.json`
 ```json
 {
   "posts": [
-    { "title": "lowdb is awesome"}
-  ]
+    { "id": 1, "title": "lowdb is awesome"}
+  ],
+  "user": {
+    "name": "typicode"
+  }
 }
 ```
 
@@ -255,6 +263,13 @@ Remove posts.
 ```js
 db.get('posts')
   .remove({ title: 'low!' })
+  .write()
+```
+
+Remove a property.
+
+```js
+db.unset('user.name')
   .write()
 ```
 
