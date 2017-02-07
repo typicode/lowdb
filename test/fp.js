@@ -22,19 +22,19 @@ test('fp + lodash/fp', (t) => {
   t.end()
 })
 
-// test('fp + ramda', (t) => {
-//   const filename = tempfile()
-//   const db = low(filename)
+test('fp + ramda', (t) => {
+  const filename = tempfile()
+  const db = low(filename)
 
-//   const posts = db('posts', [])
+  const posts = db('posts', [])
 
-//   t.same(posts(R.concat([ 1 ])), [ 1 ], 'should return a new array')
-//   t.same(db.getState(), {}, 'shouldn\'t change state')
+  t.same(posts(R.concat([ 1 ])), [ 1 ], 'should return a new array')
+  t.same(db.getState(), {}, 'shouldn\'t change state')
 
-//   posts.write(R.concat([ 1 ]))
-//   t.same(db.getState(), { posts: [ 1 ] }, 'should change state')
+  posts.write(R.concat([ 1 ]))
+  t.same(db.getState(), { posts: [ 1 ] }, 'should change state')
 
-//   const actual = JSON.parse(fs.readFileSync(filename))
-//   t.same(actual, { posts: [ 1 ] })
-//   t.end()
-// })
+  const actual = JSON.parse(fs.readFileSync(filename))
+  t.same(actual, { posts: [ 1 ] })
+  t.end()
+})

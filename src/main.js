@@ -1,5 +1,5 @@
-import lodash from 'lodash'
-import common from './common'
+const lodash = require('lodash')
+const common = require('./common')
 
 module.exports = function (source, opts = {}) {
   // Create a fresh copy of lodash

@@ -2,22 +2,27 @@ const isPromise = require('is-promise')
 const memory = require('./storages/memory')
 const defaultStorage = require('./storages/file-sync')
 
-const init = (db, key, source, opts) => {
-  opts.storage = opts.storage || defaultStorage
-
+const init = (
+  db,
+  key,
+  source,
+  {
+    storage = {},
+    format = {}
+  } = {}) => {
   db.source = source
 
-  // assign format.serialize and format.deserialize if present
-  db = { ...db, ...opts.format }
-
   // Set storage
-  // In-memory if no source is provided
-  db.storage = db.source
-    ? { ...opts.storage, ...memory }
-    : { ...memory }
+  // In-memory only if no source is provided
+  db.storage = {
+    ...memory,
+    ...(
+      db.source ? storage : {}
+    )
+  }
 
   db.read = (s = source) => {
-    const r = db.storage.read(s, db.deserialize)
+    const r = db.storage.read(s, format.deserialize)
 
     return isPromise(r)
       ? r.then(db.plant)
@@ -26,22 +31,25 @@ const init = (db, key, source, opts) => {
 
   db.write = (dest = source, defaultValue) => {
     const value = defaultValue || db.getState()
-    const w = db.storage.write(dest, db.getState(), db.serialize)
+    const w = db.storage.write(dest, db.getState(), format.serialize)
     return isPromise(w)
       ? w.then(() => value)
       : value
   }
 
-  db.plant = (state) => { db[key] = state }
+  db.plant = (state) => {
+    db[key] = state
+    return db
+  }
+
   db.getState = () => db[key]
+
   db.setState = (state) => {
     db.plant(state)
     return db.write()
   }
 
-  db.read()
-
-  return db
+  return db.read()
 }
 
 module.exports = {
