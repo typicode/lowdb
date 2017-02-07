@@ -18,7 +18,8 @@
   ],
   "main": "./lib/index.node.js",
   "scripts": {
-    "test": "npm run tape && standard --fix",
+    "test": "npm run tape && standard",
+    "fix": "standard --fix",
     "tape": "tape -r babel-register -r babel-polyfill test/*.js | tap-spec",
     "prepublish": "npm run build",
     "precommit": "npm test",
