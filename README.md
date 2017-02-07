@@ -96,8 +96,8 @@ __low([source, [options])__
 * `source` string or null, will be passed to storage
 * `options` object
   * `storage` object, by default `lowdb/lib/file-sync` or `lowdb/lib/browser`.
-    * `read` function or null
-    * `write` function or null
+    * `read` function
+    * `write` function
   * `format` object
     * `serialize` function, by default `JSON.stringify`
     * `deserialize` function, by default `JSON.parse`
@@ -115,9 +115,6 @@ low('db.json', { storage: require('lowdb/lib/file-async') })
 
 // persisted using a custom storage
 low('some-source', { storage: require('./my-custom-storage') })
-
-// write on change disabled
-low('db.json', { writeOnChange: false })
 
 // read-only
 const fileSync = require('lowdb/lib/file-sync')
