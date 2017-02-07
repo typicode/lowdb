@@ -52,7 +52,7 @@ It supports __Node__, the __browser__ and uses __lodash API__, so it's very simp
   * [Server](https://github.com/typicode/lowdb/tree/master/examples#server)
   * [In-memory](https://github.com/typicode/lowdb/tree/master/examples#in-memory)
 * [JSFiddle live example](https://jsfiddle.net/typicode/4kd7xxbu/)
-* [__Migrating from 0.12 to 0.13? See this guide.__](https://github.com/typicode/lowdb/releases/tag/v0.13.0)
+* [__Migrating from 0.14 to 0.15? See this guide.__](https://github.com/typicode/lowdb/releases/tag/v0.15.0)
 
 ## Why lowdb?
 
@@ -95,7 +95,7 @@ __low([source, [options])__
 
 * `source` string or null, will be passed to storage
 * `options` object
-  * `storage` object, by default `lowdb/lib/file-sync` or `lowdb/lib/browser`.
+  * `storage` object, by default `lowdb/lib/storages/file-sync` or `lowdb/lib/storages/browser`.
     * `read` function
     * `write` function
   * `format` object
@@ -111,13 +111,13 @@ You can use `options` to configure how lowdb should persist data. Here are some 
 low()
 
 // persisted using async file storage
-low('db.json', { storage: require('lowdb/lib/file-async') })
+low('db.json', { storage: require('lowdb/lib/storages/file-async') })
 
 // persisted using a custom storage
 low('some-source', { storage: require('./my-custom-storage') })
 
 // read-only
-const fileSync = require('lowdb/lib/file-sync')
+const fileSync = require('lowdb/lib/storages/file-sync')
 low('db.json', {
   storage: {
     read: fileSync.read

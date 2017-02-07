@@ -46,7 +46,7 @@ But if you need to avoid blocking requests, you can do so by using `file-async` 
 ```js
 const express = require('express')
 const low = require('lowdb')
-const fileAsync = require('lowdb/lib/file-async')
+const fileAsync = require('lowdb/lib/storages/file-async')
 
 // Create server
 const app = express()
