@@ -9,7 +9,17 @@ const _test = (str, { source, read, write } = {}) => {
       let count = 0
 
       if (source) {
-        db = await low(source, { storage: { read, write } })
+        const storage = {}
+
+        if (read) {
+          storage.read = read
+        }
+
+        if (write) {
+          storage.write = write
+        }
+
+        db = await low(source, { storage })
       } else {
         db = low()
       }

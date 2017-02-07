@@ -7,7 +7,7 @@ const init = (
   key,
   source,
   {
-    storage = {},
+    storage = defaultStorage,
     format = {}
   } = {}) => {
   db.source = source
@@ -16,9 +16,7 @@ const init = (
   // In-memory only if no source is provided
   db.storage = {
     ...memory,
-    ...(
-      db.source ? storage : {}
-    )
+    ...(db.source && storage)
   }
 
   db.read = (s = source) => {

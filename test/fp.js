@@ -2,7 +2,7 @@ const fs = require('fs')
 const test = require('tape')
 const tempfile = require('tempfile')
 const fp = require('lodash/fp')
-// const R = require('ramda')
+const R = require('ramda')
 const low = require('../src/fp')
 
 test('fp + lodash/fp', (t) => {

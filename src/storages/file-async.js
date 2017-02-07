@@ -3,7 +3,7 @@ const { stringify } = require('./_json')
 
 module.exports = {
   read: require('./file-sync').read,
-  write: (dest, obj, serialize = stringify) => {
+  write: function fileAsyncWrite (dest, obj, serialize = stringify) {
     return new Promise((resolve, reject) => {
       const data = serialize(obj)
 

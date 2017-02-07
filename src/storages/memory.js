@@ -1,4 +1,4 @@
 module.exports = {
-  read: () => ({}),
-  write: () => {}
+  read: function memoryRead() { return {} },
+  write: function memoryWrite() { return {} }
 }
