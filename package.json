@@ -42,8 +42,7 @@
     "is-promise": "^2.1.0",
     "json-parse-helpfulerror": "^1.0.3",
     "lodash": "4",
-    "steno": "^0.4.1",
-    "webpack": "^2.2.1"
+    "steno": "^0.4.1"
   },
   "devDependencies": {
     "babel-cli": "^6.2.0",
@@ -61,7 +60,8 @@
     "tap-spec": "^4.1.1",
     "tape": "^4.2.2",
     "tempfile": "^1.1.1",
-    "underscore-db": "^0.12.0"
+    "underscore-db": "^0.12.0",
+    "webpack": "^2.2.1"
   },
   "engines": {
     "node": ">= 0.12"
