@@ -13,9 +13,7 @@ module.exports = {
     library: 'low'
   },
   externals: {
-    lodash: {
-      root: '_' // indicates global variable
-    }
+    lodash: '_'
   },
   plugins: [
     new webpack.BannerPlugin(banner)
