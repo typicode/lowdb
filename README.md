@@ -2,8 +2,6 @@
 
 > A small local database powered by lodash API
 
-Used by [json-server](https://github.com/typicode/json-server) and [more than 90 awesome projects on npm](https://www.npmjs.com/package/lowdb).
-
 ```js
 const db = low('db.json')
 
@@ -66,6 +64,15 @@ It supports __Node__, the __browser__ and uses __lodash API__, so it's very simp
   * Encryption
 
 __Important__ lowdb doesn't support Cluster.
+
+## Used by
+
+* [felony](https://github.com/henryboldi/felony) 
+* [googlesamples/md2googleslides](https://github.com/googlesamples/md2googleslides)
+* [fb-sleep-stats](https://github.com/sqren/fb-sleep-stats)
+* [kadirahq/storybook-database-local](https://github.com/kadirahq/storybook-database-local)
+* [json-server](https://github.com/typicode/json-server)
+* ... and [other awesome projects](https://www.npmjs.com/browse/depended/lowdb)
 
 ## Install
 
