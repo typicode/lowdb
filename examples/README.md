@@ -120,3 +120,25 @@ fs.writeFileSync('db.json', JSON.stringify(db.getState()))
 ```
 
 In this case, it's recommended to create a custom storage.
+
+## FP
+
+This particular mode lets you use [lodash/fp](https://github.com/lodash/lodash/wiki/FP-Guide), [Ramda](https://github.com/ramda/ramda) or simple JavaScript functions with lowdb. If you're using Lowdb with a bundler like Webpack or Browserify it can help reducing the size of your bundle.js.
+
+```js
+import low from 'lowdb/lib/fp'
+import concat from 'lodash/fp/concat'
+
+const db = low()
+
+// Get or set posts
+const posts = db('posts', [])
+
+posts.write(
+  concat({ title: 'lowdb is awesome' })
+)
+
+const post = posts(
+  find({ id: 1 })
+)
+```
