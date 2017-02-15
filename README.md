@@ -96,6 +96,8 @@ A UMD build is also available on [unpkg](https://unpkg.com/) for testing and qui
 </script>
 ```
 
+If you're using Webpack, please add also `externals: { jju: 'require("jju")' }` to your `webpack.config.js` (see [#153](https://github.com/typicode/lowdb/issues/153))
+
 ## API
 
 __low([source, [options])__
