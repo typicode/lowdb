@@ -123,7 +123,7 @@ In this case, it's recommended to create a custom storage.
 
 ## FP
 
-This particular mode lets you use [lodash/fp](https://github.com/lodash/lodash/wiki/FP-Guide), [Ramda](https://github.com/ramda/ramda) or simple JavaScript functions with lowdb. If you're using Lowdb with a bundler like Webpack or Browserify it can help reducing the size of your bundle.js.
+This particular mode lets you use [lodash/fp](https://github.com/lodash/lodash/wiki/FP-Guide), [Ramda](https://github.com/ramda/ramda) or simple JavaScript functions with lowdb. If you're using Lowdb with a bundler like Webpack or Browserify it can help reduce the size of your bundle.js.
 
 ```js
 import low from 'lowdb/lib/fp'
@@ -134,10 +134,13 @@ const db = low()
 // Get or set posts
 const posts = db('posts', [])
 
+// replace posts with a new array resulting from concat
+// and persist database
 posts.write(
   concat({ title: 'lowdb is awesome' })
 )
 
+// Find post by id
 const post = posts(
   find({ id: 1 })
 )
