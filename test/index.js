@@ -35,12 +35,14 @@ const _test = (str, { source, read, write } = {}) => {
       t.is(foo, 'foo')
       t.is(users.size().value(), 1, 'should add user')
 
-      if (write) {
-        count += 1
-        t.is(write.callCount, count, 'should write after db.write()')
-      }
+      // Add something to undefined array
+      const result = await db.get('unknown').push(1).write()
+      t.is(result, undefined)
 
       if (write) {
+        count += 2
+        t.is(write.callCount, count, 'should write after db.write()')
+
         db.setState({})
 
         // Should automatically write new state

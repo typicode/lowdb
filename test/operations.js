@@ -41,10 +41,10 @@ test('Issue #89', t => {
 
   db.defaults({ foo: [] }).write()
 
-  db.get('foo').push({ id: 1, value: 1 }).write()
+  db.get('foo').push({ id: 1, title: 'title' }).write()
 
-  t.equal(db.get('foo').find({ id: 1 }).value().value, 1)
-  t.deepEqual(db.get('foo').find({ id: 1 }).value(), { id: 1, value: 1 })
+  t.equal(db.get('foo').find({ id: 1 }).value().title, 'title')
+  t.deepEqual(db.get('foo').find({ id: 1 }).value(), { id: 1, title: 'title' })
 
   t.end()
 })

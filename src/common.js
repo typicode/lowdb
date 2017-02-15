@@ -27,8 +27,11 @@ const init = (
       : db.plant(r)
   }
 
-  db.write = (dest = source, defaultValue) => {
-    const value = defaultValue || db.getState()
+  db.write = function (dest = source, argValue) {
+    const value = arguments.length === 2
+      ? argValue
+      : db.getState()
+
     const w = db.storage.write(dest, db.getState(), format.serialize)
     return isPromise(w)
       ? w.then(() => value)
