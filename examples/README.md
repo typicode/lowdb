@@ -8,7 +8,7 @@ const low = require('lowdb')
 const db = low('db.json')
 
 db.defaults({ posts: [] })
-  .value()
+  .write()
 
 const result = db.get('posts')
   .push({ name: process.argv[2] })
@@ -59,10 +59,11 @@ const db = low('db.json', {
 // Routes
 // GET /posts/:id
 app.get('/posts/:id', (req, res) => {
-  db.get('posts')
+  const post = db.get('posts')
     .find({ id: req.params.id })
-    .write()
-    .then(post => res.send(post))
+    .value()
+    
+  res.send(post)
 })
 
 // POST /posts
@@ -83,17 +84,19 @@ db.defaults({ posts: [] })
   })
 ```
 
-Using ES7 `async/await` and [Babel](https://babeljs.io/), you can write:
+Using ES7 `async/await` and [Babel](https://babeljs.io/), you can simplify the previous `POST` example above like this:
 
 ```js
-app.get('/posts/:id', async (req, res) => {
+app.post('/posts', async (req, res) => {
   const post = await db.get('posts')
-    .find({ id: req.params.id })
+    .push(req.body)
+    .last()
+    .assign({ id: Date.now() })
     .write()
-
+    
   res.send(post)
 })
-
+```
 
 ## In-memory
 
