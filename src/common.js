@@ -27,9 +27,9 @@ const init = (
       : db.plant(r)
   }
 
-  db.write = function (dest = source, argValue) {
-    const value = arguments.length === 2
-      ? argValue
+  db.write = (dest = source, ...args) => {
+    const value = args.length
+      ? args[0]
       : db.getState()
 
     const w = db.storage.write(dest, db.getState(), format.serialize)
