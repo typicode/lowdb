@@ -143,7 +143,7 @@ low('db.json', {
 
 __db.___
 
-Database lodash instance. Use it to add your own utility functions or third-party mixins like [underscore-contrib](https://github.com/documentcloud/underscore-contrib) or [underscore-db](https://github.com/typicode/underscore-db).
+Database lodash instance. Use it to add your own utility functions or third-party mixins like [underscore-contrib](https://github.com/documentcloud/underscore-contrib) or [lodash-id](https://github.com/typicode/lodash-id).
 
 ```js
 db._.mixin({
@@ -292,12 +292,12 @@ db.get('posts')
 
 Being able to get data using an id can be quite useful, particularly in servers. To add id-based resources support to lowdb, you have 2 options.
 
-[underscore-db](https://github.com/typicode/underscore-db) provides a set of helpers for creating and manipulating id-based resources.
+[lodash-id](https://github.com/typicode/lodash-id) provides a set of helpers for creating and manipulating id-based resources.
 
 ```js
 const db = low('db.json')
 
-db._.mixin(require('underscore-db'))
+db._.mixin(require('lodash-id'))
 
 const postId = db.get('posts').insert({ title: 'low!' }).write().id
 const post = db.get('posts').getById(postId).value()

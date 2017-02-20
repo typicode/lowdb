@@ -53,6 +53,7 @@
     "babel-preset-stage-3": "^6.3.13",
     "babel-register": "^6.9.0",
     "husky": "^0.13.0",
+    "lodash-id": "^0.13.0",
     "pkg-ok": "^1.0.1",
     "ramda": "^0.23.0",
     "rimraf": "^2.5.4",
@@ -61,7 +62,6 @@
     "tap-spec": "^4.1.1",
     "tape": "^4.2.2",
     "tempfile": "^1.1.1",
-    "underscore-db": "^0.12.0",
     "webpack": "^2.2.1"
   },
   "engines": {

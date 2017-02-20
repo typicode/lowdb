@@ -1,5 +1,5 @@
 const test = require('tape')
-const underscoreDB = require('underscore-db')
+const underscoreDB = require('lodash-id')
 const low = require('../src/main')
 
 test('mixin', t => {
@@ -19,7 +19,7 @@ test('mixin', t => {
   t.end()
 })
 
-test('underscore-db mixin', t => {
+test('lodash-id mixin', t => {
   const db = low()
   db.defaults({ posts: [] }).value()
 
