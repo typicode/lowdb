@@ -1,8 +1,7 @@
 const fs = require('graceful-fs')
-const { parse, stringify } = require('./_json')
 
 module.exports = {
-  read: function fileSyncRead (source, deserialize = parse) {
+  read: function fileSyncRead (source, deserialize = JSON.parse) {
     if (fs.existsSync(source)) {
       // Read database
       const data = fs.readFileSync(source, 'utf-8').trim() || '{}'
@@ -21,7 +20,7 @@ module.exports = {
       return {}
     }
   },
-  write: function fileSyncWrite (dest, obj, serialize = stringify) {
+  write: function fileSyncWrite (dest, obj, serialize = JSON.stringify) {
     const data = serialize(obj)
     fs.writeFileSync(dest, data)
   }

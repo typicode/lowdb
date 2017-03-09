@@ -67,7 +67,7 @@ __Important__ lowdb doesn't support Cluster.
 
 ## Used by
 
-* [felony](https://github.com/henryboldi/felony) 
+* [felony](https://github.com/henryboldi/felony)
 * [googlesamples/md2googleslides](https://github.com/googlesamples/md2googleslides)
 * [fb-sleep-stats](https://github.com/sqren/fb-sleep-stats)
 * [kadirahq/storybook-database-local](https://github.com/kadirahq/storybook-database-local)
@@ -95,8 +95,6 @@ A UMD build is also available on [unpkg](https://unpkg.com/) for testing and qui
   var db = low('db')
 </script>
 ```
-
-If you're using Webpack, please add also `externals: { jju: 'require("jju")' }` to your `webpack.config.js` (see [#153](https://github.com/typicode/lowdb/issues/153))
 
 ## API
 
