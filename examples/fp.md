@@ -1,6 +1,6 @@
 # lowdb/lib/fp
 
-`lowdb/lib/fp` lets you use [lodash/fp](https://github.com/lodash/lodash/wiki/FP-Guide), [Ramda](https://github.com/ramda/ramda) or simple JavaScript functions with lowdb.
+`lowdb/lib/fp` lets you use [`lodash/fp`](https://github.com/lodash/lodash/wiki/FP-Guide), [`Ramda`](https://github.com/ramda/ramda) or simple JavaScript functions with lowdb.
 
 It can help reducing the size of your `bundle.js`.
 
