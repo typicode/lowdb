@@ -1,4 +1,4 @@
-const flow = require('lodash/fp/flow')
+const flow = require('lodash/flow')
 const get = require('lodash/get')
 const set = require('lodash/set')
 const common = require('./common')
