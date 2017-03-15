@@ -4,7 +4,7 @@
 
 It can help reducing the size of your `bundle.js`.
 
-_Note `fp` is a recent addition to `lowdb`, feedbacks are welcome._
+_Note `fp` is a recent addition to `lowdb`, feedbacks are welcome :)_
 
 ## Usage
 
