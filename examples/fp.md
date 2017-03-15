@@ -42,6 +42,8 @@ const popular = posts([
 
 __db(path, [defaultValue])([funcs])__
 
+Returns a new array or object without modifying the database state.
+
 ```js
 db('posts')(filter({ published: true }))
 ```
