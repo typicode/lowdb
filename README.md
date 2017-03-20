@@ -16,7 +16,7 @@ db.get('posts')
 
 // Set a user
 db.set('user.name', 'typicode')
-  .value()
+  .write()
 ```
 
 Data is saved to `db.json`
