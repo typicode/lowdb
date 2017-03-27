@@ -68,12 +68,14 @@ __Important__ lowdb doesn't support Cluster.
 
 ## Used by
 
-* [felony](https://github.com/henryboldi/felony)
-* [googlesamples/md2googleslides](https://github.com/googlesamples/md2googleslides)
-* [fb-sleep-stats](https://github.com/sqren/fb-sleep-stats)
-* [kadirahq/storybook-database-local](https://github.com/kadirahq/storybook-database-local)
-* [json-server](https://github.com/typicode/json-server)
-* ... and [other awesome projects](https://www.npmjs.com/browse/depended/lowdb)
+* [typicode/json-server](https://github.com/typicode/json-server) - REST API with zero coding
+* [henryboldi/felony](https://github.com/henryboldi/felony) - Next Level PGP
+* [googlesamples/md2googleslides](https://github.com/googlesamples/md2googleslides) - Generate Google Slides from markdown
+* [sqren/fb-sleep-stats](https://github.com/sqren/fb-sleep-stats) - Sleeping habits tracker
+* [panzhangwang/getAwesomeness](https://github.com/panzhangwang/getAwesomeness) - All amazing awesomeness from Github
+* [redux-promise-middleware](https://github.com/pburtchaell/redux-promise-middleware) - Redux middleware
+* [sasha-alias/sqltabs](https://github.com/sasha-alias/sqltabs) - Rich SQL client
+* ... and [__600+ repositories__](https://libraries.io/npm/lowdb/dependent-repositories)
 
 ## Install
 
