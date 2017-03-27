@@ -32,7 +32,7 @@ Data is saved to `db.json`
 }
 ```
 
-You can use any [lodash](https://lodash.com/docs) function like `_.get` and `_.find` with shorthand syntax.
+You can use any [lodash](https://lodash.com/docs) function like [`_.get`](https://lodash.com/docs#get) and [`_.find`](https://lodash.com/docs#find) with shorthand syntax.
 
 ```js
 db.get('posts')
