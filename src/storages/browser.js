@@ -1,4 +1,5 @@
 /* global localStorage */
+const stringify = require('./_stringify')
 
 module.exports = {
   read: function browserRead (source, deserialize = JSON.parse) {
@@ -10,7 +11,7 @@ module.exports = {
       return {}
     }
   },
-  write: function browserWrite (dest, obj, serialize = JSON.stringify) {
+  write: function browserWrite (dest, obj, serialize = stringify) {
     localStorage.setItem(dest, serialize(obj))
   }
 }

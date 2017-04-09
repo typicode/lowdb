@@ -1,4 +1,5 @@
 const fs = require('graceful-fs')
+const stringify = require('./_stringify')
 
 module.exports = {
   read: function fileSyncRead (source, deserialize = JSON.parse) {
@@ -20,7 +21,7 @@ module.exports = {
       return {}
     }
   },
-  write: function fileSyncWrite (dest, obj, serialize = JSON.stringify) {
+  write: function fileSyncWrite (dest, obj, serialize = stringify) {
     const data = serialize(obj)
     fs.writeFileSync(dest, data)
   }

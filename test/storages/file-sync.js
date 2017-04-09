@@ -33,7 +33,7 @@ test('serializer/deserializer', t => {
     obj
   )
 
-  t.true(stringify.calledOnce)
+  t.true(stringify.calledWith(obj, null, 2))
   t.true(parse.calledOnce)
 
   t.end()
