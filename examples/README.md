@@ -52,6 +52,7 @@ const fileAsync = require('lowdb/lib/storages/file-async')
 const app = express()
 
 // Start database using file-async storage
+// For ease of use, read is synchronous
 const db = low('db.json', {
   storage: fileAsync
 })
