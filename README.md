@@ -1,4 +1,4 @@
-# Lowdb [![NPM version](https://badge.fury.io/js/lowdb.svg)](http://badge.fury.io/js/lowdb) [![Build Status](https://travis-ci.org/typicode/lowdb.svg?branch=master)](https://travis-ci.org/typicode/lowdb)
+# Lowdb [![NPM version](https://badge.fury.io/js/lowdb.svg)](http://badge.fury.io/js/lowdb) [![Build Status](https://travis-ci.org/typicode/lowdb.svg?branch=master)](https://travis-ci.org/typicode/lowdb) [![Support on Patreon](https://img.shields.io/badge/support-patreon-E6461A.svg)](https://www.patreon.com/typicode)
 
 > A small local database powered by lodash API
 
