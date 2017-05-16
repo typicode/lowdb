@@ -10,7 +10,7 @@ _Note `fp` is a recent addition to `lowdb`, feedbacks are welcome :)_
 
 ```js
 import low from 'lowdb/lib/fp'
-import { concat, find, sortBy, pick } from 'lodash/fp'
+import { concat, find, sortBy, take, random } from 'lodash/fp'
 
 const db = low()
 
@@ -21,7 +21,7 @@ const posts = db('posts', defaultValue)
 // replace posts with a new array resulting from concat
 // and persist database
 posts.write(
-  concat({ title: 'lowdb is awesome' })
+  concat({ title: 'lowdb is awesome', views: random(0, 5) })
 )
 
 // Find post by id
@@ -32,7 +32,7 @@ const post = posts(
 // Find top 5 fives posts
 const popular = posts([
   sortBy('views'),
-  pick(5)
+  take(5)
 ])
 ```
 
