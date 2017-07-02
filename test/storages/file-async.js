@@ -33,7 +33,7 @@ test('serializer/deserializer', t => {
     .then(() => {
       const actual = fileAsync.read(filename, parse)
       t.same(actual, obj)
-      t.true(stringify.calledWith(obj, null, 2))
+      t.true(stringify.calledWith(obj))
       t.true(parse.calledOnce)
       t.end()
     })
