@@ -8,15 +8,14 @@ const obj = { a: 1 }
 test('file-async', t => {
   const filename = tempfile()
 
-  t.same(
-    fileAsync.read(filename),
-    {}
-  )
-
   fileAsync
-    .write(filename, obj)
-    .then(() => {
-      const actual = fileAsync.read(filename)
+    .read(filename)
+    .then((actual) => {
+      t.same(actual, {})
+    })
+    .then(() => fileAsync.write(filename, obj))
+    .then(() => fileAsync.read(filename))
+    .then((actual) => {
       t.same(actual, obj)
       t.end()
     })
@@ -30,8 +29,8 @@ test('serializer/deserializer', t => {
 
   fileAsync
     .write(filename, obj, stringify)
-    .then(() => {
-      const actual = fileAsync.read(filename, parse)
+    .then(() => fileAsync.read(filename, parse))
+    .then((actual) => {
       t.same(actual, obj)
       t.true(stringify.calledWith(obj))
       t.true(parse.calledOnce)
