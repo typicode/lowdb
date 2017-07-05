@@ -75,7 +75,7 @@ __Important__ lowdb doesn't support Cluster.
 * [panzhangwang/getAwesomeness](https://github.com/panzhangwang/getAwesomeness) - All amazing awesomeness from Github
 * [redux-promise-middleware](https://github.com/pburtchaell/redux-promise-middleware) - Redux middleware
 * [sasha-alias/sqltabs](https://github.com/sasha-alias/sqltabs) - Rich SQL client
-* ... and [__600+ repositories__](https://libraries.io/npm/lowdb/dependent-repositories)
+* ... and [__900+ repositories__](https://libraries.io/npm/lowdb/dependent-repositories)
 
 ## Install
 
