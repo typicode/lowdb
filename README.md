@@ -105,7 +105,7 @@ __low([source, [options])__
 
 * `source` string or null, will be passed to storage
 * `options` object
-  * `storage` object, by default `lowdb/lib/storages/file-sync` or `lowdb/lib/storages/browser`.
+  * `storage` object, by default `lowdb/lib/adapters/file-sync` or `lowdb/lib/adapters/browser`.
     * `read` function
     * `write` function
   * `format` object
@@ -121,13 +121,13 @@ You can use `options` to configure how lowdb should persist data. Here are some 
 low()
 
 // persisted using async file storage
-low('db.json', { storage: require('lowdb/lib/storages/file-async') })
+low('db.json', { storage: require('lowdb/lib/adapters/file-async') })
 
 // persisted using a custom storage
 low('some-source', { storage: require('./my-custom-storage') })
 
 // read-only
-const fileSync = require('lowdb/lib/storages/file-sync')
+const fileSync = require('lowdb/lib/adapters/file-sync')
 low('db.json', {
   storage: {
     read: fileSync.read
