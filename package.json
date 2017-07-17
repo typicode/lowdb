@@ -68,8 +68,8 @@
     "node": ">= 0.12"
   },
   "browser": {
-    "./src/storages/file-sync.js": "./src/storages/browser.js",
-    "./lib/storages/file-sync.js": "./lib/storages/browser.js"
+    "./src/adapters/file-sync.js": "./src/adapters/browser.js",
+    "./lib/adapters/file-sync.js": "./lib/adapters/browser.js"
   },
   "standard": {
     "parser": "babel-eslint"

@@ -1,7 +1,7 @@
 const test = require('tape')
 const sinon = require('sinon')
 const tempfile = require('tempfile')
-const fileSync = require('../../src/storages/file-sync')
+const fileSync = require('../../src/adapters/file-sync')
 
 const obj = { a: 1 }
 
