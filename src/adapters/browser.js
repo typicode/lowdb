@@ -1,17 +1,20 @@
 /* global localStorage */
-const stringify = require('./_stringify')
+const Base = require('./Base')
 
-module.exports = {
-  read: function browserRead (source, deserialize = JSON.parse) {
-    const data = localStorage.getItem(source)
+class BrowserAdapter extends Base {
+  read() {
+    const data = localStorage.getItem(this.source)
     if (data) {
-      return deserialize(data)
+      return this.deserialize(data)
     } else {
-      localStorage.setItem(source, '{}')
-      return {}
+      localStorage.setItem(this.source, this.serialize(this.defaultValue))
+      return this.defaultValue
     }
-  },
-  write: function browserWrite (dest, obj, serialize = stringify) {
-    localStorage.setItem(dest, serialize(obj))
+  }
+
+  write(data) {
+    localStorage.setItem(this.source, this.serialize(data))
   }
 }
+
+module.exports = BrowserAdapter

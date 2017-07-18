@@ -22,7 +22,6 @@
     "fix": "standard --fix",
     "tape": "tape -r babel-register -r babel-polyfill test/**/*.js | tap-spec",
     "prepublishOnly": "npm run build && pkg-ok",
-    "precommit": "npm test",
     "build": "npm run build:lib && npm run build:dist",
     "build:lib": "rimraf lib && babel src --out-dir lib",
     "build:dist": "rimraf dist && webpack && webpack -p"

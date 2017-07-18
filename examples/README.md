@@ -26,7 +26,9 @@ $ node cli.js hello
 
 ```js
 import low from 'lowdb'
-const db = low('db')
+import LocalStorage from 'lowdb/adapters/Browser'
+
+const db = low(new LocalStorage('db'))
 
 db.defaults({ posts: [] })
   .write()

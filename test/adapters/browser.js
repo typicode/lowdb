@@ -1,6 +1,6 @@
 /* global localStorage */
 const test = require('tape')
-const browser = require('../../src/adapters/browser')
+const Browser = require('../../src/adapters/browser')
 
 // Mock
 global.localStorage = {
@@ -12,17 +12,21 @@ global.localStorage = {
 const source = 'db'
 const obj = { a: 1 }
 
+const browser = new Browser()
+
 test('browser', t => {
   t.same(
-    browser.read(source),
+    browser.read(),
     {}
   )
 
-  browser.write(source, obj)
+  browser.write(obj)
   t.same(
-    browser.read(source),
+    browser.read(),
     obj
   )
 
   t.end()
 })
+
+
