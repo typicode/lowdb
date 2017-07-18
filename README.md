@@ -1,6 +1,4 @@
-# Lowdb [![NPM version](https://badge.fury.io/js/lowdb.svg)](http://badge.fury.io/js/lowdb) [![Build Status](https://travis-ci.org/typicode/lowdb.svg?branch=master)](https://travis-ci.org/typicode/lowdb) [![Support on Patreon](https://img.shields.io/badge/donate-%E2%99%A5-ff69b4.svg)](https://www.patreon.com/typicode)
-
-[![Greenkeeper badge](https://badges.greenkeeper.io/typicode/lowdb.svg)](https://greenkeeper.io/)
+# Lowdb [![NPM version](https://badge.fury.io/js/lowdb.svg)](http://badge.fury.io/js/lowdb) [![Build Status](https://travis-ci.org/typicode/lowdb.svg?branch=master)](https://travis-ci.org/typicode/lowdb) [![Support on Patreon](https://img.shields.io/badge/Patreon-%E2%99%A5-ff69b4.svg)](https://www.patreon.com/typicode)
 
 > A small local database powered by lodash API
 
