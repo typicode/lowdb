@@ -47,22 +47,22 @@
   "devDependencies": {
     "babel-cli": "^6.2.0",
     "babel-eslint": "^7.0.0",
-    "babel-loader": "^6.2.2",
+    "babel-loader": "^7.1.1",
     "babel-polyfill": "^6.9.1",
     "babel-preset-es2015": "^6.1.18",
     "babel-preset-stage-3": "^6.3.13",
     "babel-register": "^6.9.0",
-    "husky": "^0.13.0",
-    "lodash-id": "^0.13.0",
+    "husky": "^0.14.3",
+    "lodash-id": "^0.14.0",
     "pkg-ok": "^1.0.1",
-    "ramda": "^0.23.0",
+    "ramda": "^0.24.1",
     "rimraf": "^2.5.4",
-    "sinon": "^1.17.2",
+    "sinon": "^2.3.8",
     "standard": "^10.0.2",
     "tap-spec": "^4.1.1",
     "tape": "^4.2.2",
-    "tempfile": "^1.1.1",
-    "webpack": "^2.2.1"
+    "tempfile": "^2.0.0",
+    "webpack": "^3.3.0"
   },
   "engines": {
     "node": ">= 0.12"
