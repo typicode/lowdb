@@ -1,6 +1,6 @@
 /* global localStorage */
 const test = require('tape')
-const browser = require('../../src/storages/browser')
+const browser = require('../../src/adapters/browser')
 
 // Mock
 global.localStorage = {

@@ -1,6 +1,6 @@
 const isPromise = require('is-promise')
-const memory = require('./storages/memory')
-const defaultStorage = require('./storages/file-sync')
+const memory = require('./adapters/memory')
+const defaultStorage = require('./adapters/file-sync')
 
 const init = (
   db,
