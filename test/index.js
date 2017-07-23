@@ -2,24 +2,14 @@ const test = require('tape')
 const sinon = require('sinon')
 const low = require('../src/main')
 
-const _test = (str, { source, read, write } = {}) => {
+const _test = (str, adapter) => {
   test(str, async function (t) {
     try {
       let db
       let count = 0
 
-      if (source) {
-        const storage = {}
-
-        if (read) {
-          storage.read = read
-        }
-
-        if (write) {
-          storage.write = write
-        }
-
-        db = await low(source, { storage })
+      if (adapter) {
+        db = await low(adapter)
       } else {
         db = low()
       }
@@ -30,7 +20,7 @@ const _test = (str, { source, read, write } = {}) => {
       const users = db.get('users')
 
       // Add user
-      let [ foo ] = await users.push('foo').write()
+      let [foo] = await users.push('foo').write()
 
       t.is(foo, 'foo')
       t.is(users.size().value(), 1, 'should add user')
@@ -81,24 +71,38 @@ const _test = (str, { source, read, write } = {}) => {
 
 _test('in-memory')
 
-_test('sync', {
-  source: 'db.json',
-  read: sinon.spy(() => ({})),
-  write: sinon.spy()
-})
+class Sync {
+  read() {
+    return sinon.spy(() => ({}))
+  }
 
-_test('promises', {
-  source: 'db.json',
-  read: sinon.spy(() => Promise.resolve({})),
-  write: sinon.spy(() => Promise.resolve())
-})
+  write() {
+    return sinon.spy()
+  }
+}
+_test('sync', new Sync())
 
-_test('read-only', {
-  source: 'db.json',
-  read: sinon.spy(() => ({}))
-})
+class Async {
+  read() {
+    return sinon.spy(() => Promise.resolve({}))
+  }
 
-_test('write-only', {
-  source: 'db.json',
-  write: sinon.spy()
-})
+  write() {
+    return sinon.spy(() => Promise.resolve())
+  }
+}
+_test('promises', new Async())
+
+class ReadOnly {
+  read() {
+    return sinon.spy(() => ({}))
+  }
+}
+_test('read-only', new ReadOnly())
+
+class WriteOnly {
+  write() {
+    return sinon.spy()
+  }
+}
+_test('write-only', new WriteOnly())

@@ -1,6 +1,6 @@
 const isPromise = require('is-promise')
 const memory = require('./adapters/memory')
-const defaultStorage = require('./adapters/file-sync')
+const defaultStorage = require('./adapters/FileSync')
 
 const init = (
   db,
@@ -20,7 +20,7 @@ const init = (
   }
 
   db.read = (s = source) => {
-    const r = db.storage.read(s, format.deserialize)
+    const r = adapter.read(s)
 
     return isPromise(r)
       ? r.then(db.plant)
@@ -32,7 +32,7 @@ const init = (
       ? args[0]
       : db.getState()
 
-    const w = db.storage.write(dest, db.getState(), format.serialize)
+    const w = adapter.write(db.getState())
     return isPromise(w)
       ? w.then(() => value)
       : value

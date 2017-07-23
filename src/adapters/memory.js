@@ -1,4 +1,4 @@
-module.exports = {
-  read: function memoryRead () { return {} },
-  write: function memoryWrite () { return {} }
+module.exports = class Memory {
+  read() { return {} }
+  write() { return {} }
 }
