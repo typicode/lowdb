@@ -29,7 +29,7 @@ const _test = (str, adapter) => {
       const result = await db.get('unknown').push(1).write()
       t.is(result, undefined)
 
-      if (write) {
+      if (db.write) {
         count += 2
         t.is(write.callCount, count, 'should write after db.write()')
 
@@ -50,7 +50,7 @@ const _test = (str, adapter) => {
         t.same(writeValue, db.getState(), 'should return db.getState()')
       }
 
-      if (read) {
+      if (db.read) {
         // read
         await db.read()
 
