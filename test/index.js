@@ -31,13 +31,13 @@ const _test = (str, adapter) => {
 
       if (db.write) {
         count += 2
-        t.is(write.callCount, count, 'should write after db.write()')
+        t.is(adapter.write.callCount, count, 'should write after db.write()')
 
         db.setState({})
 
         // Should automatically write new state
         count += 1
-        t.is(write.callCount, count, 'should write after db.setState()')
+        t.is(adapter.write.callCount, count, 'should write after db.setState()')
 
         // write dest
         const writeValue = await db.write('backup.json')
@@ -54,11 +54,11 @@ const _test = (str, adapter) => {
         // read
         await db.read()
 
-        t.is(read.callCount, 2)
+        t.is(adapter.read.callCount, 2)
 
         await db.read('backup.json')
 
-        const args = read.args.slice(-1)[0]
+        const args = adapter.read.args.slice(-1)[0]
         t.same(args, ['backup.json', undefined], 'should read from backup.json')
       }
 
@@ -97,10 +97,14 @@ class ReadOnly {
   read() {
     return sinon.spy(() => ({}))
   }
+
+  write() { }
 }
 _test('read-only', new ReadOnly())
 
 class WriteOnly {
+  read() { }
+
   write() {
     return sinon.spy()
   }

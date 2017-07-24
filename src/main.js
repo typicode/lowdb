@@ -13,7 +13,7 @@ module.exports = function (adapter) {
   // Calls save before returning result
   _.prototype.write = _.wrap(_.prototype.value, function (func) {
     const funcRes = func.apply(this)
-    return adapter.write(funcRes)
+    return db.write(funcRes)
   })
 
   return common.init(db, '__wrapped__', adapter)
