@@ -20,7 +20,7 @@ const _test = (str, adapter) => {
       const users = db.get('users')
 
       // Add user
-      let [foo] = await users.push('foo').write()
+      let foo = await users.push('foo').write()[0]
 
       t.is(foo, 'foo')
       t.is(users.size().value(), 1, 'should add user')
@@ -29,84 +29,39 @@ const _test = (str, adapter) => {
       const result = await db.get('unknown').push(1).write()
       t.is(result, undefined)
 
-      if (db.write) {
-        count += 2
-        t.is(adapter.write.callCount, count, 'should write after db.write()')
+      count += 2
+      t.is(adapter.write.callCount, count, 'should write after db.write()')
 
-        db.setState({})
+      // assert write result
+      t.same(db.write(), db.getState(), 'should return db.getState()')
 
-        // Should automatically write new state
-        count += 1
-        t.is(adapter.write.callCount, count, 'should write after db.setState()')
+      // read
+      await db.read()
 
-        // write dest
-        const writeValue = await db.write('backup.json')
-
-        // get last write call
-        const args = write.args.slice(-1)[0]
-        t.same(args, ['backup.json', {}, undefined], 'should write to backup.json')
-
-        // assert write result
-        t.same(writeValue, db.getState(), 'should return db.getState()')
-      }
-
-      if (db.read) {
-        // read
-        await db.read()
-
-        t.is(adapter.read.callCount, 2)
-
-        await db.read('backup.json')
-
-        const args = adapter.read.args.slice(-1)[0]
-        t.same(args, ['backup.json', undefined], 'should read from backup.json')
-      }
+      t.is(adapter.read.callCount, 2)
 
       t.end()
     } catch (err) {
+      console.error(err)
       t.end(err)
     }
   })
 }
 
-_test('in-memory')
+// _test('in-memory')
 
 class Sync {
-  read() {
-    return sinon.spy(() => ({}))
-  }
-
-  write() {
-    return sinon.spy()
+  constructor() {
+    this.read = sinon.spy(() => ({}))
+    this.write = sinon.spy()
   }
 }
 _test('sync', new Sync())
 
 class Async {
-  read() {
-    return sinon.spy(() => Promise.resolve({}))
-  }
-
-  write() {
-    return sinon.spy(() => Promise.resolve())
+  constructor() {
+    this.read = sinon.spy(() => Promise.resolve({}))
+    this.write = sinon.spy(() => Promise.resolve())
   }
 }
 _test('promises', new Async())
-
-class ReadOnly {
-  read() {
-    return sinon.spy(() => ({}))
-  }
-
-  write() { }
-}
-_test('read-only', new ReadOnly())
-
-class WriteOnly {
-  read() { }
-
-  write() {
-    return sinon.spy()
-  }
-}
-_test('write-only', new WriteOnly())

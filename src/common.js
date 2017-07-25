@@ -13,11 +13,12 @@ const init = (
       : db.plant(r)
   }
 
-  db.write = () => {
+  db.write = (value = db.getState()) => {
     const w = adapter.write(db.getState())
+
     return isPromise(w)
-      ? w.then(() => db.getState())
-      : db.getState()
+      ? w.then(() => value)
+      : value
   }
 
   db.plant = (state) => {
