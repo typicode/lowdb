@@ -62,7 +62,7 @@
     "tap-spec": "^4.1.1",
     "tape": "^4.2.2",
     "tempfile": "^1.1.1",
-    "webpack": "^2.2.1"
+    "webpack": "^3.4.0"
   },
   "engines": {
     "node": ">= 0.12"
