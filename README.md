@@ -281,25 +281,24 @@ const postId = db.get('posts').push({ id: uuid(), title: 'low!' }).write().id
 const post = db.get('posts').find({ id: postId }).value()
 ```
 
-### How to use a custom storage or format
+### How to create a custom Adapter
 
-`low()` accepts custom storage or format. Simply create objects with `read/write` or `serialize/deserialize` methods. See `src/browser.js` code source for a full example.
+`low()` accepts custom Adapter, so you can virtually save your data to any storage. 
 
 ```js
-const myStorage = {
-  read: (source, deserialize) => // must return an object or a Promise
-  write: (source, obj, serialize) => // must return undefined or a Promise
+class MyStorage {
+  constructor() {
+    // ...
+  }
+  
+  read() {
+    // Return data or a Promise
+  }
+  
+  write(data) {
+    // return nothing or a Promise
+  }
 }
-
-const myFormat = {
-  serialize: (obj) => // must return data (usually string)
-  deserialize: (data) => // must return an object
-}
-
-low(source, {
-  storage: myStorage,
-  format: myFormat
-})
 ```
 
 ### How to encrypt data
@@ -312,20 +311,9 @@ For example, using [cryptr](https://github.com/MauriceButler/cryptr):
 const Cryptr = require("./cryptr"),
 const cryptr = new Cryptr('my secret key')
 
-const db = low('db.json', {
-  format: {
-    deserialize: (str) => {
-      const decrypted = cryptr.decrypt(str)
-      const obj = JSON.parse(decrypted)
-      return obj
-    },
-    serialize: (obj) => {
-      const str = JSON.stringify(obj)
-      const encrypted = cryptr.encrypt(str)
-      return encrypted
-    }
-  }
-})
+class EncryptedFile extends lowdb.FileSync {
+
+}
 ```
 
 ## Changelog
