@@ -3,6 +3,14 @@
 > A small local database powered by lodash API
 
 ```js
+db.get('posts')
+  .push({ id: 1, title: 'lowdb is awesome'})
+  .write()
+```
+
+## Usage
+
+```js
 // Pick an adapter: file sync/async, localStorage or create your own
 const file = new low.FileSync('db.json')
 
