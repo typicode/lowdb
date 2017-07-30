@@ -22,7 +22,8 @@
     "prepublishOnly": "npm run build && pkg-ok",
     "build": "npm run build:lib && npm run build:dist",
     "build:lib": "rimraf lib && babel src --out-dir lib",
-    "build:dist": "rimraf dist && webpack && webpack -p"
+    "build:dist": "rimraf dist && webpack && webpack -p",
+    "precommit": "npm test"
   },
   "repository": {
     "type": "git",
