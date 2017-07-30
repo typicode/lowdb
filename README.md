@@ -10,7 +10,13 @@ db.get('posts')
 
 ## Usage
 
+```sh
+npm install lowdb
+```
+
 ```js
+const low = require('lowdb')
+
 // Pick an adapter: file sync/async, localStorage or create your own
 const file = new low.FileSync('db.json')
 
