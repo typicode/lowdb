@@ -38,7 +38,6 @@ describe('fp + lodash/fp', () => {
 
     const actual = JSON.parse(fs.readFileSync(filename))
     expect(actual, { posts: [1] })
-    t.end()
   })
 })
 

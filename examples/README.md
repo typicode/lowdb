@@ -5,7 +5,7 @@
 ```js
 // cli.js
 const low = require('lowdb')
-const db = low('db.json')
+const db = low(new FileSync('db.json'))
 
 db.defaults({ posts: [] })
   .write()
@@ -53,12 +53,6 @@ const fileAsync = require('lowdb/lib/adapters/file-async')
 // Create server
 const app = express()
 
-// Start database using file-async storage
-// For ease of use, read is synchronous
-const db = low('db.json', {
-  storage: fileAsync
-})
-
 // Routes
 // GET /posts/:id
 app.get('/posts/:id', (req, res) => {
@@ -79,37 +73,19 @@ app.post('/posts', (req, res) => {
     .then(post => res.send(post))
 })
 
-// Init
-db.defaults({ posts: [] })
-  .write()
-  .then(() => {
-    app.listen(3000, () => console.log('Server is listening')
-  })
-```
-
-Using ES7 `async/await` and [Babel](https://babeljs.io/), you can simplify the previous `POST` example above like this:
-
-```js
-app.post('/posts', async (req, res) => {
-  const post = await db.get('posts')
-    .push(req.body)
-    .last()
-    .assign({ id: Date.now() })
-    .write()
-
-  res.send(post)
-})
+// Start server
+low(new FileAsync('db.json'))
+  .then(db => db.defaults({ posts: [] }).write())
+  .then(() => app.listen(3000, () => console.log('Server is listening'))
 ```
 
 ## In-memory
 
-In this mode, no storage is used. Everything is done in memory.
-
-You can still persist data but you'll have to do it yourself. Here's an example:
+In this mode, everything is done in memory. It's useful for tests when you don't want to persist data.
 
 ```js
 const fs = require('fs')
-const db = low()
+const db = low(new Memory())
 
 db.defaults({ posts: [] })
   .write()
@@ -117,9 +93,11 @@ db.defaults({ posts: [] })
 db.get('posts')
   .push({ title: 'lowdb' })
   .write()
+```
 
+You can still persist data but you'll have to do it yourself:
+
+```js
 // Manual writing
 fs.writeFileSync('db.json', JSON.stringify(db.getState()))
 ```
-
-In this case, it's recommended to create a custom storage.

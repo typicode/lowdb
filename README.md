@@ -272,12 +272,12 @@ const postId = db.get('posts').insert({ title: 'low!' }).write().id
 const post = db.get('posts').getById(postId).value()
 ```
 
-[uuid](https://github.com/broofa/node-uuid) is more minimalist and returns a unique id that you can use when creating resources.
+[shortid](https://github.com/dylang/shortid) is more minimalist and returns a unique id that you can use when creating resources.
 
 ```js
-const uuid = require('uuid')
+const shortid = require('shortid')
 
-const postId = db.get('posts').push({ id: uuid(), title: 'low!' }).write().id
+const postId = db.get('posts').push({ id: shortid.generate(), title: 'low!' }).write().id
 const post = db.get('posts').find({ id: postId }).value()
 ```
 
@@ -303,17 +303,20 @@ class MyStorage {
 
 ### How to encrypt data
 
-Simply `encrypt` and `decrypt` data in `format.serialize` and `format.deserialize` methods.
-
-For example, using [cryptr](https://github.com/MauriceButler/cryptr):
-
 ```js
-const Cryptr = require("./cryptr"),
-const cryptr = new Cryptr('my secret key')
-
 class EncryptedFile extends lowdb.FileSync {
+  read() {
+    const encryptedData = super.read()
+    return decrypt(encryptedData)
+  }
 
+  write(data) {
+    const encryptedData = encrypt(data)
+    super.write(encryptedData)
+  }
 }
+
+const db = low(new EncryptedFile('db.json'))
 ```
 
 ## Changelog

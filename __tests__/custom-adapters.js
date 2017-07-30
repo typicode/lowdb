@@ -1,9 +1,10 @@
 const sinon = require('sinon')
+const delay = require('delay')
 const low = require('../src/main')
 
 class Sync {
   read() {
-    return this.data
+    return this.data || {}
   }
 
   write(data) {
@@ -12,48 +13,52 @@ class Sync {
 }
 
 class Async {
-  read() {
-    return Promise.resolve(this.data)
+  async read() {
+    await delay(5)
+    return this.data || {}
   }
 
-  write(data) {
+  async write(data) {
+    await delay(5)
     this.data = data
-    return Promise.resolve()
+    return this.data
   }
 }
 
-describe('sync and async adapter', () => {
-  it('should support sync adapter', () => {
-    const db = low(new Sync())
-    expect(db.getState()).toBeUndefined()
+test('should support sync adapter', () => {
+  const sync = new Sync()
+  const db = low(sync)
+  expect(db.getState()).toEqual({})
 
-    db.defaults({ a: 1 })
-      .write()
+  db.defaults({ a: 1 })
+    .write()
 
-    expect(db.getState()).toEqual({ a: 1 })
-    expect(db.read()).toEqual({ a: 1 })
+  expect(db.getState()).toEqual({ a: 1 })
+  expect(sync.read()).toEqual({ a: 1 })
 
-    db.setState({ a: 2 })
-    db.write()
+  db.setState({ a: 2 })
+  db.write()
+  db.read()
 
-    expect(db.getState()).toEqual({ a: 2 })
-    expect(db.read()).toEqual({ a: 2 })
-  })
+  expect(db.getState()).toEqual({ a: 2 })
+  expect(sync.read()).toEqual({ a: 2 })
+})
 
-  it('should support async adapter', () => {
-    const db = low(new Async())
-    expect(db.getState()).toBeUndefined()
+test('should support async adapter', async () => {
+  const async = new Async()
+  const db = await low(async)
+  expect(db.getState()).toEqual({})
 
-    db.defaults({ a: 1 })
-      .write()
+  await db.defaults({ a: 1 })
+    .write()
 
-    expect(db.getState()).toEqual({ a: 1 })
-    expect(db.read()).toEqual({ a: 1 })
+  expect(db.getState()).toEqual({ a: 1 })
+  expect(await async.read()).toEqual({ a: 1 })
 
-    db.setState({ a: 2 })
-    db.write()
+  db.setState({ a: 2 })
+  await db.write()
+  await db.read()
 
-    expect(db.getState()).toEqual({ a: 2 })
-    expect(db.read()).toEqual({ a: 2 })
-  })
+  expect(db.getState()).toEqual({ a: 2 })
+  expect(await async.read()).toEqual({ a: 2 })
 })

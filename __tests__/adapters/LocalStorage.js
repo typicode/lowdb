@@ -10,7 +10,7 @@ global.localStorage = {
 
 
 
-descibre('LocalStorage', t => {
+describe('LocalStorage', () => {
   it('should read and write', () => {
     const source = 'db'
     const obj = { a: 1 }

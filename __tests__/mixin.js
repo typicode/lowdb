@@ -39,6 +39,6 @@ describe('mixin', () => {
       .getById(id)
       .value()
 
-    expect(post).toNotBeUndefined()
+    expect(post).not.toBeUndefined()
   })
 })

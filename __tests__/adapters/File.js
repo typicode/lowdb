@@ -1,6 +1,6 @@
 const sinon = require('sinon')
 const tempfile = require('tempfile')
-const FileSync = require('../../src/adapters/FileAsync')
+const FileSync = require('../../src/adapters/FileSync')
 const FileAsync = require('../../src/adapters/FileAsync')
 
 const obj = { a: 1 }
@@ -21,7 +21,8 @@ describe('FileSync', () => {
 
     const file = new FileSync(tempfile(), { serialize, deserialize })
 
-    file.read()
+    file.read() // The first time, an empty file is created and deserialize doesn't need to called
+    file.read() // to ensure, deserialize is called, we call file.read() a second time
     file.write(obj)
 
     expect(serialize.calledWith(obj)).toBeTruthy()
@@ -40,13 +41,14 @@ describe('FileAsync', () => {
   })
 
 
-  it('should support options', async t => {
+  it('should support options', async () => {
     const serialize = sinon.spy(JSON.stringify)
     const deserialize = sinon.spy(JSON.parse)
 
     const file = new FileAsync(tempfile(), { serialize, deserialize })
 
-    await file.read()
+    await file.read() // The first time, an empty file is created and deserialize doesn't need to called
+    await file.read() // to ensure, deserialize is called, we call file.read() a second time
     await file.write(obj)
 
     expect(serialize.calledWith(obj)).toBeTruthy()

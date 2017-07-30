@@ -12,9 +12,6 @@ module.exports = function (adapter) {
   const _ = lodash.runInContext()
   const db = _.chain({})
 
-  // Expose _ for mixins
-  db._ = _
-
   // Add write function to lodash
   // Calls save before returning result
   _.prototype.write = _.wrap(_.prototype.value, function (func) {
@@ -22,12 +19,21 @@ module.exports = function (adapter) {
     return db.write(funcRes)
   })
 
+  function plant(state) {
+    db.__wrapped__ = state
+    return db
+  }
+
+  // Lowdb API
+  // Expose _ for mixins
+  db._ = _
+
   db.read = () => {
     const r = adapter.read()
 
     return isPromise(r)
-      ? r.then(db.plant)
-      : db.plant(r)
+      ? r.then(plant)
+      : plant(r)
   }
 
   db.write = (returnValue) => {
@@ -38,17 +44,9 @@ module.exports = function (adapter) {
       : returnValue
   }
 
-  db.plant = (state) => {
-    db.__wrapped__ = state
-    return db
-  }
-
   db.getState = () => db.__wrapped__
 
-  db.setState = (state) => {
-    db.plant(state)
-    return db
-  }
+  db.setState = (state) => plant(state)
 
   return db.read()
 }

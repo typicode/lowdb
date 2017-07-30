@@ -17,4 +17,4 @@ class LocalStorage extends Base {
   }
 }
 
-module.exports = BrowserAdapter
+module.exports = LocalStorage

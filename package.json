@@ -48,6 +48,7 @@
     "babel-polyfill": "^6.9.1",
     "babel-preset-env": "^1.6.0",
     "babel-register": "^6.9.0",
+    "delay": "^2.0.0",
     "husky": "^0.13.0",
     "jest": "^20.0.4",
     "lodash-id": "^0.13.0",
@@ -61,10 +62,6 @@
   },
   "engines": {
     "node": ">= 0.12"
-  },
-  "browser": {
-    "./src/adapters/file-sync.js": "./src/adapters/browser.js",
-    "./lib/adapters/file-sync.js": "./lib/adapters/browser.js"
   },
   "standard": {
     "parser": "babel-eslint"
