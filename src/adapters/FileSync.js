@@ -14,7 +14,6 @@ class FileSync extends Base {
       try {
         const data = readFile(this.source, 'utf-8').trim()
         // Handle blank file
-        console.log(data, data ? this.deserialize(data) : this.defaultValue)
         return data ? this.deserialize(data) : this.defaultValue
       } catch (e) {
         if (e instanceof SyntaxError) {

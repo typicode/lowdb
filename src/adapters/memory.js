@@ -1,4 +1,6 @@
-module.exports = class Memory {
-  read() { return {} }
-  write() { return {} }
+const Base = require('./Base')
+
+module.exports = class Memory extends Base {
+  read() { return this.defaultValue }
+  write() { }
 }

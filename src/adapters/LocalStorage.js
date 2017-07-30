@@ -1,7 +1,7 @@
 /* global localStorage */
 const Base = require('./Base')
 
-class BrowserAdapter extends Base {
+class LocalStorage extends Base {
   read() {
     const data = localStorage.getItem(this.source)
     if (data) {
