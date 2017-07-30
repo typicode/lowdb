@@ -22,17 +22,9 @@ describe('Lowdb', () => {
     expect(db.get('foo').find({ b: 2 }).value()).toBeUndefined()
 
     // Update
-    db.get('foo')
-      .find({ a: 1 })
-      .assign({ a: 2 })
-      .write()
+    db.get('foo').find({ a: 1 }).assign({ a: 2 }).write()
 
-    expect(
-      !db.get('foo')
-        .find({ a: 2 })
-        .isUndefined()
-        .value()
-    ).toBeTruthy()
+    expect(!db.get('foo').find({ a: 2 }).isUndefined().value()).toBeTruthy()
 
     // Delete
     db.get('foo').remove({ a: 2 }).write()
@@ -49,12 +41,9 @@ describe('Lowdb', () => {
     const filename = tempfile()
     const db = low(new FileSync(filename))
 
-    db.defaults({ foo: [] })
-      .value()
+    db.defaults({ foo: [] }).value()
 
-    db.get('foo')
-      .push(1)
-      .write()
+    db.get('foo').push(1).write()
 
     const actual = JSON.parse(fs.readFileSync(filename))
     expect(actual).toEqual({ foo: [1] })

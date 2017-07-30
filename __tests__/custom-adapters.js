@@ -1,4 +1,3 @@
-const sinon = require('sinon')
 const delay = require('delay')
 const low = require('../src/main')
 
@@ -30,8 +29,7 @@ test('should support sync adapter', () => {
   const db = low(sync)
   expect(db.getState()).toEqual({})
 
-  db.defaults({ a: 1 })
-    .write()
+  db.defaults({ a: 1 }).write()
 
   expect(db.getState()).toEqual({ a: 1 })
   expect(sync.read()).toEqual({ a: 1 })
@@ -49,8 +47,7 @@ test('should support async adapter', async () => {
   const db = await low(async)
   expect(db.getState()).toEqual({})
 
-  await db.defaults({ a: 1 })
-    .write()
+  await db.defaults({ a: 1 }).write()
 
   expect(db.getState()).toEqual({ a: 1 })
   expect(await async.read()).toEqual({ a: 1 })

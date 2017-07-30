@@ -1,9 +1,7 @@
 const lodash = require('lodash')
 const isPromise = require('is-promise')
-const Memory = require('./adapters/Memory')
-const common = require('./common')
 
-module.exports = function (adapter) {
+module.exports = function(adapter) {
   if (typeof adapter !== 'object') {
     throw new Error('Adapter must be provided')
   }
@@ -14,7 +12,7 @@ module.exports = function (adapter) {
 
   // Add write function to lodash
   // Calls save before returning result
-  _.prototype.write = _.wrap(_.prototype.value, function (func) {
+  _.prototype.write = _.wrap(_.prototype.value, function(func) {
     const funcRes = func.apply(this)
     return db.write(funcRes)
   })
@@ -30,23 +28,17 @@ module.exports = function (adapter) {
 
   db.read = () => {
     const r = adapter.read()
-
-    return isPromise(r)
-      ? r.then(plant)
-      : plant(r)
+    return isPromise(r) ? r.then(plant) : plant(r)
   }
 
-  db.write = (returnValue) => {
+  db.write = returnValue => {
     const w = adapter.write(db.getState())
-
-    return isPromise(w)
-      ? w.then(() => returnValue)
-      : returnValue
+    return isPromise(w) ? w.then(() => returnValue) : returnValue
   }
 
   db.getState = () => db.__wrapped__
 
-  db.setState = (state) => plant(state)
+  db.setState = state => plant(state)
 
   return db.read()
 }

@@ -40,4 +40,3 @@ describe('fp + lodash/fp', () => {
     expect(actual, { posts: [1] })
   })
 })
-

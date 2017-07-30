@@ -3,7 +3,7 @@ const get = require('lodash/get')
 const set = require('lodash/set')
 const common = require('./common')
 
-module.exports = function (adapter) {
+module.exports = function(adapter) {
   function db(path, defaultValue) {
     function getValue(funcs) {
       const result = get(db.getState(), path, defaultValue)

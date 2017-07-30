@@ -2,7 +2,6 @@ const fs = require('graceful-fs')
 const pify = require('pify')
 const steno = require('steno')
 const Base = require('./Base')
-const stringify = require('./_stringify')
 
 const readFile = pify(fs.readFile)
 const writeFile = pify(steno.writeFile)

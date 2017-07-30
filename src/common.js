@@ -1,34 +1,27 @@
 const isPromise = require('is-promise')
 const Memory = require('./adapters/Memory')
 
-const init = (
-  db,
-  key,
-  adapter = new Memory()) => {
+const init = (db, key, adapter = new Memory()) => {
   db.read = () => {
     const r = adapter.read()
 
-    return isPromise(r)
-      ? r.then(db.plant)
-      : db.plant(r)
+    return isPromise(r) ? r.then(db.plant) : db.plant(r)
   }
 
   db.write = (value = db.getState()) => {
     const w = adapter.write(db.getState())
 
-    return isPromise(w)
-      ? w.then(() => value)
-      : value
+    return isPromise(w) ? w.then(() => value) : value
   }
 
-  db.plant = (state) => {
+  db.plant = state => {
     db[key] = state
     return db
   }
 
   db.getState = () => db[key]
 
-  db.setState = (state) => {
+  db.setState = state => {
     db.plant(state)
     return db
   }

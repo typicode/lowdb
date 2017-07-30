@@ -1,6 +1,5 @@
 const fs = require('graceful-fs')
 const Base = require('./Base')
-const stringify = require('./_stringify')
 
 const readFile = fs.readFileSync
 const writeFile = fs.writeFileSync

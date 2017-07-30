@@ -40,7 +40,6 @@ describe('FileAsync', () => {
     expect(await file.read()).toEqual(obj)
   })
 
-
   it('should support options', async () => {
     const serialize = sinon.spy(JSON.stringify)
     const deserialize = sinon.spy(JSON.parse)
