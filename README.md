@@ -18,10 +18,10 @@ npm install lowdb
 const low = require('lowdb')
 
 // Pick an adapter: file sync/async, localStorage or create your own
-const file = new low.FileSync('db.json')
+const adapter = new low.FileSync('db.json')
 
 // Create your instance
-const db = low(file)
+const db = low(adapter)
 
 // Set some defaults if your JSON file is empty
 db.defaults({ posts: [], user: {} })
@@ -32,7 +32,7 @@ db.get('posts')
   .push({ id: 1, title: 'lowdb is awesome'})
   .write()
 
-// Set a user using Lodash shortcuts
+// Set a user using Lodash powerful shorthand syntax
 db.set('user.name', 'typicode')
   .write()
 ```
