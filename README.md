@@ -16,18 +16,19 @@ npm install lowdb
 
 ```js
 const low = require('lowdb')
+const FileSync = require('lowdb/adapters/FileSync')
 
-// Pick an adapter: file sync/async, localStorage or create your own
-const adapter = new low.FileSync('db.json')
+// Lowdb comes with adapters for JSON files and localStorage
+const adapter = new FileSync('db.json')
 
-// Create your instance
+// Create an instance
 const db = low(adapter)
 
 // Set some defaults if your JSON file is empty
 db.defaults({ posts: [], user: {} })
   .write()
 
-// Add a post and write to file
+// Add a post
 db.get('posts')
   .push({ id: 1, title: 'lowdb is awesome'})
   .write()
