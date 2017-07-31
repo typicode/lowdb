@@ -1,4 +1,4 @@
-# Lowdb [![NPM version](https://badge.fury.io/js/lowdb.svg)](http://badge.fury.io/js/lowdb) [![Build Status](https://travis-ci.org/typicode/lowdb.svg?branch=master)](https://travis-ci.org/typicode/lowdb) [![Support on Patreon](https://img.shields.io/badge/Patreon-%E2%99%A5-ff69b4.svg)](https://www.patreon.com/typicode)
+# Lowdb [![](http://img.shields.io/npm/dm/lowdb.svg?style=flat)](https://www.npmjs.org/package/lowdb) [![NPM version](https://badge.fury.io/js/lowdb.svg)](http://badge.fury.io/js/lowdb) [![Build Status](https://travis-ci.org/typicode/lowdb.svg?branch=master)](https://travis-ci.org/typicode/lowdb) [![Support on Patreon](https://img.shields.io/badge/Patreon-%E2%99%A5-ff69b4.svg)](https://www.patreon.com/typicode)
 
 > Lodash powered mini database
 
@@ -110,9 +110,9 @@ A UMD build is also available on [unpkg](https://unpkg.com/) for testing and qui
 
 ## API
 
-__low([adapter = low.Memory()])__
+__low(adapter)__
 
-Creates a __lodash chain__, you can use __any__ lodash method on it. When `.value()` is called data is saved using `storage`. By default, will use [Memory](src/adapters/Memory) adapter which is a noop adapter.
+Creates a __lodash chain__, you can use __any__ lodash method on it. When `.write()` is called data is saved using `adapter`.
 
 __db.___
 
@@ -131,7 +131,7 @@ const post2 = db.get('posts').second().value()
 
 __db.getState()__
 
-Use whenever you want to access the database state.
+Returns database state.
 
 ```js
 db.getState() // { posts: [ ... ] }
@@ -139,7 +139,7 @@ db.getState() // { posts: [ ... ] }
 
 __db.setState(newState)__
 
-Use it to drop database or set a new state.
+Set a new state.
 
 ```js
 const newState = {}
@@ -150,21 +150,29 @@ __db.write()__
 
 Persists database using `adapter.write`. Depending on the adapter, it may return a promise (for example, with `file-async`).
 
-By default, lowdb automatically calls it when database changes.
-
 ```js
-const db = low(new low.FileSync('db.json'))
+// With FileSync
 db.write()
-console.log('Data has been saved')
+console.log('State has been saved')
 
-const db = low(new low.FileAsync('db.json'))
+// With FileAsync
 db.write()
-  .then(() => console.log('Data has been saved'))
+  .then(() => console.log('State has been saved'))
 ```
 
 __db.read()__
 
 Reads source using `storage.read` option. Depending on the adapter, it may return a promise.
+
+```js
+// With FileSync
+db.read()
+console.log('State has been updated')
+
+// With FileAsync
+db.write()
+  .then(() => console.log('State has been updated'))
+```
 
 ## Guide
 
