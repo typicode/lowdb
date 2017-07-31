@@ -279,8 +279,16 @@ const db = low('db.json')
 
 db._.mixin(require('lodash-id'))
 
-const postId = db.get('posts').insert({ title: 'low!' }).write().id
-const post = db.get('posts').getById(postId).value()
+const postId = db
+  .get('posts')
+  .insert({ title: 'low!' })
+  .write()
+  .id
+  
+const post = db
+  .get('posts')
+  .getById(postId)
+  .value()
 ```
 
 [shortid](https://github.com/dylang/shortid) is more minimalist and returns a unique id that you can use when creating resources.
@@ -288,8 +296,16 @@ const post = db.get('posts').getById(postId).value()
 ```js
 const shortid = require('shortid')
 
-const postId = db.get('posts').push({ id: shortid.generate(), title: 'low!' }).write().id
-const post = db.get('posts').find({ id: postId }).value()
+const postId = db
+  .get('posts')
+  .push({ id: shortid.generate(), title: 'low!' })
+  .write()
+  .id
+  
+const post = db
+  .get('posts')
+  .find({ id: postId })
+  .value()
 ```
 
 ### How to create a custom Adapter
