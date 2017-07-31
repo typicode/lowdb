@@ -85,18 +85,6 @@ It supports __Node__, the __browser__ and uses __lodash API__, so it's very simp
 
 __Important__ lowdb doesn't support Cluster.
 
-## Used by
-
-* [typicode/json-server](https://github.com/typicode/json-server) - REST API with zero coding
-* [Gatsby](https://www.gatsbyjs.org/) - Blazing fast static site generator for React
-* [henryboldi/felony](https://github.com/henryboldi/felony) - Next Level PGP
-* [googlesamples/md2googleslides](https://github.com/googlesamples/md2googleslides) - Generate Google Slides from markdown
-* [sqren/fb-sleep-stats](https://github.com/sqren/fb-sleep-stats) - Sleeping habits tracker
-* [panzhangwang/getAwesomeness](https://github.com/panzhangwang/getAwesomeness) - All amazing awesomeness from Github
-* [redux-promise-middleware](https://github.com/pburtchaell/redux-promise-middleware) - Redux middleware
-* [sasha-alias/sqltabs](https://github.com/sasha-alias/sqltabs) - Rich SQL client
-* ... and [__900+ repositories__](https://libraries.io/npm/lowdb/dependent-repositories)
-
 ## Install
 
 ```sh
