@@ -20,7 +20,7 @@ npm install lowdb
 const low = require('lowdb')
 
 // Lowdb comes with adapters for JSON files and localStorage
-// but you can create adapters for other storages or DB
+// but you can create custom ones to store in other formats or storages
 
 const adapter = new low.FileSync('db.json')
 const db = low(adapter)
