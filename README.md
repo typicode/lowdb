@@ -21,6 +21,7 @@ const low = require('lowdb')
 const FileSync = require('lowdb/adapters/FileSync')
 
 // Lowdb comes with adapters for JSON files and localStorage
+// but you can create adapters for other storages or DB
 const adapter = new FileSync('db.json')
 
 // Create an instance
