@@ -18,11 +18,9 @@ npm install lowdb
 
 ```js
 const low = require('lowdb')
+const FileSync = require('lowdb/FileSync')
 
-// Lowdb comes with adapters for JSON files and localStorage
-// but you can create custom ones to store in other formats or storages
-
-const adapter = new low.FileSync('db.json')
+const adapter = new FileSync('db.json')
 const db = low(adapter)
 
 // Set some defaults if your JSON file is empty
@@ -63,7 +61,7 @@ db.get('posts')
 
 Lowdb is perfect for CLIs, small servers, Electron apps and npm packages in general.
 
-It supports __Node__, the __browser__ and uses __lodash API__, so it's very simple to learn. Actually, if you know Lodash you already know how to use lowdb :wink:
+It supports __Node__, the __browser__ and uses __lodash API__, so it's very simple to learn. Actually, if you know Lodash, you already know how to use lowdb :wink:
 
 * [Usage examples](https://github.com/typicode/lowdb/tree/master/examples)
   * [CLI](https://github.com/typicode/lowdb/tree/master/examples#cli)
@@ -72,20 +70,8 @@ It supports __Node__, the __browser__ and uses __lodash API__, so it's very simp
   * [In-memory](https://github.com/typicode/lowdb/tree/master/examples#in-memory)
 * [lowdb/lib/fp](https://github.com/typicode/lowdb/tree/master/examples/fp.md)
 * [JSFiddle live example](https://jsfiddle.net/typicode/4kd7xxbu/)
-* [__Migrating from 0.14 to 0.15? See this guide.__](https://github.com/typicode/lowdb/releases/tag/v0.15.0)
 
-## Why lowdb?
-
-* Lodash API
-* Minimal and simple to use
-* Highly flexible
-  * __Custom storage__ (file, browser, in-memory, ...)
-  * __Custom format__ (JSON, BSON, YAML, XML, ...)
-  * Mixins (id support, ...)
-  * Read-only or write-only modes
-  * Encryption
-
-__Important__ lowdb doesn't support Cluster.
+__Important__ lowdb doesn't support Cluster and large JSON files (~150MB).
 
 ## Install
 
@@ -114,7 +100,7 @@ A UMD build is also available on [unpkg](https://unpkg.com/) for testing and qui
 
 __low(adapter)__
 
-Creates a __lodash chain__, you can use __any__ lodash method on it. When `.write()` is called data is saved using `adapter`.
+Returns a db instance, which is actually a lodash chain.
 
 __db.___
 
@@ -127,8 +113,9 @@ db._.mixin({
   }
 })
 
-const post1 = db.get('posts').first().value()
-const post2 = db.get('posts').second().value()
+db.get('posts')
+  .second()
+  .value()
 ```
 
 __db.getState()__
@@ -141,7 +128,7 @@ db.getState() // { posts: [ ... ] }
 
 __db.setState(newState)__
 
-Set a new state.
+Sets a new state.
 
 ```js
 const newState = {}
@@ -150,14 +137,14 @@ db.setState(newState)
 
 __db.write()__
 
-Persists database using `adapter.write`. Depending on the adapter, it may return a promise (for example, with `file-async`).
+Persists database using `adapter.write`. Depending on the adapter, it may return a promise (for example, with `lowdb/FileAsync`).
 
 ```js
-// With FileSync
+// With lowdb/FileSync
 db.write()
 console.log('State has been saved')
 
-// With FileAsync
+// With lowdb/FileAsync
 db.write()
   .then(() => console.log('State has been saved'))
 ```
@@ -167,11 +154,11 @@ __db.read()__
 Reads source using `storage.read` option. Depending on the adapter, it may return a promise.
 
 ```js
-// With FileSync
+// With lowdb/FileSync
 db.read()
 console.log('State has been updated')
 
-// With FileAsync
+// With lowdb/FileAsync
 db.write()
   .then(() => console.log('State has been updated'))
 ```
@@ -184,7 +171,7 @@ With lowdb, you get access to the entire [lodash API](http://lodash.com/), so th
 
 Please note that data is returned by reference, this means that modifications to returned objects may change the database. To avoid such behaviour, you need to use `.cloneDeep()`.
 
-Also, the execution of methods is lazy, that is, execution is deferred until `.value()` is called.
+Also, the execution of methods is lazy, that is, execution is deferred until `.value()` or `.write()` is called.
 
 #### Examples
 
@@ -276,19 +263,19 @@ Being able to get data using an id can be quite useful, particularly in servers.
 [lodash-id](https://github.com/typicode/lodash-id) provides a set of helpers for creating and manipulating id-based resources.
 
 ```js
+const lodashId = require('lodash-id')
 const db = low('db.json')
 
-db._.mixin(require('lodash-id'))
+db._.mixin(lodashId)
 
-const postId = db
+const post = db
   .get('posts')
   .insert({ title: 'low!' })
   .write()
-  .id
-  
+
 const post = db
   .get('posts')
-  .getById(postId)
+  .getById(post.id)
   .value()
 ```
 
@@ -302,7 +289,7 @@ const postId = db
   .push({ id: shortid.generate(), title: 'low!' })
   .write()
   .id
-  
+
 const post = db
   .get('posts')
   .find({ id: postId })
@@ -311,18 +298,18 @@ const post = db
 
 ### How to create a custom Adapter
 
-`low()` accepts custom Adapter, so you can virtually save your data to any storage. 
+`low()` accepts custom Adapter, so you can virtually save your data to any storage.
 
 ```js
 class MyStorage {
   constructor() {
     // ...
   }
-  
+
   read() {
     // Return data or a Promise
   }
-  
+
   write(data) {
     // return nothing or a Promise
   }
