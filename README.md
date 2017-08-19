@@ -102,6 +102,23 @@ __low(adapter)__
 
 Returns a lodash [chain](https://lodash.com/docs/4.17.4#chain) with additional properties and functions described below.
 
+__db.[...].value()__ and __db.[...].write()__
+
+`value()` is [\_.protoype.value()](https://lodash.com/docs/4.17.4#prototype-value). It lets you execute a chain.
+
+`write()` is syntactic sugar, it calls `value()` and `db.write()` in one line.
+
+```js
+db.set('user.name', 'typicode')
+  .write()
+  
+// is equivalent to
+db.set('user.name', 'typicode')
+  .value()
+
+db.write()
+```
+
 __db.___
 
 Database lodash instance. Use it to add your own utility functions or third-party mixins like [underscore-contrib](https://github.com/documentcloud/underscore-contrib) or [lodash-id](https://github.com/typicode/lodash-id).
@@ -295,7 +312,7 @@ const post = db
   .value()
 ```
 
-### How to create a custom Adapter
+### How to create custom adapters
 
 `low()` accepts custom Adapter, so you can virtually save your data to any storage using any format.
 
