@@ -3,9 +3,11 @@
 ## CLI
 
 ```js
-// cli.js
 const low = require('lowdb')
-const db = low(new FileSync('db.json'))
+const FileSync = require('lowdb/adapters/FileSync')
+
+const adapter = new FileSync('db.json')
+const db = low(adapter)
 
 db.defaults({ posts: [] })
   .write()
@@ -28,7 +30,8 @@ $ node cli.js hello
 import low from 'lowdb'
 import LocalStorage from 'lowdb/adapters/Browser'
 
-const db = low(new LocalStorage('db'))
+const adapter = new LocalStorage('db')
+const db = low(adapter)
 
 db.defaults({ posts: [] })
   .write()
@@ -47,8 +50,8 @@ But if you need to avoid blocking requests, you can do so by using `file-async` 
 
 ```js
 const express = require('express')
+const FileAsync = require('lowdb/lib/adapters/file-async')
 const low = require('lowdb')
-const fileAsync = require('lowdb/lib/adapters/file-async')
 
 // Create server
 const app = express()
@@ -73,19 +76,33 @@ app.post('/posts', (req, res) => {
     .then(post => res.send(post))
 })
 
-// Start server
-low(new FileAsync('db.json'))
-  .then(db => db.defaults({ posts: [] }).write())
-  .then(() => app.listen(3000, () => console.log('Server is listening'))
+// Create database instance and start server
+const adapter = new FileAsync('db.json')
+low(adapter)
+  .then(db => {
+    db.defaults({ posts: [] })
+      .write()
+   })
+  .then(() => {
+    app.listen(3000, () => console.log('listening on port 3000')
+   })
 ```
 
 ## In-memory
 
-In this mode, everything is done in memory. It's useful for tests when you don't want to persist data.
+With this adapter, calling `write` will do nothing. One use case for this adapter can be for tests.
 
 ```js
 const fs = require('fs')
-const db = low(new Memory())
+const low = require('low')
+const FileSync = require('low/adapters/FileSync')
+const Memory = require('low/adapters/Memory')
+
+const db = low(
+  process.env.NODE_ENV === 'test'
+    ? new Memory()
+    : new FileSync('db.json')
+)
 
 db.defaults({ posts: [] })
   .write()
@@ -93,11 +110,4 @@ db.defaults({ posts: [] })
 db.get('posts')
   .push({ title: 'lowdb' })
   .write()
-```
-
-You can still persist data but you'll have to do it yourself:
-
-```js
-// Manual writing
-fs.writeFileSync('db.json', JSON.stringify(db.getState()))
 ```
