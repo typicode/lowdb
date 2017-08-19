@@ -18,7 +18,7 @@ npm install lowdb
 
 ```js
 const low = require('lowdb')
-const FileSync = require('lowdb/FileSync')
+const FileSync = require('lowdb/adapters/FileSync')
 
 const adapter = new FileSync('db.json')
 const db = low(adapter)
@@ -71,7 +71,7 @@ It supports __Node__, the __browser__ and uses __lodash API__, so it's very simp
 * [lowdb/lib/fp](https://github.com/typicode/lowdb/tree/master/examples/fp.md)
 * [JSFiddle live example](https://jsfiddle.net/typicode/4kd7xxbu/)
 
-__Important__ lowdb doesn't support Cluster and large JSON files (~150MB).
+__Important__ lowdb doesn't support Cluster and may have issues with very large JSON files (~200MB).
 
 ## Install
 
@@ -100,7 +100,7 @@ A UMD build is also available on [unpkg](https://unpkg.com/) for testing and qui
 
 __low(adapter)__
 
-Returns a db instance, which is actually a lodash chain.
+Returns a lodash [chain](https://lodash.com/docs/4.17.4#chain) with additional properties and functions described below.
 
 __db.___
 
@@ -128,7 +128,7 @@ db.getState() // { posts: [ ... ] }
 
 __db.setState(newState)__
 
-Sets a new state.
+Replaces database state.
 
 ```js
 const newState = {}
@@ -137,21 +137,21 @@ db.setState(newState)
 
 __db.write()__
 
-Persists database using `adapter.write`. Depending on the adapter, it may return a promise (for example, with `lowdb/FileAsync`).
+Persists database using `adapter.write` (depending on the adapter, may return a promise).
 
 ```js
-// With lowdb/FileSync
+// With lowdb/adapters/FileSync
 db.write()
 console.log('State has been saved')
 
-// With lowdb/FileAsync
+// With lowdb/adapters/FileAsync
 db.write()
   .then(() => console.log('State has been saved'))
 ```
 
 __db.read()__
 
-Reads source using `storage.read` option. Depending on the adapter, it may return a promise.
+Reads source using `storage.read` option (depending on the adapter, may return a promise).
 
 ```js
 // With lowdb/FileSync
@@ -255,10 +255,26 @@ db.get('posts')
   .value()
 ```
 
-
 ### How to use id based resources
 
 Being able to get data using an id can be quite useful, particularly in servers. To add id-based resources support to lowdb, you have 2 options.
+
+[shortid](https://github.com/dylang/shortid) is more minimalist and returns a unique id that you can use when creating resources.
+
+```js
+const shortid = require('shortid')
+
+const postId = db
+  .get('posts')
+  .push({ id: shortid.generate(), title: 'low!' })
+  .write()
+  .id
+
+const post = db
+  .get('posts')
+  .find({ id: postId })
+  .value()
+```
 
 [lodash-id](https://github.com/typicode/lodash-id) provides a set of helpers for creating and manipulating id-based resources.
 
@@ -279,26 +295,9 @@ const post = db
   .value()
 ```
 
-[shortid](https://github.com/dylang/shortid) is more minimalist and returns a unique id that you can use when creating resources.
-
-```js
-const shortid = require('shortid')
-
-const postId = db
-  .get('posts')
-  .push({ id: shortid.generate(), title: 'low!' })
-  .write()
-  .id
-
-const post = db
-  .get('posts')
-  .find({ id: postId })
-  .value()
-```
-
 ### How to create a custom Adapter
 
-`low()` accepts custom Adapter, so you can virtually save your data to any storage.
+`low()` accepts custom Adapter, so you can virtually save your data to any storage using any format.
 
 ```js
 class MyStorage {
@@ -307,31 +306,29 @@ class MyStorage {
   }
 
   read() {
-    // Return data or a Promise
+    // Should return data (object or array) or a Promise
   }
 
   write(data) {
-    // return nothing or a Promise
+    // Should return nothing or a Promise
   }
 }
+
+const adapter = new MyStorage(args)
+const db = low()
 ```
+
+See [src/adapters](src/adapters) for examples.
 
 ### How to encrypt data
 
+`FileSync` and `FileAsync` accept custom serializing and deserializing functions. 
+
 ```js
-class EncryptedFile extends lowdb.FileSync {
-  read() {
-    const encryptedData = super.read()
-    return decrypt(encryptedData)
-  }
-
-  write(data) {
-    const encryptedData = encrypt(data)
-    super.write(encryptedData)
-  }
-}
-
-const db = low(new EncryptedFile('db.json'))
+const adapter = new FileSync('db.json', {
+  serialize: (data) => encrypt(JSON.stringify(data))
+  deserialize: (data) => JSON.parse(decrypt(data))
+})
 ```
 
 ## Changelog
@@ -346,4 +343,4 @@ However, if you seek high performance and scalability more than simplicity, you 
 
 ## License
 
-MIT - [Typicode](https://github.com/typicode)
+MIT - [Typicode :cactus:](https://github.com/typicode)
