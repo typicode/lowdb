@@ -28,7 +28,7 @@ $ node cli.js hello
 
 ```js
 import low from 'lowdb'
-import LocalStorage from 'lowdb/adapters/Browser'
+import LocalStorage from 'lowdb/adapters/LocalStorage'
 
 const adapter = new LocalStorage('db')
 const db = low(adapter)
