@@ -1,7 +1,6 @@
 const isPromise = require('is-promise')
-const Memory = require('./adapters/Memory')
 
-const init = (db, key, adapter = new Memory()) => {
+const init = (db, key, adapter) => {
   db.read = () => {
     const r = adapter.read()
 

@@ -90,8 +90,9 @@ A UMD build is also available on [unpkg](https://unpkg.com/) for testing and qui
 ```html
 <script src="https://unpkg.com/lodash@4/lodash.min.js"></script>
 <script src="https://unpkg.com/lowdb/dist/lowdb.min.js"></script>
+<script src="https://unpkg.com/lowdb/dist/LocalStorage.min.js"></script>
 <script>
-  var adapter = new low.LocalStorage('db')
+  var adapter = new LocalStorage('db')
   var db = low(adapter)
 </script>
 ```
@@ -102,16 +103,15 @@ __low(adapter)__
 
 Returns a lodash [chain](https://lodash.com/docs/4.17.4#chain) with additional properties and functions described below.
 
-__db.[...].value()__ and __db.[...].write()__
+__db.[...].write()__ and __db.[...].value()__
 
-`value()` is [\_.protoype.value()](https://lodash.com/docs/4.17.4#prototype-value). It lets you execute a chain.
+`write()` is syntactic sugar for calling `value()` and `db.write()` in one line. On the other side, `value()` is just [\_.protoype.value()](https://lodash.com/docs/4.17.4#prototype-value), use it to execute a chain.
 
-`write()` is syntactic sugar, it calls `value()` and `db.write()` in one line.
 
 ```js
 db.set('user.name', 'typicode')
   .write()
-  
+
 // is equivalent to
 db.set('user.name', 'typicode')
   .value()
@@ -339,7 +339,7 @@ See [src/adapters](src/adapters) for examples.
 
 ### How to encrypt data
 
-`FileSync` and `FileAsync` accept custom serializing and deserializing functions. 
+`FileSync` and `FileAsync` accept custom serializing and deserializing functions.
 
 ```js
 const adapter = new FileSync('db.json', {

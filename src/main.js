@@ -3,7 +3,9 @@ const isPromise = require('is-promise')
 
 module.exports = function(adapter) {
   if (typeof adapter !== 'object') {
-    throw new Error('Adapter must be provided')
+    throw new Error(
+      'An adapter must be provided, see https://github.com/typicode/lowdb/#usage'
+    )
   }
 
   // Create a fresh copy of lodash
