@@ -3,9 +3,11 @@
 ## CLI
 
 ```js
-// cli.js
 const low = require('lowdb')
-const db = low('db.json')
+const FileSync = require('lowdb/adapters/FileSync')
+
+const adapter = new FileSync('db.json')
+const db = low(adapter)
 
 db.defaults({ posts: [] })
   .write()
@@ -26,7 +28,10 @@ $ node cli.js hello
 
 ```js
 import low from 'lowdb'
-const db = low('db')
+import LocalStorage from 'lowdb/adapters/LocalStorage'
+
+const adapter = new LocalStorage('db')
+const db = low(adapter)
 
 db.defaults({ posts: [] })
   .write()
@@ -46,16 +51,10 @@ But if you need to avoid blocking requests, you can do so by using `file-async` 
 ```js
 const express = require('express')
 const low = require('lowdb')
-const fileAsync = require('lowdb/lib/storages/file-async')
+const FileAsync = require('lowdb/lib/adapters/FileAsync')
 
 // Create server
 const app = express()
-
-// Start database using file-async storage
-// For ease of use, read is synchronous
-const db = low('db.json', {
-  storage: fileAsync
-})
 
 // Routes
 // GET /posts/:id
@@ -77,37 +76,33 @@ app.post('/posts', (req, res) => {
     .then(post => res.send(post))
 })
 
-// Init
-db.defaults({ posts: [] })
-  .write()
+// Create database instance and start server
+const adapter = new FileAsync('db.json')
+low(adapter)
+  .then(db => {
+    db.defaults({ posts: [] })
+      .write()
+   })
   .then(() => {
-    app.listen(3000, () => console.log('Server is listening')
-  })
-```
-
-Using ES7 `async/await` and [Babel](https://babeljs.io/), you can simplify the previous `POST` example above like this:
-
-```js
-app.post('/posts', async (req, res) => {
-  const post = await db.get('posts')
-    .push(req.body)
-    .last()
-    .assign({ id: Date.now() })
-    .write()
-
-  res.send(post)
-})
+    app.listen(3000, () => console.log('listening on port 3000')
+   })
 ```
 
 ## In-memory
 
-In this mode, no storage is used. Everything is done in memory.
-
-You can still persist data but you'll have to do it yourself. Here's an example:
+With this adapter, calling `write` will do nothing. One use case for this adapter can be for tests.
 
 ```js
 const fs = require('fs')
-const db = low()
+const low = require('low')
+const FileSync = require('low/adapters/FileSync')
+const Memory = require('low/adapters/Memory')
+
+const db = low(
+  process.env.NODE_ENV === 'test'
+    ? new Memory()
+    : new FileSync('db.json')
+)
 
 db.defaults({ posts: [] })
   .write()
@@ -115,9 +110,4 @@ db.defaults({ posts: [] })
 db.get('posts')
   .push({ title: 'lowdb' })
   .write()
-
-// Manual writing
-fs.writeFileSync('db.json', JSON.stringify(db.getState()))
 ```
-
-In this case, it's recommended to create a custom storage.

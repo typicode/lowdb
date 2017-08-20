@@ -1,53 +1,28 @@
 const isPromise = require('is-promise')
-const memory = require('./storages/memory')
-const defaultStorage = require('./storages/file-sync')
 
-const init = (
-  db,
-  key,
-  source,
-  {
-    storage = defaultStorage,
-    format = {}
-  } = {}) => {
-  db.source = source
+const init = (db, key, adapter) => {
+  db.read = () => {
+    const r = adapter.read()
 
-  // Set storage
-  // In-memory only if no source is provided
-  db.storage = {
-    ...memory,
-    ...(db.source && storage)
+    return isPromise(r) ? r.then(db.plant) : db.plant(r)
   }
 
-  db.read = (s = source) => {
-    const r = db.storage.read(s, format.deserialize)
+  db.write = (value = db.getState()) => {
+    const w = adapter.write(db.getState())
 
-    return isPromise(r)
-      ? r.then(db.plant)
-      : db.plant(r)
+    return isPromise(w) ? w.then(() => value) : value
   }
 
-  db.write = (dest = source, ...args) => {
-    const value = args.length
-      ? args[0]
-      : db.getState()
-
-    const w = db.storage.write(dest, db.getState(), format.serialize)
-    return isPromise(w)
-      ? w.then(() => value)
-      : value
-  }
-
-  db.plant = (state) => {
+  db.plant = state => {
     db[key] = state
     return db
   }
 
   db.getState = () => db[key]
 
-  db.setState = (state) => {
+  db.setState = state => {
     db.plant(state)
-    return db.write()
+    return db
   }
 
   return db.read()
