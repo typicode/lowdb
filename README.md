@@ -89,7 +89,7 @@ A UMD build is also available on [unpkg](https://unpkg.com/) for testing and qui
 
 ```html
 <script src="https://unpkg.com/lodash@4/lodash.min.js"></script>
-<script src="https://unpkg.com/lowdb/dist/lowdb.min.js"></script>
+<script src="https://unpkg.com/lowdb/dist/low.min.js"></script>
 <script src="https://unpkg.com/lowdb/dist/LocalStorage.min.js"></script>
 <script>
   var adapter = new LocalStorage('db')
