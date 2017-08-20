@@ -25,7 +25,7 @@
     "build": "npm run build:lib && npm run build:dist",
     "build:lib": "rimraf lib && babel src --out-dir lib && npm run mvAdapters",
     "build:dist": "rimraf dist && webpack && webpack -p",
-    "mvAdapters": "rimraf adapters && mv lib/adapters adapters",
+    "mvAdapters": "rimraf adapters && mv lib/adapters .",
     "precommit": "npm test"
   },
   "repository": {
