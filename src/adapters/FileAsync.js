@@ -1,3 +1,5 @@
+// eslint-disable-next-line no-unused-vars
+const regeneratorRuntime = require('regenerator-runtime')
 const fs = require('graceful-fs')
 const pify = require('pify')
 const steno = require('steno')
