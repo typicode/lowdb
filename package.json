@@ -43,7 +43,6 @@
     "is-promise": "^2.1.0",
     "lodash": "4",
     "pify": "^3.0.0",
-    "regenerator-runtime": "^0.11.0",
     "steno": "^0.4.1"
   },
   "devDependencies": {
@@ -70,6 +69,7 @@
     "pkg-ok": "^1.0.1",
     "prettier": "^1.5.2",
     "ramda": "^0.24.1",
+    "regenerator-runtime": "^0.11.0",
     "rimraf": "^2.5.4",
     "sinon": "^2.3.8",
     "tempfile": "^2.0.0",

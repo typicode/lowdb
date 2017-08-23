@@ -1,5 +1,5 @@
-// eslint-disable-next-line no-unused-vars
-const regeneratorRuntime = require('regenerator-runtime')
+// Not using async/await on purpose to avoid adding regenerator-runtime
+// to lowdb dependencies
 const fs = require('graceful-fs')
 const pify = require('pify')
 const steno = require('steno')
@@ -9,24 +9,27 @@ const readFile = pify(fs.readFile)
 const writeFile = pify(steno.writeFile)
 
 class FileAsync extends Base {
-  async read() {
+  read() {
     // fs.exists is deprecated but not fs.existsSync
     if (fs.existsSync(this.source)) {
       // Read database
-      try {
-        const data = (await readFile(this.source, 'utf-8')).trim()
-        // Handle blank file
-        return data ? this.deserialize(data) : this.defaultValue
-      } catch (e) {
-        if (e instanceof SyntaxError) {
-          e.message = `Malformed JSON in file: ${this.source}\n${e.message}`
-        }
-        throw e
-      }
+      return readFile(this.source, 'utf-8')
+        .then(data => {
+          // Handle blank file
+          const trimmed = data.trim()
+          return trimmed ? this.deserialize(trimmed) : this.defaultValue
+        })
+        .catch(e => {
+          if (e instanceof SyntaxError) {
+            e.message = `Malformed JSON in file: ${this.source}\n${e.message}`
+          }
+          throw e
+        })
     } else {
       // Initialize
-      await writeFile(this.source, this.serialize(this.defaultValue))
-      return this.defaultValue
+      return writeFile(this.source, this.serialize(this.defaultValue)).then(
+        () => this.defaultValue
+      )
     }
   }
 

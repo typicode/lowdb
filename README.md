@@ -180,6 +180,23 @@ db.write()
   .then(() => console.log('State has been updated'))
 ```
 
+## Adapters API
+
+Please note this only applies to adapters bundled with Lowdb. Third-party adapters may have different options.
+
+For convenience, `FileSync`, `FileAsync` and `LocalBrowser` accept the following options:
+
+* __defaultValue__ if file doesn't exist, this value will be used to set the initial state (default: `{}`)
+* __serialize/deserialize__ functions used before writing and after reading (default: `JSON.stringify` and `JSON.parse`)
+
+```js
+const adapter = new FileSync('array.yaml', {
+  defaultValue: [],
+  serialize: (array) => toYamlString(array),
+  deserialize: (string) => fromYamlString(string)
+})
+```
+
 ## Guide
 
 ### How to query
@@ -339,7 +356,7 @@ See [src/adapters](src/adapters) for examples.
 
 ### How to encrypt data
 
-`FileSync` and `FileAsync` accept custom serializing and deserializing functions.
+`FileSync`, `FileAsync` and `LocalStorage` accept custom `serialize` and `deserialize` functions. You can use them to add encryption logic.
 
 ```js
 const adapter = new FileSync('db.json', {
@@ -354,7 +371,7 @@ See changes for each version in the [release notes](https://github.com/typicode/
 
 ## Limits
 
-lowdb is a convenient method for storing data without setting up a database server. It is fast enough and safe to be used as an embedded database.
+Lowdb is a convenient method for storing data without setting up a database server. It is fast enough and safe to be used as an embedded database.
 
 However, if you seek high performance and scalability more than simplicity, you should probably stick to traditional databases like MongoDB.
 
