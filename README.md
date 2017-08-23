@@ -89,8 +89,8 @@ A UMD build is also available on [unpkg](https://unpkg.com/) for testing and qui
 
 ```html
 <script src="https://unpkg.com/lodash@4/lodash.min.js"></script>
-<script src="https://unpkg.com/lowdb/dist/low.min.js"></script>
-<script src="https://unpkg.com/lowdb/dist/LocalStorage.min.js"></script>
+<script src="https://unpkg.com/lowdb@0.17/dist/low.min.js"></script>
+<script src="https://unpkg.com/lowdb@0.17/dist/LocalStorage.min.js"></script>
 <script>
   var adapter = new LocalStorage('db')
   var db = low(adapter)
@@ -103,9 +103,13 @@ __low(adapter)__
 
 Returns a lodash [chain](https://lodash.com/docs/4.17.4#chain) with additional properties and functions described below.
 
-__db.[...].write()__ and __db.[...].value()__
+__db.[...].write()__
 
-`write()` is syntactic sugar for calling `value()` and `db.write()` in one line. On the other side, `value()` is just [\_.protoype.value()](https://lodash.com/docs/4.17.4#prototype-value), use it to execute a chain.
+__db.[...].value()__
+
+`write()` is syntactic sugar for calling `value()` and `db.write()` in one line. 
+
+On the other hand, `value()` is just [\_.protoype.value()](https://lodash.com/docs/4.17.4#prototype-value) and should be used to execute a chain that doesn't change database state.
 
 
 ```js
