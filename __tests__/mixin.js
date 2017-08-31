@@ -14,7 +14,11 @@ describe('mixin', () => {
       hello: (array, word) => array.push('hello ' + word)
     })
 
-    db.set('msg', []).get('msg').hello('world').write()
+    db
+      .set('msg', [])
+      .get('msg')
+      .hello('world')
+      .write()
 
     expect(db.getState().msg).toEqual(['hello world'])
   })
@@ -29,7 +33,10 @@ describe('mixin', () => {
 
     const id = posts.insert({ title: 'test' }).write()._id
 
-    const post = db.get('posts').getById(id).value()
+    const post = db
+      .get('posts')
+      .getById(id)
+      .value()
 
     expect(post).not.toBeUndefined()
   })

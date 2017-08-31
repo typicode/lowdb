@@ -53,7 +53,7 @@
     "babel-preset-env": "^1.6.0",
     "babel-register": "^6.9.0",
     "delay": "^2.0.0",
-    "eslint": "^3.19.0",
+    "eslint": "^4.5.0",
     "eslint-config-prettier": "^2.3.0",
     "eslint-config-standard": "^10.2.1",
     "eslint-plugin-import": "^2.6.1",
@@ -70,7 +70,7 @@
     "ramda": "^0.24.1",
     "regenerator-runtime": "^0.11.0",
     "rimraf": "^2.5.4",
-    "sinon": "^2.3.8",
+    "sinon": "^3.2.1",
     "tempfile": "^2.0.0",
     "webpack": "^3.3.0"
   },
