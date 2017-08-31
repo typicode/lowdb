@@ -1,7 +1,7 @@
 {
   "name": "lowdb",
   "version": "0.17.2",
-  "description": "JSON database for Node and the browser powered by lodash API",
+  "description": "Small JSON database for Node, Electron and the browser. Powered by Lodash.",
   "keywords": [
     "flat",
     "file",
@@ -9,10 +9,9 @@
     "database",
     "storage",
     "JSON",
-    "lo-dash",
     "lodash",
-    "underscore",
     "localStorage",
+    "electron",
     "embed",
     "embeddable"
   ],
