@@ -1,6 +1,6 @@
 {
   "name": "lowdb",
-  "version": "0.17.2",
+  "version": "1.0.0",
   "description": "Small JSON database for Node, Electron and the browser. Powered by Lodash.",
   "keywords": [
     "flat",
