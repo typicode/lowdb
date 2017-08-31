@@ -68,7 +68,6 @@ It supports __Node__, the __browser__ and uses __lodash API__, so it's very simp
   * [Browser](https://github.com/typicode/lowdb/tree/master/examples#browser)
   * [Server](https://github.com/typicode/lowdb/tree/master/examples#server)
   * [In-memory](https://github.com/typicode/lowdb/tree/master/examples#in-memory)
-* [lowdb/lib/fp](https://github.com/typicode/lowdb/tree/master/examples/fp.md)
 * [JSFiddle live example](https://jsfiddle.net/typicode/4kd7xxbu/)
 
 __Important__ lowdb doesn't support Cluster and may have issues with very large JSON files (~200MB).
