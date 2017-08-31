@@ -1,10 +1,10 @@
 # lowdb/lib/fp
 
+__:warning: Experimental__
+
 `lowdb/lib/fp` lets you use [`lodash/fp`](https://github.com/lodash/lodash/wiki/FP-Guide), [`Ramda`](https://github.com/ramda/ramda) or simple JavaScript functions with lowdb.
 
-It can help reducing the size of your `bundle.js`.
-
-_Note `fp` is a recent addition to `lowdb`, feedbacks are welcome :)_
+It can help reducing the size of your `bundle.js`
 
 ## Usage
 
