@@ -56,13 +56,12 @@ const FileAsync = require('lowdb/adapters/FileAsync')
 
 // Create server
 const app = express()
-app.use(bodyParser.json());
+app.use(bodyParser.json())
 
 // Create database instance and start server
 const adapter = new FileAsync('db.json')
 low(adapter)
   .then(db => {
-
     // Routes
     // GET /posts/:id
     app.get('/posts/:id', (req, res) => {
