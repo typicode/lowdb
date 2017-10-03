@@ -82,6 +82,7 @@ low(adapter)
         .then(post => res.send(post))
     })
 
+    // Set db default values
     return db.defaults({ posts: [] }).write()
   })
   .then(() => {
