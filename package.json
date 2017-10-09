@@ -67,7 +67,7 @@
     "mv": "^2.1.1",
     "pkg-ok": "^1.0.1",
     "prettier": "^1.5.2",
-    "ramda": "^0.24.1",
+    "ramda": "^0.25.0",
     "regenerator-runtime": "^0.11.0",
     "rimraf": "^2.5.4",
     "sinon": "^3.2.1",
