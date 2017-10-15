@@ -102,11 +102,9 @@ __low(adapter)__
 
 Returns a lodash [chain](https://lodash.com/docs/4.17.4#chain) with additional properties and functions described below.
 
-__db.[...].write()__
+__db.[...].write()__ and __db.[...].value()__
 
-__db.[...].value()__
-
-`write()` is syntactic sugar for calling `value()` and `db.write()` in one line. 
+`write()` writes database to state.
 
 On the other hand, `value()` is just [\_.protoype.value()](https://lodash.com/docs/4.17.4#prototype-value) and should be used to execute a chain that doesn't change database state.
 
@@ -114,8 +112,11 @@ On the other hand, `value()` is just [\_.protoype.value()](https://lodash.com/do
 ```js
 db.set('user.name', 'typicode')
   .write()
+```
 
-// is equivalent to
+Please note that `db.[...].write()` is syntactic sugar and equivalent to
+
+```js
 db.set('user.name', 'typicode')
   .value()
 
