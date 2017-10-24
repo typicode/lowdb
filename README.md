@@ -1,3 +1,7 @@
+<a target='_blank' rel='nofollow' href='https://app.codesponsor.io/link/6WUB3WBwbmZXbZxzrUv5y2A5/typicode/lowdb'>
+  <img alt='Sponsor' width='888' height='68' src='https://app.codesponsor.io/embed/6WUB3WBwbmZXbZxzrUv5y2A5/typicode/lowdb.svg' />
+</a>
+
 # Lowdb
 
 [![](http://img.shields.io/npm/dm/lowdb.svg?style=flat)](https://www.npmjs.org/package/lowdb) [![Build Status](https://travis-ci.org/typicode/lowdb.svg?branch=master)](https://travis-ci.org/typicode/lowdb) [![npm](https://img.shields.io/npm/v/lowdb.svg)](https://www.npmjs.org/package/lowdb) [![Donate](https://img.shields.io/badge/patreon-donate-ff69b4.svg)](https://www.patreon.com/typicode)
@@ -9,10 +13,6 @@ db.get('posts')
   .push({ id: 1, title: 'lowdb is awesome'})
   .write()
 ```
-
-<a target='_blank' rel='nofollow' href='https://app.codesponsor.io/link/6WUB3WBwbmZXbZxzrUv5y2A5/typicode/lowdb'>
-  <img alt='Sponsor' width='888' height='68' src='https://app.codesponsor.io/embed/6WUB3WBwbmZXbZxzrUv5y2A5/typicode/lowdb.svg' />
-</a>
 
 ## Usage
 
