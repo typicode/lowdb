@@ -50,42 +50,44 @@ But if you need to avoid blocking requests, you can do so by using `file-async` 
 
 ```js
 const express = require('express')
+const bodyParser = require('body-parser')
 const low = require('lowdb')
 const FileAsync = require('lowdb/adapters/FileAsync')
 
 // Create server
 const app = express()
-
-// Routes
-// GET /posts/:id
-app.get('/posts/:id', (req, res) => {
-  const post = db.get('posts')
-    .find({ id: req.params.id })
-    .value()
-
-  res.send(post)
-})
-
-// POST /posts
-app.post('/posts', (req, res) => {
-  db.get('posts')
-    .push(req.body)
-    .last()
-    .assign({ id: Date.now() })
-    .write()
-    .then(post => res.send(post))
-})
+app.use(bodyParser.json())
 
 // Create database instance and start server
 const adapter = new FileAsync('db.json')
 low(adapter)
   .then(db => {
-    db.defaults({ posts: [] })
-      .write()
-   })
+    // Routes
+    // GET /posts/:id
+    app.get('/posts/:id', (req, res) => {
+      const post = db.get('posts')
+        .find({ id: req.params.id })
+        .value()
+
+      res.send(post)
+    })
+
+    // POST /posts
+    app.post('/posts', (req, res) => {
+      db.get('posts')
+        .push(req.body)
+        .last()
+        .assign({ id: Date.now().toString() })
+        .write()
+        .then(post => res.send(post))
+    })
+
+    // Set db default values
+    return db.defaults({ posts: [] }).write()
+  })
   .then(() => {
-    app.listen(3000, () => console.log('listening on port 3000')
-   })
+    app.listen(3000, () => console.log('listening on port 3000'))
+  })
 ```
 
 ## In-memory
