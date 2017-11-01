@@ -15,9 +15,9 @@ describe('LocalStorage', () => {
     const obj = { a: 1 }
 
     const localStorage = new LocalStorage('db')
-    expect(localStorage.read(), {})
+    expect(localStorage.read()).toEqual({})
 
     localStorage.write(obj)
-    expect(localStorage.read(), obj)
+    expect(localStorage.read()).toEqual(obj)
   })
 })

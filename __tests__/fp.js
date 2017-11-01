@@ -37,6 +37,6 @@ describe('fp + lodash/fp', () => {
     expect(db.getState()).toEqual({ posts: [1] })
 
     const actual = JSON.parse(fs.readFileSync(filename))
-    expect(actual, { posts: [1] })
+    expect(actual).toEqual({ posts: [1] })
   })
 })
