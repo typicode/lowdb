@@ -60,7 +60,7 @@
     "eslint-plugin-prettier": "^2.1.2",
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^3.0.1",
-    "husky": "^0.15.0-beta.12",
+    "husky": "^0.15.0-beta.14",
     "jest": "^21.2.1",
     "lodash-id": "^0.14.0",
     "mv": "^2.1.1",
