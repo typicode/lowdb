@@ -180,7 +180,7 @@ db.read()
 console.log('State has been updated')
 
 // With lowdb/FileAsync
-db.write()
+db.read()
   .then(() => console.log('State has been updated'))
 ```
 
