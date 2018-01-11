@@ -29,7 +29,7 @@ const post = posts(
   find({ id: 1 })
 )
 
-// Find top 5 fives posts
+// Find top 5 posts
 const popular = posts([
   sortBy('views'),
   take(5)
