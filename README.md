@@ -24,7 +24,7 @@ const adapter = new FileSync('db.json')
 const db = low(adapter)
 
 // Set some defaults
-db.defaults({ posts: [], user: {} })
+db.defaults({ posts: [], user: {}, count: 0 })
   .write()
 
 // Add a post
@@ -34,6 +34,10 @@ db.get('posts')
 
 // Set a user using Lodash shorthand syntax
 db.set('user.name', 'typicode')
+  .write()
+  
+// Increment count
+db.update('count', n => n + 1)
   .write()
 ```
 
@@ -46,14 +50,15 @@ Data is saved to `db.json`
   ],
   "user": {
     "name": "typicode"
-  }
+  },
+  "count": 1
 }
 ```
 
-You can use any [lodash](https://lodash.com/docs) function like [`_.get`](https://lodash.com/docs#get) and [`_.find`](https://lodash.com/docs#find) with shorthand syntax.
+You can use any of the powerful [lodash](https://lodash.com/docs) functions, like [`_.get`](https://lodash.com/docs#get) and [`_.find`](https://lodash.com/docs#find) with shorthand syntax.
 
 ```js
-// Use .value() instead of .write() if you're only reading from db
+// For performance, use .value() instead of .write() if you're only reading from db
 db.get('posts')
   .find({ id: 1 })
   .value()
