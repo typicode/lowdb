@@ -72,7 +72,7 @@
     "webpack": "^3.10.0"
   },
   "engines": {
-    "node": ">=4"
+    "node": ">=6"
   },
   "husky": {
     "hooks": {
