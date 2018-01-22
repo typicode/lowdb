@@ -47,7 +47,6 @@
     "babel-cli": "^6.2.0",
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.2.1",
-    "babel-jest": "^22.1.0",
     "babel-loader": "^7.1.1",
     "babel-preset-env": "^1.6.1",
     "delay": "^2.0.0",
@@ -74,11 +73,6 @@
   },
   "engines": {
     "node": ">=4"
-  },
-  "jest": {
-    "transform": {
-      "^.+\\.jsx?$": "babel-jest"
-    }
   },
   "husky": {
     "hooks": {
