@@ -323,18 +323,25 @@ const post = db
 
 ```js
 const lodashId = require('lodash-id')
-const db = low('db.json')
+const FileSync = require('lowdb/adapters/FileSync')
+
+const adapter = new FileSync('db.json')
+const db = low(adapter)
 
 db._.mixin(lodashId)
 
-const post = db
+// We need to set some default values, if the collection does not exist yet
+// We also can store our collection
+const collection = db
+  .defaults({ posts: [] })
   .get('posts')
+
+const newPost = collection
   .insert({ title: 'low!' })
   .write()
 
-const post = db
-  .get('posts')
-  .getById(post.id)
+const oldPost = collection
+  .getById(newPost.id)
   .value()
 ```
 
