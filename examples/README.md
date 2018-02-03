@@ -96,9 +96,9 @@ With this adapter, calling `write` will do nothing. One use case for this adapte
 
 ```js
 const fs = require('fs')
-const low = require('low')
-const FileSync = require('low/adapters/FileSync')
-const Memory = require('low/adapters/Memory')
+const low = require('lowdb')
+const FileSync = require('lowdb/adapters/FileSync')
+const Memory = require('lowdb/adapters/Memory')
 
 const db = low(
   process.env.NODE_ENV === 'test'
