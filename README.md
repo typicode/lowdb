@@ -23,7 +23,7 @@ const FileSync = require('lowdb/adapters/FileSync')
 const adapter = new FileSync('db.json')
 const db = low(adapter)
 
-// Set some defaults
+// Set some defaults (required if your JSON file is empty)
 db.defaults({ posts: [], user: {}, count: 0 })
   .write()
 
@@ -336,11 +336,13 @@ const collection = db
   .defaults({ posts: [] })
   .get('posts')
 
+// Insert a new post...
 const newPost = collection
   .insert({ title: 'low!' })
   .write()
 
-const oldPost = collection
+// ...and retrieve it using its id
+const post = collection
   .getById(newPost.id)
   .value()
 ```
