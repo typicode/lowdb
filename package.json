@@ -62,7 +62,7 @@
     "jest": "^22.1.4",
     "lodash-id": "^0.14.0",
     "mv": "^2.1.1",
-    "pkg-ok": "^1.0.1",
+    "pkg-ok": "^2.0.0",
     "prettier": "^1.10.2",
     "ramda": "^0.25.0",
     "regenerator-runtime": "^0.11.1",
