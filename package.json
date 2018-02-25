@@ -69,7 +69,7 @@
     "rimraf": "^2.6.2",
     "sinon": "^4.2.0",
     "tempfile": "^2.0.0",
-    "webpack": "^3.10.0"
+    "webpack": "^4.0.0"
   },
   "engines": {
     "node": ">=6"
