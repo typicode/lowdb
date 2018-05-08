@@ -58,7 +58,7 @@
     "eslint-plugin-prettier": "^2.5.0",
     "eslint-plugin-promise": "^3.6.0",
     "eslint-plugin-standard": "^3.0.1",
-    "husky": "^0.15.0-rc.12",
+    "husky": "^1.0.0-rc.3",
     "jest": "^22.1.4",
     "lodash-id": "^0.14.0",
     "mv": "^2.1.1",
