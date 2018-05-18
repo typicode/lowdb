@@ -6,7 +6,7 @@ const Base = require('./Base')
 class DatArchive extends Base {
   read() {
   	let archive = new DatArchive(window.location.toString())
-  	archive.stat(this.source).then(data => {
+  	archive.stat(this.source).then(_ => {
 	  	let data = archive.readFile(this.source).then(data => {
 				const trimmed = data.trim()
 				return trimmed ? this.deserialize(trimmed) : this.defaultValue
@@ -25,7 +25,7 @@ class DatArchive extends Base {
 
   write(data) {
     let archive = new DatArchive(window.location.toString())
-    return archive.writeFile(this.source, this.serialize(this.defaultValue)).then(() => true)
+    return archive.writeFile(this.source, this.serialize(data)).then(() => true)
   }
 }
 
