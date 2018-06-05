@@ -11,8 +11,10 @@ It can help reducing the size of your `bundle.js`
 ```js
 import low from 'lowdb/lib/fp'
 import { concat, find, sortBy, take, random } from 'lodash/fp'
+import FileSync from 'lowdb/adapters/FileSync'
 
-const db = low()
+const adapter = new FileSync('db.json')
+const db = low(adapter)
 
 // Get posts
 const defaultValue = []
