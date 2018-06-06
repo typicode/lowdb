@@ -13,8 +13,7 @@ describe('Lowdb', () => {
     db.defaults({ foo: [] }).write()
 
     // Create
-    db
-      .get('foo')
+    db.get('foo')
       .push({ a: 1 })
       .write()
     expect(
@@ -40,8 +39,7 @@ describe('Lowdb', () => {
     ).toBeUndefined()
 
     // Update
-    db
-      .get('foo')
+    db.get('foo')
       .find({ a: 1 })
       .assign({ a: 2 })
       .write()
@@ -55,8 +53,7 @@ describe('Lowdb', () => {
     ).toBeTruthy()
 
     // Delete
-    db
-      .get('foo')
+    db.get('foo')
       .remove({ a: 2 })
       .write()
     expect(db.get('foo').isEmpty()).toBeTruthy()
@@ -74,8 +71,7 @@ describe('Lowdb', () => {
 
     db.defaults({ foo: [] }).value()
 
-    db
-      .get('foo')
+    db.get('foo')
       .push(1)
       .write()
 

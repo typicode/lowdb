@@ -14,8 +14,7 @@ describe('mixin', () => {
       hello: (array, word) => array.push('hello ' + word)
     })
 
-    db
-      .set('msg', [])
+    db.set('msg', [])
       .get('msg')
       .hello('world')
       .write()
