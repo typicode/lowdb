@@ -67,7 +67,7 @@
     "ramda": "^0.25.0",
     "regenerator-runtime": "^0.11.1",
     "rimraf": "^2.6.2",
-    "sinon": "^4.2.0",
+    "sinon": "^5.0.0",
     "tempfile": "^2.0.0",
     "webpack": "^3.10.0"
   },
