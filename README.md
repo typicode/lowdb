@@ -1,3 +1,5 @@
+## help me build lowdb v2, looking for your feedback https://goo.gl/forms/7682M3xYzKtR6pUt1
+
 # Lowdb
 
 [![](http://img.shields.io/npm/dm/lowdb.svg?style=flat)](https://www.npmjs.org/package/lowdb) [![Build Status](https://travis-ci.org/typicode/lowdb.svg?branch=master)](https://travis-ci.org/typicode/lowdb) [![npm](https://img.shields.io/npm/v/lowdb.svg)](https://www.npmjs.org/package/lowdb) [![Donate](https://img.shields.io/badge/patreon-donate-ff69b4.svg)](https://www.patreon.com/typicode)
