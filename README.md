@@ -1,4 +1,4 @@
-## help me build lowdb v2, looking for your feedback https://goo.gl/forms/7682M3xYzKtR6pUt1
+## help me build lowdb v2, looking for your feedback [survey](https://goo.gl/forms/7682M3xYzKtR6pUt1)
 
 # Lowdb
 
