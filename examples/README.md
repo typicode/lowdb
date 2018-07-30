@@ -13,7 +13,7 @@ db.defaults({ posts: [] })
   .write()
 
 const result = db.get('posts')
-  .push({ name: process.argv[2] })
+  .push({ title: process.argv[2] })
   .write()
 
 console.log(result)
