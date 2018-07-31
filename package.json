@@ -50,7 +50,7 @@
     "babel-loader": "^7.1.4",
     "babel-preset-env": "^1.7.0",
     "delay": "^3.0.0",
-    "eslint": "^4.19.1",
+    "eslint": "^5.0.0",
     "eslint-config-prettier": "^2.9.0",
     "eslint-config-standard": "^10.2.1",
     "eslint-plugin-import": "^2.12.0",
