@@ -74,6 +74,9 @@
   "engines": {
     "node": ">=6"
   },
+  "jest": {
+    "testURL": "http://localhost/"
+  },
   "husky": {
     "hooks": {
       "pre-commit": "npm test"
