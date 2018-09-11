@@ -2,7 +2,7 @@
 
 # Lowdb
 
-[![](http://img.shields.io/npm/dm/lowdb.svg?style=flat)](https://www.npmjs.org/package/lowdb) [![Build Status](https://travis-ci.org/typicode/lowdb.svg?branch=master)](https://travis-ci.org/typicode/lowdb) [![npm](https://img.shields.io/npm/v/lowdb.svg)](https://www.npmjs.org/package/lowdb) [![Donate](https://img.shields.io/badge/patreon-donate-ff69b4.svg)](https://www.patreon.com/typicode)
+[![](http://img.shields.io/npm/dm/lowdb.svg?style=flat)](https://www.npmjs.org/package/lowdb) [![Build Status](https://travis-ci.org/typicode/lowdb.svg?branch=master)](https://travis-ci.org/typicode/lowdb) [![npm](https://img.shields.io/npm/v/lowdb.svg)](https://www.npmjs.org/package/lowdb)
 
 > Small JSON database for Node, Electron and the browser. Powered by Lodash. :zap:
 
@@ -11,6 +11,10 @@ db.get('posts')
   .push({ id: 1, title: 'lowdb is awesome'})
   .write()
 ```
+
+<a href="https://www.patreon.com/typicode">
+	<img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160">
+</a>
 
 ## Usage
 
