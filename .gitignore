@@ -1,8 +1,0 @@
-**/*.log
-node_modules
-tmp
-.DS_Store
-.idea
-lib
-dist
-/adapters
