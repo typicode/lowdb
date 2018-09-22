@@ -400,6 +400,10 @@ Lowdb is a convenient method for storing data without setting up a database serv
 
 However, if you seek high performance and scalability more than simplicity, you should probably stick to traditional databases like MongoDB.
 
+## Issues? 
+Make a issue on Github or join our Discord Server! 
+[https://discord.gg/HK8aJhF](https://discord.gg/HK8aJhF)
+
 ## License
 
 MIT - [Typicode :cactus:](https://github.com/typicode)
