@@ -3,43 +3,45 @@
 ## CLI
 
 ```js
-const low = require('lowdb')
-const FileSync = require('lowdb/adapters/FileSync')
+const LowSync = require('lowdb/lib/LowSync')
+const FileSync = require('lowdb/lib/adapters/FileSync')
 
 const adapter = new FileSync('db.json')
-const db = low(adapter)
+const db = new LowSync(adapter)
 
-db.defaults({ posts: [] })
-  .write()
+db.read()
 
-const result = db.get('posts')
-  .push({ title: process.argv[2] })
-  .write()
+if (db.data === null) {
+  db.data = { posts: [] }
+}
 
-console.log(result)
+db.data.posts.push({ title: process.argv[2] })
+db.write()
 ```
 
 ```sh
 $ node cli.js hello
-# [ { title: 'hello' } ]
+$ cat db.json
+# { "posts": [ "title": "hello" ] }
 ```
 
 ## Browser
 
 ```js
-import low from 'lowdb'
-import LocalStorage from 'lowdb/adapters/LocalStorage'
+import LowSync from 'lowdb/lib/LowSync'
+import LocalStorage from 'lowdb/lib/adapters/LocalStorage'
 
 const adapter = new LocalStorage('db')
-const db = low(adapter)
+const db = new LowSync(adapter)
 
-db.defaults({ posts: [] })
-  .write()
+db.read()
 
-// Data is automatically saved to localStorage
-db.get('posts')
-  .push({ title: 'lowdb' })
-  .write()
+if (db.data === null) {
+  db.data = { posts: [] }
+}
+
+db.data.posts.push({ title: 'lowdb' })
+db.write()
 ```
 
 ## Server
@@ -51,43 +53,45 @@ But if you need to avoid blocking requests, you can do so by using `file-async` 
 ```js
 const express = require('express')
 const bodyParser = require('body-parser')
-const low = require('lowdb')
-const FileAsync = require('lowdb/adapters/FileAsync')
+const Low = require('lowdb/lib/Low')
+const JSONFile = require('lowdb/lib/adapters/JSONFile')
 
-// Create server
 const app = express()
 app.use(bodyParser.json())
 
-// Create database instance and start server
 const adapter = new FileAsync('db.json')
-low(adapter)
-  .then(db => {
+const db = new Low(adapter)
+
+db.read()
+  .then(() => {
+    if (db.data === null) {
+      db.data = { posts: [] }
+    }
+
     // Routes
     // GET /posts/:id
     app.get('/posts/:id', (req, res) => {
-      const post = db.get('posts')
-        .find({ id: req.params.id })
-        .value()
-
+      const post = db.data.posts.find(post => post.id === req.params.id })
       res.send(post)
     })
 
     // POST /posts
     app.post('/posts', (req, res) => {
-      db.get('posts')
-        .push(req.body)
-        .last()
-        .assign({ id: Date.now().toString() })
-        .write()
-        .then(post => res.send(post))
-    })
+      const post = {
+        id: Date.now().toString(),
+        ...req.body
+      }
 
-    // Set db default values
-    return db.defaults({ posts: [] }).write()
+      db.data.posts.push(post)
+      
+      db.write()
+        .then(() => res.send(post))
+    })
   })
   .then(() => {
     app.listen(3000, () => console.log('listening on port 3000'))
   })
+
 ```
 
 ## In-memory
@@ -96,20 +100,13 @@ With this adapter, calling `write` will do nothing. One use case for this adapte
 
 ```js
 const fs = require('fs')
-const low = require('lowdb')
-const FileSync = require('lowdb/adapters/FileSync')
-const Memory = require('lowdb/adapters/Memory')
+const low = require('lowdb/lib/LowSync')
+const FileSync = require('lowdb/lib/adapters/FileSync')
+const MemorySync = require('lowdb/lib/adapters/MemorySync')
 
-const db = low(
-  process.env.NODE_ENV === 'test'
-    ? new Memory()
-    : new FileSync('db.json')
-)
+const adapter = process.env.NODE_ENV === 'test'
+  ? new MemorySync()
+  : new FileSync('db.json')
 
-db.defaults({ posts: [] })
-  .write()
-
-db.get('posts')
-  .push({ title: 'lowdb' })
-  .write()
+const db = new LowSync(adapter)
 ```
