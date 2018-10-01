@@ -41,7 +41,7 @@ npm install lowdb
 ## Usage
 
 ```js
-import Low from 'lowdb'
+import Low from 'lowdb/lib/Low'
 import JSONFile from 'lowdb/adapters/JSONFile'
 
 const adapter = new JSONFile('db.json')

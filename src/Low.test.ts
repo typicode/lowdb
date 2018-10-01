@@ -1,10 +1,10 @@
 import * as fs from 'fs'
 import * as lodash from 'lodash'
 import * as tempy from 'tempy'
-import JSONFileAdapter from '../adapters/JSONFile'
-import Low from '../Low'
+import JSONFileAdapter from './adapters/JSONFile'
+import Low from './Low'
 
-function createJSONFile(obj) {
+function createJSONFile(obj: object) {
   const file = tempy.file()
   fs.writeFileSync(file, JSON.stringify(obj))
   return file

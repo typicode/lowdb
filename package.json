@@ -1,14 +1,14 @@
 {
   "name": "lowdb",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
     "test": "jest",
     "lint": "tslint 'src/**/*.ts'",
     "fix": "npm run lint -- --fix",
     "toc": "doctoc README.md",
     "build": "del-cli lib && tsc",
-    "prepublishOnly": "npm run build && pkg-ok"
+    "prepublishOnly": "npm run build && node test/lib && pkg-ok"
   },
   "repository": "https://github.com/typicode/lowdb",
   "author": "typicode <typicode@gmail.com>",

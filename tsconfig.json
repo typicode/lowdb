@@ -1,10 +1,12 @@
 {
   "compilerOptions": {
     "lib": [
-      "es2017"
+      "es2017",
+      "dom"
     ],
     "target": "ES2017",
     "module": "commonjs",
+    "sourceMap": true,
     "outDir": "./lib",
     "rootDir": "./src",
     "strict": true,
@@ -14,6 +16,8 @@
     "removeComments": true,
   },
   "exclude": [
+    "node_modules",
+    "**/*.test.ts",
     "**/__tests__/*"
   ]
 }
