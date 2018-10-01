@@ -17,6 +17,7 @@
     "@types/jest": "^23.3.1",
     "@types/lodash": "^4.14.116",
     "@types/node": "^10.9.3",
+    "@types/tempy": "^0.1.0",
     "@types/write-file-atomic": "^2.1.1",
     "del-cli": "^1.1.0",
     "doctoc": "^1.3.1",
