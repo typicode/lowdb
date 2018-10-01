@@ -51,47 +51,54 @@ Please __note__ that if you're developing a local server and don't expect to get
 But if you need to avoid blocking requests, you can do so by using `file-async` storage.
 
 ```js
-const express = require('express')
-const bodyParser = require('body-parser')
-const Low = require('lowdb/lib/Low')
-const JSONFile = require('lowdb/lib/adapters/JSONFile')
+const Koa = require("koa");
+const _ = require("koa-route");
+const bodyParser = require("koa-bodyparser");
 
-const app = express()
-app.use(bodyParser.json())
+const Low = require("lowdb/lib/Low");
+const JSONFile = require("lowdb/lib/adapters/JSONFile");
 
-const adapter = new FileAsync('db.json')
-const db = new Low(adapter)
+const app = new Koa();
 
-db.read()
-  .then(() => {
-    if (db.data === null) {
-      db.data = { posts: [] }
-    }
+app.use(bodyParser());
 
-    // Routes
-    // GET /posts/:id
-    app.get('/posts/:id', (req, res) => {
-      const post = db.data.posts.find(post => post.id === req.params.id })
-      res.send(post)
+const adapter = new JSONFile("db.json");
+const db = new Low(adapter);
+
+;(async () => {
+  await db.read();
+  if (db.data === null) {
+    db.data = { posts: [] };
+  }
+
+  app.use(
+    _.get("/posts", async ctx => {
+      ctx.body = db.data.posts;
     })
+  );
 
-    // POST /posts
-    app.post('/posts', (req, res) => {
+  app.use(
+    _.get("/posts/:id", async (ctx, id) => {
+      const post = db.data.posts.find((post: any) => post.id === id);
+      if (!post) {
+        return ctx.throw("Cannot find post with ID: " + id, 404);
+      }
+      ctx.body = post;
+    })
+  );
+  app.use(
+    _.post("/posts", async ctx => {
       const post = {
         id: Date.now().toString(),
-        ...req.body
-      }
-
-      db.data.posts.push(post)
-      
-      db.write()
-        .then(() => res.send(post))
+        ...ctx.request.body
+      };
+      db.data.posts.push(post);
+      await db.write();
+      ctx.body = post;
     })
-  })
-  .then(() => {
-    app.listen(3000, () => console.log('listening on port 3000'))
-  })
-
+  );
+  app.listen(8080);
+})();
 ```
 
 ## In-memory
