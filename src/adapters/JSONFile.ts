@@ -1,5 +1,5 @@
 import * as fs from 'fs'
-import * as mutexify from 'mutexify'
+import mutexify = require('mutexify')
 import * as writeFileAtomic from 'write-file-atomic'
 import { IAdapter } from '../Low'
 
