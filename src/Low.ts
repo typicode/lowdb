@@ -5,9 +5,9 @@ export interface IAdapter {
   write: (data: any) => Promise<void>
 }
 
-export default class Low {
+export default class Low<T = any> {
   public adapter: IAdapter
-  public data: any
+  public data?: T
 
   constructor(adapter: IAdapter) {
     if (adapter) {

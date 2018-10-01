@@ -260,18 +260,14 @@ const db = new Low(adapter)
 
 ### Using it with TypeScript
 
-Lowdb now comes with definitions files out of the box, but there's only `data` that isn't typed because lowdb can't know what your data structure will be. To let know TypeScript what your data structure is you can extend Low like below:
+Lowdb now comes with definitions files out of the box, but since there's no way of telling what the data will look like you will need to provide an interface via a generic. 
 
 ```ts
 interface IData {
   messages: string[]
 }
 
-class TypedData extends Low {
-  data: IData
-}
-
-const db = new Low(adapter) as TypedData
+const db = new Low<IData>(adapter)
 ```
 
 ## Limits
