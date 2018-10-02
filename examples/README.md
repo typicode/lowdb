@@ -51,54 +51,57 @@ Please __note__ that if you're developing a local server and don't expect to get
 But if you need to avoid blocking requests, you can do so by using `file-async` storage.
 
 ```js
-const Koa = require("koa");
-const _ = require("koa-route");
-const bodyParser = require("koa-bodyparser");
+const Koa = require('koa')
+const _ = require('koa-route')
+const bodyParser = require('koa-bodyparser')
 
-const Low = require("lowdb/lib/Low");
-const JSONFile = require("lowdb/lib/adapters/JSONFile");
+const Low = require('lowdb/lib/Low')
+const JSONFile = require('lowdb/lib/adapters/JSONFile')
 
-const app = new Koa();
+const app = new Koa()
 
-app.use(bodyParser());
+app.use(bodyParser())
 
-const adapter = new JSONFile("db.json");
-const db = new Low(adapter);
+const adapter = new JSONFile('db.json')
+const db = new Low(adapter)
 
-;(async () => {
-  await db.read();
+(async () => {
+  await db.read()
+  
   if (db.data === null) {
-    db.data = { posts: [] };
+    db.data = { posts: [] }
   }
 
   app.use(
-    _.get("/posts", async ctx => {
-      ctx.body = db.data.posts;
+    _.get('/posts', async ctx => {
+      ctx.body = db.data.posts
     })
-  );
+  )
 
   app.use(
-    _.get("/posts/:id", async (ctx, id) => {
-      const post = db.data.posts.find((post: any) => post.id === id);
+    _.get('/posts/:id', async (ctx, id) => {
+      const post = db.data.posts.find((post: any) => post.id === id)
       if (!post) {
-        return ctx.throw("Cannot find post with ID: " + id, 404);
+        return ctx.throw('Cannot find post with ID: ' + id, 404)
       }
-      ctx.body = post;
+      ctx.body = post
     })
-  );
+  )
+
   app.use(
-    _.post("/posts", async ctx => {
+    _.post('/posts', async ctx => {
       const post = {
         id: Date.now().toString(),
         ...ctx.request.body
-      };
-      db.data.posts.push(post);
-      await db.write();
-      ctx.body = post;
+      }
+      db.data.posts.push(post)
+      await db.write()
+      ctx.body = post
     })
-  );
-  app.listen(8080);
-})();
+  )
+
+  app.listen(8080)
+})()
 ```
 
 ## In-memory
