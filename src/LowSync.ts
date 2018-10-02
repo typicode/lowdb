@@ -5,9 +5,9 @@ export interface ISyncAdapter {
   write: (data: any) => void
 }
 
-export default class Low {
+export default class Low<T = any> {
   public adapter: ISyncAdapter
-  public data: any
+  public data?: T
 
   constructor(adapter: IAdapter) {
     this.adapter = adapter
