@@ -67,7 +67,7 @@ const db = new Low(adapter)
 
 (async () => {
   await db.read()
-  
+
   if (db.data === null) {
     db.data = { posts: [] }
   }
@@ -80,7 +80,7 @@ const db = new Low(adapter)
 
   app.use(
     _.get('/posts/:id', async (ctx, id) => {
-      const post = db.data.posts.find((post: any) => post.id === id)
+      const post = db.data.posts.find(post => post.id === id)
       if (!post) {
         return ctx.throw('Cannot find post with ID: ' + id, 404)
       }
