@@ -385,7 +385,7 @@ See [src/adapters](src/adapters) for examples.
 
 ```js
 const adapter = new FileSync('db.json', {
-  serialize: (data) => encrypt(JSON.stringify(data))
+  serialize: (data) => encrypt(JSON.stringify(data)),
   deserialize: (data) => JSON.parse(decrypt(data))
 })
 ```
