@@ -17,13 +17,18 @@ describe('Low', () => {
   })
 
   test('reads and writes to JSON file', async () => {
+    interface IData {
+      a?: number
+      b?: number
+    }
+
     // Create JSON file
     const obj = { a: 1 }
     const file = createJSONFile(obj)
 
     // Init
     const adapter = new JSONFileAdapter(file)
-    const low = new Low(adapter)
+    const low = new Low<IData>(adapter)
     await low.read()
 
     // Data should equal file content
