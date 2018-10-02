@@ -46,9 +46,9 @@ db.write()
 
 ## Server
 
-Please __note__ that if you're developing a local server and don't expect to get concurrent requests, it's often easier to use `file-sync` storage, which is the default.
+Please __note__ that if you're developing a local server and don't expect to get concurrent requests, it's often easier to use `JSONFileSync` adapter.
 
-But if you need to avoid blocking requests, you can do so by using `file-async` storage.
+But if you need to avoid blocking requests, you can do so by using `JSONFile` adapter.
 
 ```js
 const Koa = require('koa')
@@ -59,9 +59,6 @@ const Low = require('lowdb/lib/Low')
 const JSONFile = require('lowdb/lib/adapters/JSONFile')
 
 const app = new Koa()
-
-app.use(bodyParser())
-
 const adapter = new JSONFile('db.json')
 const db = new Low(adapter)
 
@@ -71,6 +68,8 @@ const db = new Low(adapter)
   if (db.data === null) {
     db.data = { posts: [] }
   }
+
+  app.use(bodyParser())
 
   app.use(
     _.get('/posts', async ctx => {
