@@ -1,5 +1,3 @@
-## help me build lowdb v2, looking for your feedback [survey](https://goo.gl/forms/7682M3xYzKtR6pUt1)
-
 # Lowdb
 
 [![](http://img.shields.io/npm/dm/lowdb.svg?style=flat)](https://www.npmjs.org/package/lowdb) [![Build Status](https://travis-ci.org/typicode/lowdb.svg?branch=master)](https://travis-ci.org/typicode/lowdb) [![npm](https://img.shields.io/npm/v/lowdb.svg)](https://www.npmjs.org/package/lowdb)
@@ -12,10 +10,11 @@ db.get('posts')
   .write()
 ```
 
+_To all the amazing people who have answered the lowdb survey, thanks so much!_
+
 <a href="https://www.patreon.com/typicode">
   <img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160">
 </a>
-
 
 ## Usage
 
