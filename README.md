@@ -47,7 +47,7 @@ db.update('count', n => n + 1)
   .write()
 ```
 
-Data is saved to `db.json` 
+Data is saved to `db.json`
 
 ```json
 {
@@ -194,8 +194,6 @@ console.log('State has been updated')
 db.read()
   .then(() => console.log('State has been updated'))
 ```
-
-
 
 ## Adapters API
 
