@@ -45,9 +45,12 @@ import path from 'path'
 import Low from 'lowdb/lib/Low'
 import JSONFile from 'lowdb/adapters/JSONFile'
 
+// Ensure that the path to db.json is not relative to proces.cwd()
 const file = path.join(__dirname, 'db.json')
+
 const adapter = new JSONFile(file)
 const db = new Low(adapter)
+
 const defaultData = { messages: [] }
 
 (async () => {
