@@ -41,10 +41,12 @@ npm install lowdb
 ## Usage
 
 ```js
+import path from 'path'
 import Low from 'lowdb/lib/Low'
 import JSONFile from 'lowdb/adapters/JSONFile'
 
-const adapter = new JSONFile('db.json')
+const file = path.join(__dirname, 'db.json')
+const adapter = new JSONFile(file)
 const db = new Low(adapter)
 const defaultData = { messages: [] }
 
