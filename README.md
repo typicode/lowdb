@@ -222,6 +222,29 @@ Please note that data is returned by reference, this means that modifications to
 
 Also, the execution of methods is lazy, that is, execution is deferred until `.value()` or `.write()` is called.
 
+
+### Reading from existing JSON file
+
+If you are reading from a file adapter, the path is relative to execution path (CWD) and not to your code.
+
+```sh
+my_project/
+  src/
+    my_example.js
+  db.json 
+```
+So then you read it like this:
+
+```js
+// file src/my_example.js
+const adapter = new FileSync('db.json')
+
+// With lowdb/FileAsync
+db.read()
+  .then(() => console.log('Content of my_project/db.json is loaded'))
+```
+
+
 #### Examples
 
 Check if posts exists.
