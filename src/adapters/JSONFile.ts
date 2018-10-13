@@ -1,15 +1,14 @@
 import * as fs from 'fs'
-import * as mutexify from 'mutexify'
+import mutexify = require('mutexify')
 import * as writeFileAtomic from 'write-file-atomic'
 import { IAdapter } from '../Low'
 
 export default class JSONFile implements IAdapter {
   public file: string
-  private lock: any
+  private lock = mutexify()
 
   constructor(file: string) {
     this.file = file
-    this.lock = mutexify()
   }
 
   public read() {
@@ -33,7 +32,7 @@ export default class JSONFile implements IAdapter {
   public write(data: any) {
     return new Promise<void>((resolve, reject) => {
       // Lock file
-      this.lock((release: () => void) => {
+      this.lock(release => {
         // Write atomically
         writeFileAtomic(this.file, JSON.stringify(data, null, 2), err => {
           // Release file
