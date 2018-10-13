@@ -1,4 +1,4 @@
-# lowdb
+# lowdb [![Build Status](https://travis-ci.org/typicode/lowdb.svg?branch=next)](https://travis-ci.org/typicode/lowdb)
 
 >  Minimalist JSON database for small projects
 
