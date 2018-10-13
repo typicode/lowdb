@@ -1,10 +1,10 @@
 {
   "compilerOptions": {
     "lib": [
-      "es2017",
+      "es6",
       "dom"
     ],
-    "target": "ES2017",
+    "target": "es6",
     "module": "commonjs",
     "sourceMap": true,
     "outDir": "./lib",
