@@ -1,4 +1,4 @@
-import * as tempy from 'tempy'
+import tempy from 'tempy'
 import JSONFileSync from './JSONFileSync'
 
 describe('JSONFileSync', () => {

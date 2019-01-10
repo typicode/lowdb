@@ -1,6 +1,6 @@
-import * as fs from 'fs'
-import mutexify = require('mutexify')
-import * as writeFileAtomic from 'write-file-atomic'
+import fs from 'fs'
+import mutexify from 'mutexify'
+import writeFileAtomic from 'write-file-atomic'
 import { IAdapter } from '../Low'
 
 export default class JSONFile implements IAdapter {

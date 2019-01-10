@@ -1,5 +1,5 @@
-import * as fs from 'fs'
-import * as writeFileAtomic from 'write-file-atomic'
+import fs from 'fs'
+import writeFileAtomic from 'write-file-atomic'
 import { ISyncAdapter } from '../LowSync'
 
 export default class JSONFileSync implements ISyncAdapter {

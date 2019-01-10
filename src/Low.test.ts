@@ -1,6 +1,6 @@
-import * as fs from 'fs'
-import * as lodash from 'lodash'
-import * as tempy from 'tempy'
+import fs from 'fs'
+import lodash from 'lodash'
+import tempy from 'tempy'
 import JSONFileAdapter from './adapters/JSONFile'
 import Low from './Low'
 

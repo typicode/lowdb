@@ -1,4 +1,4 @@
-import * as tempy from 'tempy'
+import tempy from 'tempy'
 import JSONFile from './JSONFile'
 
 describe('JSONFile', () => {
