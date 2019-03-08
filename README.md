@@ -396,7 +396,7 @@ class MyStorage {
 }
 
 const adapter = new MyStorage(args)
-const db = low()
+const db = low(adapter)
 ```
 
 See [src/adapters](src/adapters) for examples.
