@@ -92,7 +92,7 @@ low(adapter)
 
 ## In-memory
 
-With this adapter, calling `write` will do nothing. One use case for this adapter can be for tests.
+With this adapter, calling `write` has the same effect as calling `value`. One use case for this adapter can be for tests.
 
 ```js
 const fs = require('fs')
