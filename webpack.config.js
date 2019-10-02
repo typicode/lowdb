@@ -6,7 +6,8 @@ var banner = 'lowdb v' + pkg.version
 module.exports = {
   entry: {
     low: './src/main.js',
-    LocalStorage: './src/adapters/LocalStorage'
+    LocalStorage: './src/adapters/LocalStorage',
+    Memory: './src/adapters/Memory'
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
