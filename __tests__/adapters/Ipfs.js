@@ -1,6 +1,6 @@
 const IPFSAdapter = require('../../src/adapters/Ipfs')
 const IPFS = require('ipfs')
-const obj = { a: 1 }
+const obj = { a: 1, _parentHash: null }
 const path = require('path')
 const os = require('os')
 const hat = require('hat')
@@ -21,6 +21,6 @@ describe('simple test', () => {
     expect(ipfs.read()).toEqual({})
     await ipfs.write(obj)
     const result = await ipfs.read()
-    expect(result).toEqual({ a: 1, parentHash: null })
+    expect(result).toEqual(obj)
   })
 })

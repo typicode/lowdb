@@ -25,7 +25,7 @@ class IPFSAdapter extends Base {
   write(data) {
     return new Promise(async (resolve, reject) => {
       let dataSerialized = null
-      data.parentHash = this.lastHash
+      data._parentHash = this.lastHash
       if (this.key == null) {
         dataSerialized = Ipfs.Buffer.from(this.serialize(data))
       }
