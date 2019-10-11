@@ -109,7 +109,7 @@ Returns a lodash [chain](https://lodash.com/docs/4.17.4#chain) with additional p
 
 __db.[...].write()__ and __db.[...].value()__
 
-`write()` writes database to state.
+`write()` writes state to database.
 
 On the other hand, `value()` is just [\_.prototype.value()](https://lodash.com/docs/4.17.4#prototype-value) and should be used to execute a chain that doesn't change database state.
 
