@@ -152,13 +152,13 @@ Returns database state.
 db.getState() // { posts: [ ... ] }
 ```
 
-__db.setState(newState)__
+__db.setState(newState).write()__
 
 Replaces database state.
 
 ```js
 const newState = {}
-db.setState(newState)
+db.setState(newState).write()
 ```
 
 __db.write()__
