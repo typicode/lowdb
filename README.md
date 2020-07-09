@@ -134,9 +134,7 @@ Database lodash instance. Use it to add your own utility functions or third-part
 
 ```js
 db._.mixin({
-  second: function(array) {
-    return array[1]
-  }
+  second: array => array[1]
 })
 
 db.get('posts')
