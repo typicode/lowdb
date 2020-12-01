@@ -325,14 +325,15 @@ db.get('posts')
 
 Being able to get data using an id can be quite useful, particularly in servers. To add id-based resources support to lowdb, you have 2 options.
 
-[shortid](https://github.com/dylang/shortid) is more minimalist and returns a unique id that you can use when creating resources.
+[nanoid](https://github.com/ai/nanoid/)
 
 ```js
-const shortid = require('shortid')
+const { nanoid } = require("nanoid")
+const idlength = 8
 
 const postId = db
   .get('posts')
-  .push({ id: shortid.generate(), title: 'low!' })
+  .push({ id: nanoid(idlength), title: 'low!' })
   .write()
   .id
 
