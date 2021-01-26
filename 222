@@ -1,0 +1,4 @@
+curl -i -H "Token: bO7PwP4DieQ7oxY8wHgz2j8AcA2glgdubzY8" \
+            -H "Content-Type: application/json" \
+            https://cliniccards.com/api/patients \
+            --request POST \
