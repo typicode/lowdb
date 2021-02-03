@@ -1,7 +1,8 @@
 {
   "name": "lowdb",
   "version": "1.0.0",
-  "description": "Small JSON database for Node, Electron and the browser. Powered by Lodash.",
+  "description":
+    "Small JSON database for Node, Electron and the browser. Powered by Lodash.",
   "keywords": [
     "flat",
     "file",
@@ -20,11 +21,13 @@
     "test": "jest && npm run lint",
     "lint": "eslint . --ignore-path .gitignore",
     "fix": "npm run lint -- --fix",
-    "prepublishOnly": "npm run build && pkg-ok",
     "build": "npm run build:lib && npm run build:dist",
     "build:lib": "rimraf lib && babel src --out-dir lib && npm run mvAdapters",
     "build:dist": "rimraf dist && webpack && webpack -p",
-    "mvAdapters": "rimraf adapters && mv lib/adapters ."
+    "mvAdapters": "rimraf adapters && mv lib/adapters .",
+    "postinstall": "husky install",
+    "postpublish": "pinst --enable",
+    "prepublishOnly": "npm run build && pkg-ok && pinst --disable"
   },
   "repository": {
     "type": "git",
@@ -58,10 +61,11 @@
     "eslint-plugin-prettier": "^2.6.0",
     "eslint-plugin-promise": "^3.8.0",
     "eslint-plugin-standard": "^3.1.0",
-    "husky": "^1.0.0-rc.8",
+    "husky": "^5.0.8",
     "jest": "^22.4.4",
     "lodash-id": "^0.14.0",
     "mv": "^2.1.1",
+    "pinst": "^2.1.4",
     "pkg-ok": "^2.0.0",
     "prettier": "^1.13.4",
     "ramda": "^0.25.0",
