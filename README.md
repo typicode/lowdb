@@ -371,6 +371,45 @@ const post = collection
   .value()
 ```
 
+### How to use with TypeScript
+
+Install type definitions from [DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped).
+
+```sh
+npm install --save-dev @types/lowdb
+```
+
+Type the database schema and pass it as a generic or assert.
+
+```ts
+// Type definitions for custom database structure
+type Schema = {...}
+
+const low = require('lowdb')
+const FileSync = require('lowdb/adapters/FileSync')
+
+// Pass as generic
+const adapter = new FileSync<Schema>('db.json')
+
+// Or assert, type should match the adapter used
+const adapter: lowdb.AdapterSync<Schema> = new FileSync('db.json')
+
+const db = low(adapter)
+```
+
+TypeScript cannot infer types from dot notation; instead, an array of arguments should be passed to the method or provided as generic.
+
+```ts
+// Example with dot notation
+db.get('posts.0.title').value()
+
+// Pass array instead of dot notation
+db.get(['posts', 0, 'title']).value()
+
+// Or provide array as generic along with dot notation
+db.get<['posts', 0, 'title']>('posts[0].title').value()
+```
+
 ### How to create custom adapters
 
 `low()` accepts custom Adapter, so you can virtually save your data to any storage using any format.
