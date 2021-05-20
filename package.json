@@ -4,9 +4,12 @@
   "description": "Tiny local JSON database for Node, Electron and the browser",
   "type": "module",
   "exports": "./lib/index.js",
-  "directories": {
-    "example": "examples"
-  },
+  "files": [
+    "lib",
+    "LICENSE-MIT",
+    "LICENSE-PARITY",
+    "LICENSE-PATRON"
+  ],
   "scripts": {
     "test": "jest --config .jestrc.json",
     "lint": "eslint src --ext .ts --ignore-path .gitignore",
