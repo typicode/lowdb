@@ -20,7 +20,7 @@ describe('Low', () => {
   })
 
   test('reads and writes to JSON file', async () => {
-    interface Data {
+    type Data = {
       a?: number
       b?: number
     }

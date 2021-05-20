@@ -19,7 +19,7 @@ describe('LowSync', () => {
   })
 
   test('reads and writes to JSON file', () => {
-    interface Data {
+    type Data = {
       a?: number
       b?: number
     }
