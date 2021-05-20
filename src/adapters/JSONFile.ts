@@ -1,50 +1,34 @@
 import fs from 'fs'
-import mutexify from 'mutexify'
-import writeFileAtomic from 'write-file-atomic'
-import { IAdapter } from '../Low'
+import { Writer } from 'steno'
 
-export default class JSONFile implements IAdapter {
-  public file: string
-  private lock = mutexify()
+import { Adapter } from '../Low'
 
-  constructor(file: string) {
-    this.file = file
+export class JSONFile<T> implements Adapter<T> {
+  private filename: string
+  private writer: Writer
+
+  constructor(filename: string) {
+    this.filename = filename
+    this.writer = new Writer(filename)
   }
 
-  public read() {
-    return new Promise<any>((resolve, reject) => {
-      fs.readFile(this.file, (err, data) => {
-        if (err) {
-          // File doesn't exist
-          if (err.code === 'ENOENT') {
-            return resolve(null)
-          }
+  async read(): Promise<T | null> {
+    let data
 
-          // Other errors
-          return reject(err)
-        }
+    try {
+      data = await fs.promises.readFile(this.filename, 'utf-8')
+    } catch (e) {
+      if ((e as NodeJS.ErrnoException).code === 'ENOENT') {
+        return null
+      }
+      throw e
+    }
 
-        resolve(JSON.parse(data.toString()))
-      })
-    })
+    return JSON.parse(data) as T
   }
 
-  public write(data: any) {
-    return new Promise<void>((resolve, reject) => {
-      // Lock file
-      this.lock(release => {
-        // Write atomically
-        writeFileAtomic(this.file, JSON.stringify(data, null, 2), err => {
-          // Release file
-          release()
-
-          if (err) {
-            return reject(err)
-          }
-
-          resolve()
-        })
-      })
-    })
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  write(obj: unknown): Promise<void> {
+    return this.writer.write(JSON.stringify(obj, null, 2))
   }
 }

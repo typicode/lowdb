@@ -1,5 +1,6 @@
 import tempy from 'tempy'
-import JSONFile from './JSONFile'
+
+import { JSONFile } from './JSONFile'
 
 describe('JSONFile', () => {
   it('should read and write', async () => {
@@ -23,13 +24,13 @@ describe('JSONFile', () => {
     const file = new JSONFile(filename)
     const promises = []
 
-    let i
-    for (i = 0; i <= 100; i++) {
-      promises.push(file.write(i))
+    let i = 0
+    for (; i <= 100; i++) {
+      promises.push(file.write(String(i)))
     }
 
     await Promise.all(promises)
 
-    expect(await file.read()).toEqual(i - 1)
+    expect(await file.read()).toEqual(String(i - 1))
   })
 })

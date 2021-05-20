@@ -1,7 +1,7 @@
-import MemorySync from './MemorySync'
+import { MemorySync } from './MemorySync'
 
 describe('MemorySync', () => {
-  it('should read and write', async () => {
+  it('should read and write', () => {
     const obj = { a: 1 }
 
     const memory = new MemorySync()

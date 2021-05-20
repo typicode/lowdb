@@ -1,23 +1,37 @@
 import fs from 'fs'
-import writeFileAtomic from 'write-file-atomic'
-import { ISyncAdapter } from '../LowSync'
+import path from 'path'
 
-export default class JSONFileSync implements ISyncAdapter {
-  public file: string
+import { SyncAdapter } from '../LowSync'
 
-  constructor(file: string) {
-    this.file = file
+export class JSONFileSync<T> implements SyncAdapter<T> {
+  private tempFilename: string
+  filename: string
+
+  constructor(filename: string) {
+    this.filename = filename
+    this.tempFilename = path.join(
+      path.dirname(filename),
+      `.${path.basename(filename)}.tmp`,
+    )
   }
 
-  public read() {
-    if (!fs.existsSync(this.file)) {
-      return null
+  read(): T | null {
+    let data
+
+    try {
+      data = fs.readFileSync(this.filename, 'utf-8')
+    } catch (e) {
+      if ((e as NodeJS.ErrnoException).code === 'ENOENT') {
+        return null
+      }
+      throw e
     }
 
-    return JSON.parse(fs.readFileSync(this.file).toString())
+    return JSON.parse(data) as T
   }
 
-  public write(data: any) {
-    writeFileAtomic.sync(this.file, JSON.stringify(data, null, 2))
+  write(obj: T): void {
+    fs.writeFileSync(this.tempFilename, JSON.stringify(obj, null, 2))
+    fs.renameSync(this.tempFilename, this.filename)
   }
 }

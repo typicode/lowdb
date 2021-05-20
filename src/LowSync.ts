@@ -1,23 +1,29 @@
-import { IAdapter } from './Low'
+import MissingAdapterError from './MissingAdapterError'
 
-export interface ISyncAdapter {
-  read: () => any
-  write: (data: any) => void
+export interface SyncAdapter<T> {
+  read: () => T | null
+  write: (data: T) => void
 }
 
-export default class Low<T = any> {
-  public adapter: ISyncAdapter
-  public data?: T
+export class LowSync<T = unknown> {
+  adapter: SyncAdapter<T>
+  data: T | null = null
 
-  constructor(adapter: IAdapter) {
-    this.adapter = adapter
+  constructor(adapter: SyncAdapter<T>) {
+    if (adapter) {
+      this.adapter = adapter
+    } else {
+      throw new MissingAdapterError()
+    }
   }
 
-  public read() {
+  read(): void {
     this.data = this.adapter.read()
   }
 
-  public write() {
-    return this.adapter.write(this.data)
+  write(): void {
+    if (this.data !== null) {
+      this.adapter.write(this.data)
+    }
   }
 }

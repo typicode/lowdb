@@ -1,24 +1,17 @@
 {
+  "extends": "@tsconfig/node12/tsconfig.json",
+  "exclude": ["src/**/*.test.ts"],
   "compilerOptions": {
-    "lib": [
-      "es6",
-      "dom"
-    ],
-    "target": "es6",
-    "module": "commonjs",
-    "sourceMap": true,
-    "outDir": "./lib",
     "rootDir": "./src",
-    "strict": true,
+    "outDir": "./lib",
+    "lib": ["DOM"],
+    "module": "ES2020",
+    "declaration": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "declaration": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
     "removeComments": true,
-    "esModuleInterop": true
-  },
-  "exclude": [
-    "node_modules",
-    "**/*.test.ts",
-    "**/__tests__/*"
-  ]
+    "moduleResolution": "Node"
+  }
 }

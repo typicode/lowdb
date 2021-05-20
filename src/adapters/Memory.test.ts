@@ -1,4 +1,4 @@
-import Memory from './Memory'
+import { Memory } from './Memory'
 
 describe('Memory', () => {
   it('should read and write', async () => {

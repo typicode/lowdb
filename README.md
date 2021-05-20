@@ -1,16 +1,14 @@
-# lowdb [![Build Status](https://travis-ci.org/typicode/lowdb.svg?branch=next)](https://travis-ci.org/typicode/lowdb)
+# lowdb
 
->  Minimalist JSON database for small projects
+> Tiny local JSON database for small projects 🦉
 
 ```js
-db.data
-  .posts
-  .push({ id: 1, title: 'lowdb is awesome'})
-
+db.data.posts.push({ id: 1, title: 'lowdb is awesome' })
 db.write()
 ```
 
-```json
+```js
+// db.json
 {
   "posts": [
     { "id": 1, "title": "lowdb is awesome" }
@@ -18,14 +16,32 @@ db.write()
 }
 ```
 
-## Highlights
+## Free for Open Source
 
-* Extremely minimalist API
-* Query and modify data using plain JS
-* TypeScript support out of the box
-* Hackable
-  * Change storage, file format or add encryption via [adapters](#adapters)
-  * Add lodash, ramda, ... for super powers!
+To help with OSS funding, lowdb v2 is released under Parity license for a limited time. It'll be released under MIT license once the __goal of 100 [sponsors](https://github.com/sponsors/typicode)__ is reached (currently at 55) or in five months.
+
+Meanwhile, lowdb v2 can be freely used in Open Source projects. Sponsors can use it in any type of project.
+
+If you've installed this new version without knowing about the license change, you're excused for 30 days. There's also a 30 days trial. See license files for more details.
+
+Thank you for your support!
+
+__Note:__ if you're already sponsoring [husky](https://github.com/typicode/husky), you can use lowdb v2 today :)
+
+## Companies
+
+[Become a sponsor and have your company logo here](https://github.com/sponsors/typicode).
+
+## Features
+
+- __Lightweight__
+- __Minimalist__ and easy to learn API
+- Query and modify data using __plain JS__
+- Improved __TypeScript__ support
+- Atomic write
+- Hackable:
+  - Change storage, file format (JSON, YAML, ...) or add encryption via [adapters](#adapters)
+  - Add lodash, ramda, ... for super powers!
 
 ## Install
 
@@ -33,260 +49,234 @@ db.write()
 npm install lowdb
 ```
 
-<a href="https://www.patreon.com/typicode">
-  <img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160">
-</a>
-
-
 ## Usage
 
 ```js
-import path from 'path'
-import Low from 'lowdb/lib/Low'
-import JSONFile from 'lowdb/adapters/JSONFile'
+import { join } from 'path'
+import { Low, JSONFile } from 'lowdb'
 
-// Ensure that the path to db.json is not relative to proces.cwd()
-const file = path.join(__dirname, 'db.json')
-
+// Use JSON file for storage
+const file = join(__dirname, 'db.json')
 const adapter = new JSONFile(file)
 const db = new Low(adapter)
 
-const defaultData = { messages: [] }
+// Read data from JSON file, this will set db.data content
+await db.read()
 
-(async () => {
+// If file.json doesn't exist, db.data will be null
+// Set default data
+db.data ||= { posts: [] }
 
-  // Read data from JSON file, this will set db.data 
-  await db.read()
+// Create and query items using plain JS
+db.data.posts.push('hello world')
+db.data.posts[0]
 
-  // If db.json doesn't exist, db.data is null
-  if (db.data === null) {
-  
-    // If db.data is null, set some default data
-    // db.data can be anything: object, array, string, ...
-    db.data = { messages: [] }
-    
-  }
+// You can also use this syntax if you prefer
+const { posts } = db.data
+posts.push('hello world')
 
-  // Push new message
-  db.data.messages.push('hello world')
-
-  // Write to db.data to db.json
-  await db.write()
-  
-})()
+// Write db.data content to db.json
+await db.write()
 ```
 
 ```js
 // db.json
 {
-  "messages": [ "hello world" ]
+  "posts": [ "hello world" ]
 }
 ```
+
+### TypeScript
+
+Lowdb now comes with TypeScript support. You can even type `db.data` content.
+
+```ts
+type Data = {
+  posts: string[] // Expect posts to be an array of strings
+}
+const db = new Low<Data>(adapter)
+
+db.data
+  .posts
+  .push(1) // TypeScript error 🎉
+```
+
+### Lodash
+
+You can easily add lodash or other utility libraries to improve lowdb.
+
+```js
+import lodash from lodash
+
+// ...
+// Note: db.data needs to be initialized before lodash.chain is called.
+db.chain = lodash.chain(db.data)
+
+// Instead of db.data, you can now use db.chain if you want to use the powerful API that lodash provides
+const post = db.chain
+  .get('posts')
+  .find({ id: 1 })
+  .value()
+```
+
+### More examples
+
+For CLI, server and browser usage, see [`examples/`](/examples) directory.
 
 ## API
 
 ### Classes
 
-Lowdb comes with 2 classes to be used with asynchronous or synchronous adapters.
+Lowdb has two classes (for asynchronous and synchronous adapters).
 
-#### new Low(adapter)
+#### `new Low(adapter)`
 
 ```js
-import Low from 'lowdb/lib/Low'
-import JSONFile from 'lowdb/lib/adapters/JSONFile'
+import { Low, JSONFile } from 'lowdb'
 
-const db = new Low(new JSONFile('db.json'))
+const db = new Low(new JSONFile('file.json'))
 await db.read()
 await db.write()
 ```
 
-#### new LowSync(adapterSync)
+#### `new LowSync(adapterSync)`
 
 ```js
-import LowSync from 'lowdb/lib/LowSync'
-import JSONFileSync from 'lowdb/lib/adapters/JSONFileSync'
+import { LowSync, JSONFileSync } from 'lowdb'
 
-const db = new LowSync(new JSONFileSync('db.json'))
+const db = new LowSync(new JSONFileSync('file.json'))
 db.read()
 db.write()
 ```
 
 ### Methods
 
-#### read()
+#### `db.read()`
 
-Calls `adaper.read()` and sets instance `data`.
+Calls `adaper.read()` and sets `db.data`.
 
-__Note__ `JSONFile` and `JSONFileSync` adapters will set `data` to `null` if file doesn't exist.
+**Note:** `JSONFile` and `JSONFileSync` adapters will set `db.data` to `null` if file doesn't exist.
 
 ```js
-db.data // === undefined
+db.data // === null
 db.read()
-db.data // !== undefined
+db.data // !== null
 ```
 
-#### `write()`
+#### `db.write()`
 
-Calls `adapter.write(data)` and passes instance `data`
+Calls `adapter.write(db.data)`.
 
 ```js
 db.data = { posts: [] }
-db.write() // db.json will be { posts: [] }
+db.write() // file.json will be { posts: [] }
 db.data = {}
-db.write() // db.json will be {}
+db.write() // file.json will be {}
 ```
 
 ### Properties
 
-#### `data`
+#### `db.data`
 
-`data` is your db state. If you're using the adapters coming with lowdb, it can be any type supported by [`JSON.stringify`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify).
+Holds your db content. If you're using the adapters coming with lowdb, it can be any type supported by [`JSON.stringify`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify).
+
+For example:
 
 ```js
 db.data = 'string'
-db.data = [ 1, 2, 3 ]
+db.data = [1, 2, 3]
 db.data = { key: 'value' }
 ```
 
 ## Adapters
 
-### Bundled adapters
+### Lowdb adapters
 
-Lowdb comes with 3 adapters, but you can write your own.
+#### `JSONFile` `JSONFileSync`
 
-#### lib/adapters/JSONFile
-
-Asynchronous adapter for reading and writng JSON files.
+Adapters for reading and writing JSON files.
 
 ```js
-new Low(new JSONFile(file))
+new Low(new JSONFile(filename))
+new LowSync(new JSONFileSync(filename))
 ```
 
-#### lib/adapters/JSONFile
+#### `Memory` `MemorySync`
 
-Synchronous adapter for reading and writng JSON files.
+In-memory adapters. Useful for speeding up unit tests.
 
 ```js
-new LowSync(new JSONFileSync(file))
+new Low(new Memory())
+new LowSync(new MemorySync())
 ```
 
-#### lib/adapters/LocalStorage
+#### `LocalStorage`
 
-Synchronous adapter for `window.localStorage` use it with `LowSync`.
+Synchronous adapter for `window.localStorage`.
 
-```
+```js
 new LowSync(new LocalStorage())
 ```
 
-## Third-party adapters
+### Third-party adapters
 
-* ...
-* ...
+If you've published an adapter for lowdb, feel free to create a PR to add it here.
 
-## Recipes
+### Writing your own adapter
 
-### Using lowdb with lodash
+You may want to create an adapter to write `db.data` to YAML, XML, ... or encrypt data.
 
-In this example, we're going to use lodash but you can apply the same principles to other libraries like ramda.
+An adapter is a simple class that just needs to expose two methods:
 
 ```js
-import lodash from lodash
+class AsyncAdapter {
+  read() { /* ... */ } // should return Promise<data>
+  write(data) { /* ... */ } // should return Promise<void>
+}
 
-// After db.read, add a new chain property 
-db.chain = lodash.chain(db.data)
-
-// And use chain instead of db.data if you want to use the powerful API that lodash provides
-db.chain
-  .get('messages')
-  .first()
-  .value()
+class SyncAdapter {
+  read() { /* ... */ } // data
+  write(data) { /* ... */ } // void
+}
 ```
 
-If you're building for the web, and want to make the bundle smaller, you can just use the functions that you need
+For example, let's say you have some async storage and want to create an adapter for it:
 
 ```js
-import find from 'lodash/find'
+import { api } from './AsyncStorage'
 
-const message = find(db.data.message, { id: 1 })
-```
-
-### Synchronous file operations
-
-If you prefer to write data synchronously, use `LowSync` and `JSONFileSync`
-
-```js
-import LowSync from 'lowdb/LowSync'
-import JSONFileSync from 'lowdb/JSONFileSync'
-
-const db = new Low(JSONFile('db.json'))
-
-// db.read and db.write will be synchronous
-```
-
-### Creating your own adapter
-
-Adapter let's you persist your data to any storage. By default, lowdb comes with `JSONFile`, `JSONFileSync` and `LocalStorage` but you can find on npm third-party adapters to store your data to GitHub, Dat, ...
-
-But creating your own is super simple, your adapter just has to provide the following methods:
-
-```js
-// If it's asynchronous
-read: () => Promise<void>
-write: (data: any) => void
-
-// If it's synchronous
-read: () => void
-write: (data: any) => void
-```
-
-For example, let's say you have some remote storage:
-
-```js
-import api from './MyAsyncStorage'
-
-class MyAsyncAdapter {
-  // this is optional but your Adapter could take some arguments
-  constructor(someArgs) {
+class CustomAsyncAdapter {
+  // Optional: your adapter can take arguments
+  constructor(args) {
     // ...
   }
 
-  read() {
-    return api.read() // should return a Promise
+  async read() {
+    const data = await api.read()
+    return data
   }
-  
-  write() {
-    return api.write() // should return a Promise
+
+  async write(data) {
+    await api.write(data)
   }
 }
 
-const adapter = new MyAsyncAdapter()
+const adapter = new CustomAsyncAdapter()
 const db = new Low(adapter)
 ```
 
-### Using it with TypeScript
-
-Lowdb now comes with definitions files out of the box, but since there's no way of telling what the data will look like you will need to provide an interface via a generic. 
-
-```ts
-interface IData {
-  messages: string[]
-}
-
-const db = new Low<IData>(adapter)
-```
+See [`src/adapters/`](src/adapters) for more examples.
 
 ## Limits
 
-Lowdb isn't meant to scale and doesn't support Cluster.
+Lowdb doesn't support Node's cluster module.
 
-If you have large JavaScript objects (`~10-100MB`) you may hit some performance issues. This is because whenever you call `write`, the whole object will be serialized and written to the storage.
+If you have large JavaScript objects (`~10-100MB`) you may hit some performance issues. This is because whenever you call `db.write`, the whole `db.data` is serialized and written to storage.
 
-This can be fine depending on your projects. It can also be mitigated by doing batch operations and calling `write` only when you need it.
+Depending on your use case, this can be fine or not. It can be mitigated by doing batch operations and calling `db.write` only when you need it. 
 
-But if you plan to scale, it's highly recommended to use databases like `PostgreSQL`, `MongoDB`, ...
+If you plan to scale, it's highly recommended to use databases like PostgreSQL, MongoDB, ... 
 
 ## License
 
-MIT 
-
-[Become a Patron](https://www.patreon.com/typicode) - [Supporters](https://thanks.typicode.com)
+[License Zero Parity 7.0.0](https://paritylicense.com/versions/7.0.0.html) and MIT (contributions) with exception [License Zero Patron 1.0.0](https://patronlicense.com/versions/1.0.0).

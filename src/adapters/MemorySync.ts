@@ -1,13 +1,13 @@
-import { ISyncAdapter } from '../LowSync'
+import { SyncAdapter } from '../LowSync'
 
-export default class Memory implements ISyncAdapter {
-  private data = null
+export class MemorySync<T> implements SyncAdapter<T> {
+  private data: T | null = null
 
-  public read() {
-    return this.data
+  read(): T | null {
+    return this.data || null
   }
 
-  public write(data: any) {
-    this.data = data
+  write(obj: T): void {
+    this.data = obj
   }
 }

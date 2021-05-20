@@ -1,23 +1,23 @@
-import { ISyncAdapter } from '../LowSync'
+import { SyncAdapter } from '../LowSync'
 
-export default class LocalStorage implements ISyncAdapter {
-  public key: string
+export class LocalStorage<T> implements SyncAdapter<T> {
+  private key: string
 
   constructor(key: string) {
     this.key = key
   }
 
-  public read() {
+  read(): T | null {
     const value = localStorage.getItem(this.key)
 
     if (value === null) {
       return null
     }
 
-    return JSON.parse(value)
+    return JSON.parse(value) as T
   }
 
-  public write(data: any) {
-    localStorage.setItem(this.key, JSON.stringify(data))
+  write(obj: T): void {
+    localStorage.setItem(this.key, JSON.stringify(obj))
   }
 }

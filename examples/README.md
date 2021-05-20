@@ -3,104 +3,77 @@
 ## CLI
 
 ```js
-const LowSync = require('lowdb/lib/LowSync')
-const FileSync = require('lowdb/lib/adapters/FileSync')
+// cli.js
+import { LowSync, JSONFileSync } from 'lowdb'
 
-const adapter = new FileSync('db.json')
+const title = process.argv[2]
+const adapter = new FileSync('file.json')
 const db = new LowSync(adapter)
 
 db.read()
+db.data ||= { posts: [] }
 
-if (db.data === null) {
-  db.data = { posts: [] }
-}
+db.data.posts.push({ title })
 
-db.data.posts.push({ title: process.argv[2] })
 db.write()
 ```
 
 ```sh
-$ node cli.js hello
-$ cat db.json
-# { "posts": [ "title": "hello" ] }
+$ node cli.js "hello world"
+$ cat file.json
+# { "posts": [ "title": "hello world" ] }
 ```
 
 ## Browser
 
 ```js
-import LowSync from 'lowdb/lib/LowSync'
-import LocalStorage from 'lowdb/lib/adapters/LocalStorage'
+import { LowSync, LocalStorage } from 'lowdb'
 
 const adapter = new LocalStorage('db')
 const db = new LowSync(adapter)
 
 db.read()
-
-if (db.data === null) {
-  db.data = { posts: [] }
-}
+db.data ||= { posts: [] }
 
 db.data.posts.push({ title: 'lowdb' })
+
 db.write()
 ```
 
 ## Server
 
-Please __note__ that if you're developing a local server and don't expect to get concurrent requests, it's often easier to use `JSONFileSync` adapter.
+**Note** if you're developing a local server and don't expect to get concurrent requests, it can be easier to use `JSONFileSync` adapter.
 
 But if you need to avoid blocking requests, you can do so by using `JSONFile` adapter.
 
 ```js
-const Koa = require('koa')
-const _ = require('koa-route')
-const bodyParser = require('koa-bodyparser')
+import express from 'express'
+import { Low, JSONFile } from 'lowdb'
 
-const Low = require('lowdb/lib/Low')
-const JSONFile = require('lowdb/lib/adapters/JSONFile')
+const app = express()
+app.use(express.json())
 
-const app = new Koa()
 const adapter = new JSONFile('db.json')
 const db = new Low(adapter)
+await db.read()
+db.data ||= { posts: [] }
 
-(async () => {
-  await db.read()
+const { posts } = db.data
 
-  if (db.data === null) {
-    db.data = { posts: [] }
-  }
+app.get('/posts/:id', async (req, res) => {
+  const post = posts.find((p) => p.id === req.params.id)
+  res.send(post)
+})
 
-  app.use(bodyParser())
+app.post('/posts', async (req, res, next) => {
+  const post = posts.push(req.body)
+  await db.write()
+  res.send(post)
+})
 
-  app.use(
-    _.get('/posts', async ctx => {
-      ctx.body = db.data.posts
-    })
-  )
-
-  app.use(
-    _.get('/posts/:id', async (ctx, id) => {
-      const post = db.data.posts.find(post => post.id === id)
-      if (!post) {
-        return ctx.throw(`Cannot find post with ID ${id}`, 404)
-      }
-      ctx.body = post
-    })
-  )
-
-  app.use(
-    _.post('/posts', async ctx => {
-      const post = {
-        id: Date.now().toString(),
-        ...ctx.request.body
-      }
-      db.data.posts.push(post)
-      await db.write()
-      ctx.body = post
-    })
-  )
-
-  app.listen(8080)
-})()
+app.listen(3000, () => {
+  console.log('listening on port 3000')
+})
 ```
 
 ## In-memory
@@ -113,9 +86,8 @@ const low = require('lowdb/lib/LowSync')
 const FileSync = require('lowdb/lib/adapters/FileSync')
 const MemorySync = require('lowdb/lib/adapters/MemorySync')
 
-const adapter = process.env.NODE_ENV === 'test'
-  ? new MemorySync()
-  : new FileSync('db.json')
+const adapter =
+  process.env.NODE_ENV === 'test' ? new MemorySync() : new FileSync('db.json')
 
 const db = new LowSync(adapter)
 ```

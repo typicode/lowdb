@@ -1,5 +1,6 @@
 import tempy from 'tempy'
-import JSONFileSync from './JSONFileSync'
+
+import { JSONFileSync } from './JSONFileSync'
 
 describe('JSONFileSync', () => {
   it('should read and write', () => {

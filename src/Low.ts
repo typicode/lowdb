@@ -1,15 +1,15 @@
 import MissingAdapterError from './MissingAdapterError'
 
-export interface IAdapter {
-  read: () => Promise<any>
-  write: (data: any) => Promise<void>
+export interface Adapter<T> {
+  read: () => Promise<T | null>
+  write: (data: T) => Promise<void>
 }
 
-export default class Low<T = any> {
-  public adapter: IAdapter
-  public data?: T
+export class Low<T = unknown> {
+  adapter: Adapter<T>
+  data: T | null = null
 
-  constructor(adapter: IAdapter) {
+  constructor(adapter: Adapter<T>) {
     if (adapter) {
       this.adapter = adapter
     } else {
@@ -17,11 +17,13 @@ export default class Low<T = any> {
     }
   }
 
-  public async read() {
+  async read(): Promise<void> {
     this.data = await this.adapter.read()
   }
 
-  public write() {
-    return this.adapter.write(this.data)
+  async write(): Promise<void> {
+    if (this.data) {
+      await this.adapter.write(this.data)
+    }
   }
 }

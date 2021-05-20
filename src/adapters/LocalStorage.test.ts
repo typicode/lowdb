@@ -1,4 +1,4 @@
-import LocalStorage from './LocalStorage'
+import { LocalStorage } from './LocalStorage'
 
 describe('LocalStorage', () => {
   it('should read and write', () => {

@@ -1,14 +1,14 @@
-import { IAdapter } from '../Low'
+import { Adapter } from '../Low'
 
-export default class Memory implements IAdapter {
-  private data = null
+export class Memory<T> implements Adapter<T> {
+  private data: T | null = null
 
-  public read() {
+  read(): Promise<T | null> {
     return Promise.resolve(this.data)
   }
 
-  public write(data: any) {
-    this.data = data
+  write(obj: T): Promise<void> {
+    this.data = obj
     return Promise.resolve()
   }
 }
