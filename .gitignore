@@ -1,8 +1,2 @@
-**/*.log
-node_modules
-tmp
-.DS_Store
-.idea
 lib
-dist
-/adapters
+node_modules
