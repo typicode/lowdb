@@ -1,7 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 
-import { SyncAdapter } from '../LowSync'
+import { SyncAdapter } from '../LowSync.js'
 
 export class JSONFileSync<T> implements SyncAdapter<T> {
   private tempFilename: string

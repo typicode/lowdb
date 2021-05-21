@@ -1,7 +1,7 @@
 import fs from 'fs'
 import { Writer } from 'steno'
 
-import { Adapter } from '../Low'
+import { Adapter } from '../Low.js'
 
 export class JSONFile<T> implements Adapter<T> {
   private filename: string

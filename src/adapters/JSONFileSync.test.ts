@@ -1,21 +1,20 @@
+import test from 'ava'
 import tempy from 'tempy'
 
-import { JSONFileSync } from './JSONFileSync'
+import { JSONFileSync } from './JSONFileSync.js'
 
-describe('JSONFileSync', () => {
-  it('should read and write', () => {
-    const obj = { a: 1 }
+test('should read and write', (t) => {
+  const obj = { a: 1 }
 
-    const filename = tempy.file()
-    const file = new JSONFileSync(filename)
+  const filename = tempy.file()
+  const file = new JSONFileSync(filename)
 
-    // Null if file doesn't exist
-    expect(file.read()).toBeNull()
+  // Null if file doesn't exist
+  t.is(file.read(), null)
 
-    // Write obj
-    expect(file.write(obj)).toBeUndefined()
+  // Write obj
+  t.is(file.write(obj), undefined)
 
-    // Read obj
-    expect(file.read()).toEqual(obj)
-  })
+  // Read obj
+  t.deepEqual(file.read(), obj)
 })

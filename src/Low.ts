@@ -1,4 +1,4 @@
-import MissingAdapterError from './MissingAdapterError'
+import { MissingAdapterError } from './MissingAdapterError.js'
 
 export interface Adapter<T> {
   read: () => Promise<T | null>

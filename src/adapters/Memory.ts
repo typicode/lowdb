@@ -1,4 +1,4 @@
-import { Adapter } from '../Low'
+import { Adapter } from '../Low.js'
 
 export class Memory<T> implements Adapter<T> {
   private data: T | null = null

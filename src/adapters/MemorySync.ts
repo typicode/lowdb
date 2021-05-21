@@ -1,4 +1,4 @@
-import { SyncAdapter } from '../LowSync'
+import { SyncAdapter } from '../LowSync.js'
 
 export class MemorySync<T> implements SyncAdapter<T> {
   private data: T | null = null

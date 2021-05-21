@@ -1,36 +1,35 @@
+import test from 'ava'
 import tempy from 'tempy'
 
-import { JSONFile } from './JSONFile'
+import { JSONFile } from './JSONFile.js'
 
-describe('JSONFile', () => {
-  it('should read and write', async () => {
-    const obj = { a: 1 }
+test('should read and write', async (t) => {
+  const obj = { a: 1 }
 
-    const filename = tempy.file()
-    const file = new JSONFile(filename)
+  const filename = tempy.file()
+  const file = new JSONFile(filename)
 
-    // Null if file doesn't exist
-    expect(await file.read()).toBeNull()
+  // Null if file doesn't exist
+  t.is(await file.read(), null)
 
-    // Write obj
-    expect(await file.write(obj)).toBeUndefined()
+  // Write obj
+  t.is(await file.write(obj), undefined)
 
-    // Read obj
-    expect(await file.read()).toEqual(obj)
-  })
+  // Read obj
+  t.deepEqual(await file.read(), obj)
+})
 
-  it('should preserve order', async () => {
-    const filename = tempy.file()
-    const file = new JSONFile(filename)
-    const promises = []
+test('should preserve order', async (t) => {
+  const filename = tempy.file()
+  const file = new JSONFile(filename)
+  const promises = []
 
-    let i = 0
-    for (; i <= 100; i++) {
-      promises.push(file.write(String(i)))
-    }
+  let i = 0
+  for (; i <= 100; i++) {
+    promises.push(file.write(String(i)))
+  }
 
-    await Promise.all(promises)
+  await Promise.all(promises)
 
-    expect(await file.read()).toEqual(String(i - 1))
-  })
+  t.is(await file.read(), String(i - 1))
 })

@@ -1,18 +1,18 @@
-import { MemorySync } from './MemorySync'
+import test from 'ava'
 
-describe('MemorySync', () => {
-  it('should read and write', () => {
-    const obj = { a: 1 }
+import { MemorySync } from './MemorySync.js'
 
-    const memory = new MemorySync()
+test('should read and write', (t) => {
+  const obj = { a: 1 }
 
-    // Null by default
-    expect(memory.read()).toBeNull()
+  const memory = new MemorySync()
 
-    // Write obj
-    expect(memory.write(obj)).toBeUndefined()
+  // Null by default
+  t.is(memory.read(), null)
 
-    // Read obj
-    expect(memory.read()).toEqual(obj)
-  })
+  // Write obj
+  t.is(memory.write(obj), undefined)
+
+  // Read obj
+  t.deepEqual(memory.read(), obj)
 })

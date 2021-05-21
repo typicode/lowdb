@@ -1,18 +1,18 @@
-import { Memory } from './Memory'
+import test from 'ava'
 
-describe('Memory', () => {
-  it('should read and write', async () => {
-    const obj = { a: 1 }
+import { Memory } from './Memory.js'
 
-    const memory = new Memory()
+test('should read and write', async (t) => {
+  const obj = { a: 1 }
 
-    // Null by default
-    expect(await memory.read()).toBeNull()
+  const memory = new Memory()
 
-    // Write obj
-    expect(await memory.write(obj)).toBeUndefined()
+  // Null by default
+  t.is(await memory.read(), null)
 
-    // Read obj
-    expect(await memory.read()).toEqual(obj)
-  })
+  // Write obj
+  t.is(await memory.write(obj), undefined)
+
+  // Read obj
+  t.deepEqual(await memory.read(), obj)
 })

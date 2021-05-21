@@ -1,14 +1,33 @@
-import { LocalStorage } from './LocalStorage'
+import test from 'ava'
 
-describe('LocalStorage', () => {
-  it('should read and write', () => {
-    const obj = { a: 1 }
-    const storage = new LocalStorage('key')
+import { LocalStorage } from './LocalStorage.js'
 
-    // Write obj
-    expect(storage.write(obj)).toBeUndefined()
+const storage: { [key: string]: string } = {}
 
-    // Read obj
-    expect(storage.read()).toEqual(obj)
-  })
+// Mock localStorage
+global.localStorage = {
+  getItem: (key: string): string => storage[key],
+  setItem: (key: string, data: string) => (storage[key] = data),
+  length: 1,
+  removeItem() {
+    return
+  },
+  clear() {
+    return
+  },
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  key(_: number): string {
+    return ''
+  },
+}
+
+test('should read and write', (t) => {
+  const obj = { a: 1 }
+  const storage = new LocalStorage('key')
+
+  // Write obj
+  t.is(storage.write(obj), undefined)
+
+  // Read obj
+  t.deepEqual(storage.read(), obj)
 })
