@@ -215,7 +215,7 @@ new LowSync(new MemorySync())
 Synchronous adapter for `window.localStorage`.
 
 ```js
-new LowSync(new LocalStorage())
+new LowSync(new LocalStorage(name))
 ```
 
 ### Third-party adapters

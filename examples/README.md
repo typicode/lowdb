@@ -78,13 +78,10 @@ app.listen(3000, () => {
 
 ## In-memory
 
-With this adapter, calling `write` will do nothing. One use case for this adapter can be for tests.
+With this adapter, calling `db.write()` will do nothing. One use case for this adapter can be for tests.
 
 ```js
-const fs = require('fs')
-const low = require('lowdb/lib/LowSync')
-const FileSync = require('lowdb/lib/adapters/FileSync')
-const MemorySync = require('lowdb/lib/adapters/MemorySync')
+import { LowSync, JSONFileSync, MemorySync }
 
 const adapter =
   process.env.NODE_ENV === 'test' ? new MemorySync() : new FileSync('db.json')
