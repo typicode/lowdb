@@ -28,6 +28,10 @@ Thank you for your support!
 
 __Note:__ if you're already sponsoring [husky](https://github.com/typicode/husky), you can use lowdb v2 today :)
 
+## Contributor over time
+
+[![Contributor over time](https://contributor-graph-api.apiseven.com/contributors-svg?chart=contributorOverTime&repo=typicode/lowdb)](https://www.apiseven.com/en/contributor-graph?chart=contributorOverTime&repo=typicode/lowdb)
+
 ## Companies
 
 [Become a sponsor and have your company logo here](https://github.com/sponsors/typicode).
