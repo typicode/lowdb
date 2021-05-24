@@ -94,6 +94,7 @@ Lowdb now comes with TypeScript support. You can even type `db.data` content.
 type Data = {
   posts: string[] // Expect posts to be an array of strings
 }
+const adapter = new JSONFile<Data>('db.json')
 const db = new Low<Data>(adapter)
 
 db.data
@@ -218,13 +219,17 @@ Synchronous adapter for `window.localStorage`.
 new LowSync(new LocalStorage(name))
 ```
 
+#### `TextFile` `TextFileSync`
+
+Adapters for reading and writing text. Useful for creating custom adapters.
+
 ### Third-party adapters
 
 If you've published an adapter for lowdb, feel free to create a PR to add it here.
 
 ### Writing your own adapter
 
-You may want to create an adapter to write `db.data` to YAML, XML, ... or encrypt data.
+You may want to create an adapter to write `db.data` to YAML, XML, encrypt data, a remote storage, ...
 
 An adapter is a simple class that just needs to expose two methods:
 
@@ -235,8 +240,8 @@ class AsyncAdapter {
 }
 
 class SyncAdapter {
-  read() { /* ... */ } // data
-  write(data) { /* ... */ } // void
+  read() { /* ... */ } // should return data
+  write(data) { /* ... */ } // should return nothing
 }
 ```
 
@@ -266,6 +271,41 @@ const db = new Low(adapter)
 ```
 
 See [`src/adapters/`](src/adapters) for more examples.
+
+#### Custom serialization
+
+To create an adapter for another format than JSON, you can use `TextFile` or `TextFileSync`. 
+
+For example:
+
+```js
+import { Adapter, Low, TextFile } from 'Low.js'
+import YAML from 'yaml'
+
+export class YAMLFile {
+  private adapter
+
+  constructor(filename: string) {
+    this.adapter = new TextFile(filename)
+  }
+
+  async read() {
+    const data = await this.adapter.read()
+    if (data === null) {
+      return null
+    } else {
+      return YAML.parse(data)
+    }
+  }
+
+  write(obj) {
+    return this.adapter.write(YAML.stringify(obj))
+  }
+}
+
+const adapter = new YAMLFile('file.yaml')
+const db = new Low(adapter)
+```
 
 ## Limits
 
