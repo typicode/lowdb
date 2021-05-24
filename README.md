@@ -279,13 +279,11 @@ To create an adapter for another format than JSON, you can use `TextFile` or `Te
 For example:
 
 ```js
-import { Adapter, Low, TextFile } from 'Low.js'
+import { Adapter, Low, TextFile } from 'lowdb'
 import YAML from 'yaml'
 
-export class YAMLFile {
-  private adapter
-
-  constructor(filename: string) {
+class YAMLFile {
+  constructor(filename) {
     this.adapter = new TextFile(filename)
   }
 
