@@ -17,7 +17,7 @@ export class JSONFile<T> implements Adapter<T> {
     }
   }
 
-  write(obj: unknown): Promise<void> {
+  write(obj: T): Promise<void> {
     return this.adapter.write(JSON.stringify(obj, null, 2))
   }
 }
