@@ -10,9 +10,9 @@ test('should read and write', (t) => {
   // Null by default
   t.is(memory.read(), null)
 
-  // Write obj
+  // Write
   t.is(memory.write(obj), undefined)
 
-  // Read obj
+  // Read
   t.deepEqual(memory.read(), obj)
 })

@@ -25,9 +25,9 @@ test('should read and write', (t) => {
   const obj = { a: 1 }
   const storage = new LocalStorage('key')
 
-  // Write obj
+  // Write
   t.is(storage.write(obj), undefined)
 
-  // Read obj
+  // Read
   t.deepEqual(storage.read(), obj)
 })

@@ -10,9 +10,9 @@ test('should read and write', async (t) => {
   // Null by default
   t.is(await memory.read(), null)
 
-  // Write obj
+  // Write
   t.is(await memory.write(obj), undefined)
 
-  // Read obj
+  // Read
   t.deepEqual(await memory.read(), obj)
 })

@@ -1,34 +1,23 @@
-import fs from 'fs'
-import { Writer } from 'steno'
-
 import { Adapter } from '../Low.js'
+import { TextFile } from './TextFile.js'
 
 export class JSONFile<T> implements Adapter<T> {
-  private filename: string
-  private writer: Writer
+  private adapter: TextFile
 
   constructor(filename: string) {
-    this.filename = filename
-    this.writer = new Writer(filename)
+    this.adapter = new TextFile(filename)
   }
 
   async read(): Promise<T | null> {
-    let data
-
-    try {
-      data = await fs.promises.readFile(this.filename, 'utf-8')
-    } catch (e) {
-      if ((e as NodeJS.ErrnoException).code === 'ENOENT') {
-        return null
-      }
-      throw e
+    const data = await this.adapter.read()
+    if (data === null) {
+      return null
+    } else {
+      return JSON.parse(data) as T
     }
-
-    return JSON.parse(data) as T
   }
 
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   write(obj: unknown): Promise<void> {
-    return this.writer.write(JSON.stringify(obj, null, 2))
+    return this.adapter.write(JSON.stringify(obj, null, 2))
   }
 }

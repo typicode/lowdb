@@ -12,24 +12,9 @@ test('should read and write', async (t) => {
   // Null if file doesn't exist
   t.is(await file.read(), null)
 
-  // Write obj
+  // Write
   t.is(await file.write(obj), undefined)
 
-  // Read obj
+  // Read
   t.deepEqual(await file.read(), obj)
-})
-
-test('should preserve order', async (t) => {
-  const filename = tempy.file()
-  const file = new JSONFile(filename)
-  const promises = []
-
-  let i = 0
-  for (; i <= 100; i++) {
-    promises.push(file.write(String(i)))
-  }
-
-  await Promise.all(promises)
-
-  t.is(await file.read(), String(i - 1))
 })

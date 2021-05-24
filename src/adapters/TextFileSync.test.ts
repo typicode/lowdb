@@ -1,20 +1,20 @@
 import test from 'ava'
 import tempy from 'tempy'
 
-import { JSONFileSync } from './JSONFileSync.js'
+import { TextFileSync } from './TextFileSync.js'
 
 test('should read and write', (t) => {
-  const obj = { a: 1 }
+  const str = 'foo'
 
   const filename = tempy.file()
-  const file = new JSONFileSync(filename)
+  const file = new TextFileSync(filename)
 
   // Null if file doesn't exist
   t.is(file.read(), null)
 
   // Write
-  t.is(file.write(obj), undefined)
+  t.is(file.write(str), undefined)
 
   // Read
-  t.deepEqual(file.read(), obj)
+  t.deepEqual(file.read(), str)
 })
