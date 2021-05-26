@@ -6,12 +6,12 @@
     "outDir": "./lib",
     "lib": ["DOM"],
     "module": "ES2020",
+    "moduleResolution": "Node",
     "declaration": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "removeComments": true,
-    "moduleResolution": "Node"
+    "removeComments": true
   }
 }
