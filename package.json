@@ -3,6 +3,7 @@
   "version": "2.1.0",
   "description": "Tiny local JSON database for Node, Electron and the browser",
   "type": "module",
+  "main": "lib/index.js",
   "exports": "./lib/index.js",
   "files": [
     "lib",
