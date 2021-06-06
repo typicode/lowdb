@@ -2,10 +2,6 @@
   "extends": "@sindresorhus/tsconfig",
   "compilerOptions": {
     "outDir": "./lib",
-    "module":"ESNext",
-    "baseUrl": ".",
-    "paths": {
-      "xv": ["node_modules/xv/lib"]
-    }
+    "module":"ESNext"
   }
 }
