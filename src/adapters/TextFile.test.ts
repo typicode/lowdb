@@ -1,25 +1,26 @@
-import test from 'ava'
+import { deepStrictEqual, strictEqual } from 'assert'
 import tempy from 'tempy'
+import { test } from 'xv'
 
 import { TextFile } from './TextFile.js'
 
-test('should read and write', async (t) => {
+await test('should read and write', async () => {
   const str = 'foo'
 
   const filename = tempy.file()
   const file = new TextFile(filename)
 
   // Null if file doesn't exist
-  t.is(await file.read(), null)
+  strictEqual(await file.read(), null)
 
   // Write
-  t.is(await file.write(str), undefined)
+  strictEqual(await file.write(str), undefined)
 
   // Read
-  t.deepEqual(await file.read(), str)
+  deepStrictEqual(await file.read(), str)
 })
 
-test('should preserve order', async (t) => {
+await test('should preserve order', async () => {
   const filename = tempy.file()
   const file = new TextFile(filename)
   const promises = []
@@ -31,5 +32,5 @@ test('should preserve order', async (t) => {
 
   await Promise.all(promises)
 
-  t.is(await file.read(), String(i - 1))
+  strictEqual(await file.read(), String(i - 1))
 })

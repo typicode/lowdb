@@ -1,20 +1,21 @@
-import test from 'ava'
+import { deepEqual, equal } from 'assert/strict'
 import tempy from 'tempy'
+import { test } from 'xv'
 
 import { JSONFileSync } from './JSONFileSync.js'
 
-test('should read and write', (t) => {
+await test('should read and write', () => {
   const obj = { a: 1 }
 
   const filename = tempy.file()
   const file = new JSONFileSync(filename)
 
   // Null if file doesn't exist
-  t.is(file.read(), null)
+  equal(file.read(), null)
 
   // Write
-  t.is(file.write(obj), undefined)
+  equal(file.write(obj), undefined)
 
   // Read
-  t.deepEqual(file.read(), obj)
+  deepEqual(file.read(), obj)
 })

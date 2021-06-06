@@ -1,18 +1,19 @@
-import test from 'ava'
+import { deepEqual, equal } from 'assert/strict'
+import { test } from 'xv'
 
 import { MemorySync } from './MemorySync.js'
 
-test('should read and write', (t) => {
+await test('should read and write', () => {
   const obj = { a: 1 }
 
   const memory = new MemorySync()
 
   // Null by default
-  t.is(memory.read(), null)
+  equal(memory.read(), null)
 
   // Write
-  t.is(memory.write(obj), undefined)
+  equal(memory.write(obj), undefined)
 
   // Read
-  t.deepEqual(memory.read(), obj)
+  deepEqual(memory.read(), obj)
 })

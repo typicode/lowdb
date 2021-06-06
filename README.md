@@ -86,6 +86,8 @@ await db.write()
 }
 ```
 
+_Lowdb is a pure ESM package, if you're having trouble importing it in your project, [read this](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c)._
+
 ### TypeScript
 
 Lowdb now comes with TypeScript support. You can even type `db.data` content.

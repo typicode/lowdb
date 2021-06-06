@@ -1,4 +1,5 @@
-import test from 'ava'
+import { deepEqual, equal } from 'assert/strict'
+import { test } from 'xv'
 
 import { LocalStorage } from './LocalStorage.js'
 
@@ -6,7 +7,7 @@ const storage: { [key: string]: string } = {}
 
 // Mock localStorage
 global.localStorage = {
-  getItem: (key: string): string => storage[key],
+  getItem: (key: string): string | null => storage[key] || null,
   setItem: (key: string, data: string) => (storage[key] = data),
   length: 1,
   removeItem() {
@@ -21,13 +22,13 @@ global.localStorage = {
   },
 }
 
-test('should read and write', (t) => {
+await test('should read and write', () => {
   const obj = { a: 1 }
   const storage = new LocalStorage('key')
 
   // Write
-  t.is(storage.write(obj), undefined)
+  equal(storage.write(obj), undefined)
 
   // Read
-  t.deepEqual(storage.read(), obj)
+  deepEqual(storage.read(), obj)
 })

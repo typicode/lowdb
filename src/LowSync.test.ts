@@ -1,6 +1,7 @@
-import test from 'ava'
+import { deepEqual, throws } from 'assert/strict'
 import fs from 'fs'
 import tempy from 'tempy'
+import { test } from 'xv'
 
 import { JSONFileSync } from './adapters/JSONFileSync.js'
 import { LowSync } from './LowSync.js'
@@ -12,14 +13,14 @@ function createJSONFile(obj: unknown): string {
   return file
 }
 
-test('throws an error if no adapter is provided', (t) => {
+await test('should throw an error if no adapter is provided', () => {
   // Ignoring TypeScript error and pass incorrect argument
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  t.throws(() => new LowSync(), { instanceOf: MissingAdapterError })
+  throws(() => new LowSync(), MissingAdapterError)
 })
 
-test('reads and writes to JSON file', (t) => {
+await test('should read and write to JSON file', () => {
   type Data = {
     a?: number
     b?: number
@@ -35,7 +36,7 @@ test('reads and writes to JSON file', (t) => {
   low.read()
 
   // Data should equal file content
-  t.deepEqual(low.data, obj)
+  deepEqual(low.data, obj)
 
   // Write new data
   const newObj = { b: 2 }
@@ -44,5 +45,5 @@ test('reads and writes to JSON file', (t) => {
 
   // File content should equal new data
   const data = fs.readFileSync(file).toString()
-  t.deepEqual(JSON.parse(data), newObj)
+  deepEqual(JSON.parse(data), newObj)
 })

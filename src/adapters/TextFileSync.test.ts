@@ -1,20 +1,21 @@
-import test from 'ava'
+import { deepStrictEqual, strictEqual } from 'assert'
 import tempy from 'tempy'
+import { test } from 'xv'
 
 import { TextFileSync } from './TextFileSync.js'
 
-test('should read and write', (t) => {
+await test('should read and write', () => {
   const str = 'foo'
 
   const filename = tempy.file()
   const file = new TextFileSync(filename)
 
   // Null if file doesn't exist
-  t.is(file.read(), null)
+  strictEqual(file.read(), null)
 
   // Write
-  t.is(file.write(str), undefined)
+  strictEqual(file.write(str), undefined)
 
   // Read
-  t.deepEqual(file.read(), str)
+  deepStrictEqual(file.read(), str)
 })

@@ -1,17 +1,11 @@
 {
-  "extends": "@tsconfig/node12/tsconfig.json",
-  "exclude": ["src/**/*.test.ts"],
+  "extends": "@sindresorhus/tsconfig",
   "compilerOptions": {
-    "rootDir": "./src",
     "outDir": "./lib",
-    "lib": ["DOM"],
-    "module": "ES2020",
-    "moduleResolution": "Node",
-    "declaration": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "removeComments": true
+    "module":"ESNext",
+    "baseUrl": ".",
+    "paths": {
+      "xv": ["node_modules/xv/lib"]
+    }
   }
 }

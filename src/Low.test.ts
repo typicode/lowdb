@@ -1,7 +1,8 @@
-import test from 'ava'
+import { deepEqual, equal, throws } from 'assert/strict'
 import fs from 'fs'
 import lodash from 'lodash'
 import tempy from 'tempy'
+import { test } from 'xv'
 
 import { JSONFile } from './adapters/JSONFile.js'
 import { Low } from './Low.js'
@@ -13,14 +14,14 @@ function createJSONFile(obj: unknown): string {
   return file
 }
 
-test('throws an error if no adapter is provided', (t) => {
+await test('should throw an error if no adapter is provided', () => {
   // Ignoring TypeScript error and pass incorrect argument
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  t.throws(() => new Low(), { instanceOf: MissingAdapterError })
+  throws(() => new Low(), MissingAdapterError)
 })
 
-test('reads and writes to JSON file', async (t) => {
+await test('should read and write to JSON file', async () => {
   type Data = {
     a?: number
     b?: number
@@ -36,7 +37,7 @@ test('reads and writes to JSON file', async (t) => {
   await low.read()
 
   // Data should equal file content
-  t.deepEqual(low.data, obj)
+  deepEqual(low.data, obj)
 
   // Write new data
   const newObj = { b: 2 }
@@ -45,10 +46,10 @@ test('reads and writes to JSON file', async (t) => {
 
   // File content should equal new data
   const data = fs.readFileSync(file).toString()
-  t.deepEqual(JSON.parse(data), newObj)
+  deepEqual(JSON.parse(data), newObj)
 })
 
-test('works with lodash', async (t) => {
+await test('should work with lodash', async () => {
   // Extend with lodash
   class LowWithLodash extends Low<typeof obj> {
     chain: lodash.ExpChain<this['data']> = lodash.chain(this).get('data')
@@ -66,5 +67,5 @@ test('works with lodash', async (t) => {
   // Use lodash
   const firstTodo = low.chain.get('todos').first().value()
 
-  t.is(firstTodo, 'foo')
+  equal(firstTodo, 'foo')
 })

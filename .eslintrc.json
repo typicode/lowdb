@@ -1,8 +1,5 @@
 {
   "extends": "@typicode",
-  "parserOptions": {
-    "project": ["./tsconfig.lint.json"]
-  },
   "env":{
     "browser": true,
     "node": true
