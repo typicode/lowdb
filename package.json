@@ -42,7 +42,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
-    "steno": "^1.0.0"
+    "steno": "^2.0.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^12.0.1",
@@ -56,7 +56,6 @@
     "husky": "^6.0.0",
     "lodash": "^4.17.21",
     "tempy": "^1.0.1",
-    "ts-node": "^9.1.1",
     "typescript": "^4.2.3",
     "xv": "^0.1.0"
   },
