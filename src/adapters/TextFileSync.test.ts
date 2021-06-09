@@ -1,4 +1,4 @@
-import { deepStrictEqual, strictEqual } from 'assert'
+import { deepStrictEqual as deepEqual, strictEqual as equal } from 'assert'
 import tempy from 'tempy'
 import { test } from 'xv'
 
@@ -11,11 +11,11 @@ await test('should read and write', () => {
   const file = new TextFileSync(filename)
 
   // Null if file doesn't exist
-  strictEqual(file.read(), null)
+  equal(file.read(), null)
 
   // Write
-  strictEqual(file.write(str), undefined)
+  equal(file.write(str), undefined)
 
   // Read
-  deepStrictEqual(file.read(), str)
+  deepEqual(file.read(), str)
 })

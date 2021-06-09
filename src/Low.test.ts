@@ -1,4 +1,8 @@
-import { deepEqual, equal, throws } from 'assert/strict'
+import {
+  deepStrictEqual as deepEqual,
+  strictEqual as equal,
+  throws,
+} from 'assert'
 import fs from 'fs'
 import lodash from 'lodash'
 import tempy from 'tempy'

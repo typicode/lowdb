@@ -1,4 +1,4 @@
-import { deepStrictEqual, strictEqual } from 'assert'
+import { deepStrictEqual as deepEqual, strictEqual as equal } from 'assert'
 import tempy from 'tempy'
 import { test } from 'xv'
 
@@ -11,13 +11,13 @@ await test('should read and write', async () => {
   const file = new TextFile(filename)
 
   // Null if file doesn't exist
-  strictEqual(await file.read(), null)
+  equal(await file.read(), null)
 
   // Write
-  strictEqual(await file.write(str), undefined)
+  equal(await file.write(str), undefined)
 
   // Read
-  deepStrictEqual(await file.read(), str)
+  deepEqual(await file.read(), str)
 })
 
 await test('should preserve order', async () => {
@@ -32,5 +32,5 @@ await test('should preserve order', async () => {
 
   await Promise.all(promises)
 
-  strictEqual(await file.read(), String(i - 1))
+  equal(await file.read(), String(i - 1))
 })

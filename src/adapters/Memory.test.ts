@@ -1,4 +1,4 @@
-import { deepEqual, equal } from 'assert/strict'
+import { deepStrictEqual as deepEqual, strictEqual as equal } from 'assert'
 import { test } from 'xv'
 
 import { Memory } from './Memory.js'
