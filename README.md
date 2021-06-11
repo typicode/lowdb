@@ -16,6 +16,8 @@ db.write()
 }
 ```
 
+See also [xv](https://github.com/typicode/xv) and [steno](https://github.com/typicode/steno).
+
 ## Free for Open Source
 
 To help with OSS funding, lowdb v2 is released under Parity license for a limited time. It'll be released under MIT license once the __goal of 100 [sponsors](https://github.com/sponsors/typicode)__ is reached (currently at 57) or in five months.
