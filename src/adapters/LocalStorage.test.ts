@@ -1,5 +1,4 @@
 import { deepStrictEqual as deepEqual, strictEqual as equal } from 'assert'
-import { test } from 'xv'
 
 import { LocalStorage } from './LocalStorage.js'
 
@@ -22,7 +21,7 @@ global.localStorage = {
   },
 }
 
-await test('should read and write', () => {
+export async function testLocalStorage() {
   const obj = { a: 1 }
   const storage = new LocalStorage('key')
 
@@ -31,4 +30,4 @@ await test('should read and write', () => {
 
   // Read
   deepEqual(storage.read(), obj)
-})
+}

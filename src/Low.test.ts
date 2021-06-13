@@ -6,7 +6,6 @@ import {
 import fs from 'fs'
 import lodash from 'lodash'
 import tempy from 'tempy'
-import { test } from 'xv'
 
 import { JSONFile } from './adapters/JSONFile.js'
 import { Low } from './Low.js'
@@ -18,14 +17,14 @@ function createJSONFile(obj: unknown): string {
   return file
 }
 
-await test('should throw an error if no adapter is provided', () => {
+export async function testNoAdapter() {
   // Ignoring TypeScript error and pass incorrect argument
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   throws(() => new Low(), MissingAdapterError)
-})
+}
 
-await test('should read and write to JSON file', async () => {
+export async function testLow() {
   type Data = {
     a?: number
     b?: number
@@ -51,9 +50,9 @@ await test('should read and write to JSON file', async () => {
   // File content should equal new data
   const data = fs.readFileSync(file).toString()
   deepEqual(JSON.parse(data), newObj)
-})
+}
 
-await test('should work with lodash', async () => {
+export async function testLodash() {
   // Extend with lodash
   class LowWithLodash extends Low<typeof obj> {
     chain: lodash.ExpChain<this['data']> = lodash.chain(this).get('data')
@@ -72,4 +71,4 @@ await test('should work with lodash', async () => {
   const firstTodo = low.chain.get('todos').first().value()
 
   equal(firstTodo, 'foo')
-})
+}

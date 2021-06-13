@@ -1,10 +1,9 @@
 import { deepStrictEqual as deepEqual, strictEqual as equal } from 'assert'
 import tempy from 'tempy'
-import { test } from 'xv'
 
 import { TextFile } from './TextFile.js'
 
-await test('should read and write', async () => {
+export async function testTextFile() {
   const str = 'foo'
 
   const filename = tempy.file()
@@ -18,9 +17,9 @@ await test('should read and write', async () => {
 
   // Read
   deepEqual(await file.read(), str)
-})
+}
 
-await test('should preserve order', async () => {
+export async function testRaceCondition() {
   const filename = tempy.file()
   const file = new TextFile(filename)
   const promises = []
@@ -33,4 +32,4 @@ await test('should preserve order', async () => {
   await Promise.all(promises)
 
   equal(await file.read(), String(i - 1))
-})
+}

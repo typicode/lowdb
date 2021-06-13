@@ -1,9 +1,8 @@
 import { deepStrictEqual as deepEqual, strictEqual as equal } from 'assert'
-import { test } from 'xv'
 
 import { Memory } from './Memory.js'
 
-await test('should read and write', async () => {
+export async function testMemory() {
   const obj = { a: 1 }
 
   const memory = new Memory()
@@ -16,4 +15,4 @@ await test('should read and write', async () => {
 
   // Read
   deepEqual(await memory.read(), obj)
-})
+}

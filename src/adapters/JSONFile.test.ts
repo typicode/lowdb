@@ -1,10 +1,9 @@
 import { deepStrictEqual as deepEqual, strictEqual as equal } from 'assert'
 import tempy from 'tempy'
-import { test } from 'xv'
 
 import { JSONFile } from './JSONFile.js'
 
-await test('should read and write', async () => {
+export async function testJSONFile() {
   const obj = { a: 1 }
 
   const filename = tempy.file()
@@ -18,4 +17,4 @@ await test('should read and write', async () => {
 
   // Read
   deepEqual(await file.read(), obj)
-})
+}

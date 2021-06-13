@@ -1,10 +1,9 @@
 import { deepStrictEqual as deepEqual, strictEqual as equal } from 'assert'
 import tempy from 'tempy'
-import { test } from 'xv'
 
 import { TextFileSync } from './TextFileSync.js'
 
-await test('should read and write', () => {
+export async function testTextFileSync() {
   const str = 'foo'
 
   const filename = tempy.file()
@@ -18,4 +17,4 @@ await test('should read and write', () => {
 
   // Read
   deepEqual(file.read(), str)
-})
+}

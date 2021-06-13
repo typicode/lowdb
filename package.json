@@ -34,7 +34,7 @@
     "LICENSE-PATRON"
   ],
   "scripts": {
-    "test": "npm run build && xv 'lib/**/*.test.js'",
+    "test": "npm run build && xv lib",
     "lint": "eslint src --ext .ts --ignore-path .gitignore",
     "build": "del-cli lib && tsc",
     "prepublishOnly": "npm run build",
@@ -57,7 +57,7 @@
     "lodash": "^4.17.21",
     "tempy": "^1.0.1",
     "typescript": "^4.2.3",
-    "xv": "^0.1.0"
+    "xv": "^0.2.1"
   },
   "engines": {
     "node": "^12.20.0 || ^14.13.1 || >=16.0.0"
