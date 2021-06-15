@@ -7,7 +7,7 @@
 import { LowSync, JSONFileSync } from 'lowdb'
 
 const title = process.argv[2]
-const adapter = new FileSync('file.json')
+const adapter = new JSONFileSync('file.json')
 const db = new LowSync(adapter)
 
 db.read()
