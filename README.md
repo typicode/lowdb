@@ -34,6 +34,8 @@ __Note:__ if you're already sponsoring [husky](https://github.com/typicode/husky
 
 [Become a sponsor and have your company logo here](https://github.com/sponsors/typicode).
 
+Please help me build OSS 👉 [GitHub Sponsors](https://github.com/sponsors/typicode)
+
 ## Features
 
 - __Lightweight__
