@@ -20,7 +20,7 @@ See also [xv](https://github.com/typicode/xv) and [steno](https://github.com/typ
 
 ## Free for Open Source
 
-To help with OSS funding, lowdb v2 is released under Parity license for a limited time. It'll be released under MIT license once the __goal of 100 [sponsors](https://github.com/sponsors/typicode)__ is reached (__currently at 58/100__) or in five months.
+To help with OSS funding, lowdb v2 is released under Parity license for a limited time. It'll be released under MIT license once the __goal of 100 [sponsors](https://github.com/sponsors/typicode)__ is reached (__currently at 61/100__) or in five months.
 
 Meanwhile, lowdb v2 can be freely used in Open Source projects. Sponsors can use it in any type of project.
 
