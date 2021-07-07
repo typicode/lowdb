@@ -123,7 +123,7 @@ db.chain = lodash.chain(db.data)
 const post = db.chain
   .get('posts')
   .find({ id: 1 })
-  .value()
+  .value() // Important: value() needs to be called to execute chain
 ```
 
 ### More examples
