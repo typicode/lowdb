@@ -18,9 +18,27 @@ db.write()
 
 See also [xv](https://github.com/typicode/xv) and [steno](https://github.com/typicode/steno).
 
-## Free for Open Source
+## Sponsors
 
-To help with OSS funding, lowdb v2 is released under Parity license for a limited time. It'll be released under MIT license once the __goal of 100 [sponsors](https://github.com/sponsors/typicode)__ is reached (__currently at 61/100__) or in five months.
+<br>
+<br>
+
+<p align="center">
+  <a href="https://mockend.com/" target="_blank">
+    <img src="https://mockend.com/static/banner.svg" height="70px">
+  </a>
+</p>
+
+<br>
+<br>
+
+[Become a sponsor and have your company logo here](https://github.com/sponsors/typicode).
+
+Please help me build OSS 👉 [GitHub Sponsors](https://github.com/sponsors/typicode)
+
+## Limited to Open Source projects and Sponsors
+
+__To help with OSS funding__, lowdb v2 is released under Parity license for a limited time. It'll be released under MIT license once the __goal of 100 [sponsors](https://github.com/sponsors/typicode)__ is reached (__currently at 61/100__) or in five months.
 
 Meanwhile, lowdb v2 can be freely used in Open Source projects. Sponsors can use it in any type of project.
 
@@ -29,12 +47,6 @@ If you've installed this new version without knowing about the license change, y
 Thank you for your support!
 
 __Note:__ if you're already sponsoring [husky](https://github.com/typicode/husky), you can use lowdb v2 today :)
-
-## Companies
-
-[Become a sponsor and have your company logo here](https://github.com/sponsors/typicode).
-
-Please help me build OSS 👉 [GitHub Sponsors](https://github.com/sponsors/typicode)
 
 ## Features
 
