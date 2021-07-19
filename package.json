@@ -23,7 +23,6 @@
   "funding": "https://github.com/sponsors/typicode",
   "license": "Parity-7.0.0 AND MIT WITH Patron-1.0.0",
   "author": "Typicode <typicode@gmail.com>",
-  "type": "module",
   "exports": "./lib/index.js",
   "types": "lib",
   "files": [
