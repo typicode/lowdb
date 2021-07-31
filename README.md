@@ -84,7 +84,8 @@ await db.read()
 
 // If file.json doesn't exist, db.data will be null
 // Set default data
-db.data = db.data || { posts: [] }
+db.data ||= { posts: [] }
+// db.data = db.data || { posts: [] } // for node < v15.x
 
 // Create and query items using plain JS
 db.data.posts.push('hello world')
