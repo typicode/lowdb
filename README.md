@@ -70,7 +70,7 @@ npm install lowdb
 ```js
 import { join, dirname } from 'path'
 import { Low, JSONFile } from 'lowdb'
-import { fileURLToPath } from 'url';
+import { fileURLToPath } from 'url'
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
