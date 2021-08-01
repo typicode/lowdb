@@ -67,6 +67,8 @@ npm install lowdb
 
 ## Usage
 
+_Lowdb 2 is a pure ESM package. If you're having trouble importing it in your project, please [read this](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c)._
+
 ```js
 import { join, dirname } from 'path'
 import { Low, JSONFile } from 'lowdb'
@@ -105,8 +107,6 @@ await db.write()
   "posts": [ "hello world" ]
 }
 ```
-
-_Lowdb is a pure ESM package, if you're having trouble importing it in your project, [read this](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c)._
 
 ### TypeScript
 
