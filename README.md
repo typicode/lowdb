@@ -3,7 +3,10 @@
 > Tiny local JSON database for small projects 🦉
 
 ```js
+// This is pure JS, not specific to lowdb ;)
 db.data.posts.push({ id: 1, title: 'lowdb is awesome' })
+
+// Save to file
 db.write()
 ```
 
@@ -16,7 +19,7 @@ db.write()
 }
 ```
 
-See also [xv](https://github.com/typicode/xv) and [steno](https://github.com/typicode/steno).
+If you like lowdb, see also [xv](https://github.com/typicode/xv) (test runner) and [steno](https://github.com/typicode/steno) (fast file writer).
 
 ## Sponsors
 
