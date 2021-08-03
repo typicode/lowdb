@@ -4,10 +4,10 @@
 
 ```js
 // This is pure JS, not specific to lowdb ;)
-db.data.posts.push({ id: 1, title: 'lowdb is awesome' });
+db.data.posts.push({ id: 1, title: 'lowdb is awesome' })
 
 // Save to file
-db.write();
+db.write()
 ```
 
 ```js
@@ -41,7 +41,7 @@ Please help me build OSS 👉 [GitHub Sponsors](https://github.com/sponsors/typi
 
 ## Limited to Open Source projects and Sponsors
 
-**To help with OSS funding**, lowdb v2 is released under Parity license for a limited time. It'll be released under MIT license once the **goal of 100 [sponsors](https://github.com/sponsors/typicode)** is reached (**currently at 61/100**) or in five months.
+__To help with OSS funding__, lowdb v2 is released under Parity license for a limited time. It'll be released under MIT license once the __goal of 100 [sponsors](https://github.com/sponsors/typicode)__ is reached (__currently at 61/100__) or in five months.
 
 Meanwhile, lowdb v2 can be freely used in Open Source projects. Sponsors can use it in any type of project.
 
@@ -49,14 +49,14 @@ If you've installed this new version without knowing about the license change, y
 
 Thank you for your support!
 
-**Note:** if you're already sponsoring [husky](https://github.com/typicode/husky), you can use lowdb v2 today :)
+__Note:__ if you're already sponsoring [husky](https://github.com/typicode/husky), you can use lowdb v2 today :)
 
 ## Features
 
-- **Lightweight**
-- **Minimalist** and easy to learn API
-- Query and modify data using **plain JS**
-- Improved **TypeScript** support
+- __Lightweight__
+- __Minimalist__ and easy to learn API
+- Query and modify data using __plain JS__
+- Improved __TypeScript__ support
 - Atomic write
 - Hackable:
   - Change storage, file format (JSON, YAML, ...) or add encryption via [adapters](#adapters)
@@ -73,35 +73,35 @@ npm install lowdb
 _Lowdb 2 is a pure ESM package. If you're having trouble importing it in your project, please [read this](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c)._
 
 ```js
-import { join, dirname } from 'path';
-import { Low, JSONFile } from 'lowdb';
-import { fileURLToPath } from 'url';
+import { join, dirname } from 'path'
+import { Low, JSONFile } from 'lowdb'
+import { fileURLToPath } from 'url'
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 // Use JSON file for storage
-const file = join(__dirname, 'db.json');
-const adapter = new JSONFile(file);
-const db = new Low(adapter);
+const file = join(__dirname, 'db.json')
+const adapter = new JSONFile(file)
+const db = new Low(adapter)
 
 // Read data from JSON file, this will set db.data content
-await db.read();
+await db.read()
 
 // If file.json doesn't exist, db.data will be null
 // Set default data
-db.data ||= { posts: [] };
+db.data ||= { posts: [] }
 // db.data = db.data || { posts: [] } // for node < v15.x
 
 // Create and query items using plain JS
-db.data.posts.push('hello world');
-db.data.posts[0];
+db.data.posts.push('hello world')
+db.data.posts[0]
 
 // You can also use this syntax if you prefer
-const { posts } = db.data;
-posts.push('hello world');
+const { posts } = db.data
+posts.push('hello world')
 
 // Write db.data content to db.json
-await db.write();
+await db.write()
 ```
 
 ```js
@@ -117,12 +117,14 @@ Lowdb now comes with TypeScript support. You can even type `db.data` content.
 
 ```ts
 type Data = {
-	posts: string[]; // Expect posts to be an array of strings
-};
-const adapter = new JSONFile<Data>('db.json');
-const db = new Low<Data>(adapter);
+  posts: string[] // Expect posts to be an array of strings
+}
+const adapter = new JSONFile<Data>('db.json')
+const db = new Low<Data>(adapter)
 
-db.data.posts.push(1); // TypeScript error 🎉
+db.data
+  .posts
+  .push(1) // TypeScript error 🎉
 ```
 
 ### Lodash
@@ -156,21 +158,21 @@ Lowdb has two classes (for asynchronous and synchronous adapters).
 #### `new Low(adapter)`
 
 ```js
-import { Low, JSONFile } from 'lowdb';
+import { Low, JSONFile } from 'lowdb'
 
-const db = new Low(new JSONFile('file.json'));
-await db.read();
-await db.write();
+const db = new Low(new JSONFile('file.json'))
+await db.read()
+await db.write()
 ```
 
 #### `new LowSync(adapterSync)`
 
 ```js
-import { LowSync, JSONFileSync } from 'lowdb';
+import { LowSync, JSONFileSync } from 'lowdb'
 
-const db = new LowSync(new JSONFileSync('file.json'));
-db.read();
-db.write();
+const db = new LowSync(new JSONFileSync('file.json'))
+db.read()
+db.write()
 ```
 
 ### Methods
@@ -182,9 +184,9 @@ Calls `adapter.read()` and sets `db.data`.
 **Note:** `JSONFile` and `JSONFileSync` adapters will set `db.data` to `null` if file doesn't exist.
 
 ```js
-db.data; // === null
-db.read();
-db.data; // !== null
+db.data // === null
+db.read()
+db.data // !== null
 ```
 
 #### `db.write()`
@@ -192,10 +194,10 @@ db.data; // !== null
 Calls `adapter.write(db.data)`.
 
 ```js
-db.data = { posts: [] };
-db.write(); // file.json will be { posts: [] }
-db.data = {};
-db.write(); // file.json will be {}
+db.data = { posts: [] }
+db.write() // file.json will be { posts: [] }
+db.data = {}
+db.write() // file.json will be {}
 ```
 
 ### Properties
@@ -207,9 +209,9 @@ Holds your db content. If you're using the adapters coming with lowdb, it can be
 For example:
 
 ```js
-db.data = 'string';
-db.data = [1, 2, 3];
-db.data = { key: 'value' };
+db.data = 'string'
+db.data = [1, 2, 3]
+db.data = { key: 'value' }
 ```
 
 ## Adapters
@@ -221,8 +223,8 @@ db.data = { key: 'value' };
 Adapters for reading and writing JSON files.
 
 ```js
-new Low(new JSONFile(filename));
-new LowSync(new JSONFileSync(filename));
+new Low(new JSONFile(filename))
+new LowSync(new JSONFileSync(filename))
 ```
 
 #### `Memory` `MemorySync`
@@ -230,8 +232,8 @@ new LowSync(new JSONFileSync(filename));
 In-memory adapters. Useful for speeding up unit tests.
 
 ```js
-new Low(new Memory());
-new LowSync(new MemorySync());
+new Low(new Memory())
+new LowSync(new MemorySync())
 ```
 
 #### `LocalStorage`
@@ -239,7 +241,7 @@ new LowSync(new MemorySync());
 Synchronous adapter for `window.localStorage`.
 
 ```js
-new LowSync(new LocalStorage(name));
+new LowSync(new LocalStorage(name))
 ```
 
 #### `TextFile` `TextFileSync`
@@ -258,82 +260,74 @@ An adapter is a simple class that just needs to expose two methods:
 
 ```js
 class AsyncAdapter {
-	read() {
-		/* ... */
-	} // should return Promise<data>
-	write(data) {
-		/* ... */
-	} // should return Promise<void>
+  read() { /* ... */ } // should return Promise<data>
+  write(data) { /* ... */ } // should return Promise<void>
 }
 
 class SyncAdapter {
-	read() {
-		/* ... */
-	} // should return data
-	write(data) {
-		/* ... */
-	} // should return nothing
+  read() { /* ... */ } // should return data
+  write(data) { /* ... */ } // should return nothing
 }
 ```
 
 For example, let's say you have some async storage and want to create an adapter for it:
 
 ```js
-import { api } from './AsyncStorage';
+import { api } from './AsyncStorage'
 
 class CustomAsyncAdapter {
-	// Optional: your adapter can take arguments
-	constructor(args) {
-		// ...
-	}
+  // Optional: your adapter can take arguments
+  constructor(args) {
+    // ...
+  }
 
-	async read() {
-		const data = await api.read();
-		return data;
-	}
+  async read() {
+    const data = await api.read()
+    return data
+  }
 
-	async write(data) {
-		await api.write(data);
-	}
+  async write(data) {
+    await api.write(data)
+  }
 }
 
-const adapter = new CustomAsyncAdapter();
-const db = new Low(adapter);
+const adapter = new CustomAsyncAdapter()
+const db = new Low(adapter)
 ```
 
 See [`src/adapters/`](src/adapters) for more examples.
 
 #### Custom serialization
 
-To create an adapter for another format than JSON, you can use `TextFile` or `TextFileSync`.
+To create an adapter for another format than JSON, you can use `TextFile` or `TextFileSync`. 
 
 For example:
 
 ```js
-import { Adapter, Low, TextFile } from 'lowdb';
-import YAML from 'yaml';
+import { Adapter, Low, TextFile } from 'lowdb'
+import YAML from 'yaml'
 
 class YAMLFile {
-	constructor(filename) {
-		this.adapter = new TextFile(filename);
-	}
+  constructor(filename) {
+    this.adapter = new TextFile(filename)
+  }
 
-	async read() {
-		const data = await this.adapter.read();
-		if (data === null) {
-			return null;
-		} else {
-			return YAML.parse(data);
-		}
-	}
+  async read() {
+    const data = await this.adapter.read()
+    if (data === null) {
+      return null
+    } else {
+      return YAML.parse(data)
+    }
+  }
 
-	write(obj) {
-		return this.adapter.write(YAML.stringify(obj));
-	}
+  write(obj) {
+    return this.adapter.write(YAML.stringify(obj))
+  }
 }
 
-const adapter = new YAMLFile('file.yaml');
-const db = new Low(adapter);
+const adapter = new YAMLFile('file.yaml')
+const db = new Low(adapter)
 ```
 
 ## Limits
@@ -342,9 +336,9 @@ Lowdb doesn't support Node's cluster module.
 
 If you have large JavaScript objects (`~10-100MB`) you may hit some performance issues. This is because whenever you call `db.write`, the whole `db.data` is serialized and written to storage.
 
-Depending on your use case, this can be fine or not. It can be mitigated by doing batch operations and calling `db.write` only when you need it.
+Depending on your use case, this can be fine or not. It can be mitigated by doing batch operations and calling `db.write` only when you need it. 
 
-If you plan to scale, it's highly recommended to use databases like PostgreSQL, MongoDB, ...
+If you plan to scale, it's highly recommended to use databases like PostgreSQL, MongoDB, ... 
 
 ## License
 
