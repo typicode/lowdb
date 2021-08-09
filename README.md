@@ -179,7 +179,7 @@ db.write()
 
 #### `db.read()`
 
-Calls `adaper.read()` and sets `db.data`.
+Calls `adapter.read()` and sets `db.data`.
 
 **Note:** `JSONFile` and `JSONFileSync` adapters will set `db.data` to `null` if file doesn't exist.
 
