@@ -132,7 +132,7 @@ db.data
 You can easily add lodash or other utility libraries to improve lowdb.
 
 ```js
-import lodash from lodash
+import lodash from 'lodash'
 
 // ...
 // Note: db.data needs to be initialized before lodash.chain is called.
