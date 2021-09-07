@@ -28,7 +28,7 @@ If you like lowdb, see also [xv](https://github.com/typicode/xv) (test runner) a
 
 <p align="center">
   <a href="https://mockend.com/" target="_blank">
-    <img src="https://mockend.com/static/banner.svg" height="70px">
+    <img src="https://jsonplaceholder.typicode.com/mockend.svg" height="70px">
   </a>
 </p>
 
