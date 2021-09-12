@@ -39,18 +39,6 @@ If you like lowdb, see also [xv](https://github.com/typicode/xv) (test runner) a
 
 Please help me build OSS 👉 [GitHub Sponsors](https://github.com/sponsors/typicode)
 
-## Limited to Open Source projects and Sponsors
-
-__To help with OSS funding__, lowdb v2 is released under Parity license for a limited time. It'll be released under MIT license once the __goal of 100 [sponsors](https://github.com/sponsors/typicode)__ is reached (__currently at 61/100__) or in five months.
-
-Meanwhile, lowdb v2 can be freely used in Open Source projects. Sponsors can use it in any type of project.
-
-If you've installed this new version without knowing about the license change, you're excused for 30 days. There's also a 30 days trial. See license files for more details.
-
-Thank you for your support!
-
-__Note:__ if you're already sponsoring [husky](https://github.com/typicode/husky), you can use lowdb v2 today :)
-
 ## Features
 
 - __Lightweight__
@@ -339,7 +327,3 @@ If you have large JavaScript objects (`~10-100MB`) you may hit some performance 
 Depending on your use case, this can be fine or not. It can be mitigated by doing batch operations and calling `db.write` only when you need it. 
 
 If you plan to scale, it's highly recommended to use databases like PostgreSQL, MongoDB, ... 
-
-## License
-
-[License Zero Parity 7.0.0](https://paritylicense.com/versions/7.0.0.html) and MIT (contributions) with exception [License Zero Patron 1.0.0](https://patronlicense.com/versions/1.0.0).
