@@ -4,12 +4,12 @@ import path from 'path'
 import { SyncAdapter } from '../LowSync.js'
 
 export class TextFileSync implements SyncAdapter<string> {
-  private tempFilename: string
-  private filename: string
+  #tempFilename: string
+  #filename: string
 
   constructor(filename: string) {
-    this.filename = filename
-    this.tempFilename = path.join(
+    this.#filename = filename
+    this.#tempFilename = path.join(
       path.dirname(filename),
       `.${path.basename(filename)}.tmp`,
     )
@@ -19,7 +19,7 @@ export class TextFileSync implements SyncAdapter<string> {
     let data
 
     try {
-      data = fs.readFileSync(this.filename, 'utf-8')
+      data = fs.readFileSync(this.#filename, 'utf-8')
     } catch (e) {
       if ((e as NodeJS.ErrnoException).code === 'ENOENT') {
         return null
@@ -31,7 +31,7 @@ export class TextFileSync implements SyncAdapter<string> {
   }
 
   write(str: string): void {
-    fs.writeFileSync(this.tempFilename, str)
-    fs.renameSync(this.tempFilename, this.filename)
+    fs.writeFileSync(this.#tempFilename, str)
+    fs.renameSync(this.#tempFilename, this.#filename)
   }
 }

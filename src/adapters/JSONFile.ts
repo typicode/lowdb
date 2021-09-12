@@ -2,14 +2,14 @@ import { Adapter } from '../Low.js'
 import { TextFile } from './TextFile.js'
 
 export class JSONFile<T> implements Adapter<T> {
-  private adapter: TextFile
+  #adapter: TextFile
 
   constructor(filename: string) {
-    this.adapter = new TextFile(filename)
+    this.#adapter = new TextFile(filename)
   }
 
   async read(): Promise<T | null> {
-    const data = await this.adapter.read()
+    const data = await this.#adapter.read()
     if (data === null) {
       return null
     } else {
@@ -18,6 +18,6 @@ export class JSONFile<T> implements Adapter<T> {
   }
 
   write(obj: T): Promise<void> {
-    return this.adapter.write(JSON.stringify(obj, null, 2))
+    return this.#adapter.write(JSON.stringify(obj, null, 2))
   }
 }

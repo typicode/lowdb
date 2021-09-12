@@ -1,14 +1,14 @@
 import { SyncAdapter } from '../LowSync.js'
 
 export class LocalStorage<T> implements SyncAdapter<T> {
-  private key: string
+  #key: string
 
   constructor(key: string) {
-    this.key = key
+    this.#key = key
   }
 
   read(): T | null {
-    const value = localStorage.getItem(this.key)
+    const value = localStorage.getItem(this.#key)
 
     if (value === null) {
       return null
@@ -18,6 +18,6 @@ export class LocalStorage<T> implements SyncAdapter<T> {
   }
 
   write(obj: T): void {
-    localStorage.setItem(this.key, JSON.stringify(obj))
+    localStorage.setItem(this.#key, JSON.stringify(obj))
   }
 }

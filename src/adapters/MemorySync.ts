@@ -1,13 +1,13 @@
 import { SyncAdapter } from '../LowSync.js'
 
 export class MemorySync<T> implements SyncAdapter<T> {
-  private data: T | null = null
+  #data: T | null = null
 
   read(): T | null {
-    return this.data || null
+    return this.#data || null
   }
 
   write(obj: T): void {
-    this.data = obj
+    this.#data = obj
   }
 }
