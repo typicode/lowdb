@@ -2,6 +2,7 @@
   "name": "lowdb",
   "version": "3.0.0",
   "description": "Tiny local JSON database for Node, Electron and the browser",
+  "main": "./lib/index.js",
   "keywords": [
     "database",
     "db",
