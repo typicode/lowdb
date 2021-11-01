@@ -5,7 +5,7 @@ export interface Adapter<T> {
   write: (data: T) => Promise<void>
 }
 
-export class Low<T = unknown> {
+export class Low<T = unknown> implements Adapter<T> {
   adapter: Adapter<T>
   data: T | null = null
 
