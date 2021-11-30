@@ -1,6 +1,6 @@
 {
   "name": "lowdb",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Tiny local JSON database for Node, Electron and the browser",
   "keywords": [
     "database",
@@ -28,6 +28,7 @@
   "author": "Typicode <typicode@gmail.com>",
   "type": "module",
   "exports": "./lib/index.js",
+  "main": "./lib/index.js",
   "types": "lib",
   "files": [
     "lib",
@@ -45,7 +46,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
-    "steno": "^2.1.0"
+    "steno": "^2.1.1"
   },
   "devDependencies": {
     "@commitlint/cli": "^13.1.0",
