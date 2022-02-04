@@ -1,10 +1,12 @@
 # lowdb [![](http://img.shields.io/npm/dm/lowdb.svg?style=flat)](https://www.npmjs.org/package/lowdb) [![Node.js CI](https://github.com/typicode/lowdb/actions/workflows/node.js.yml/badge.svg)](https://github.com/typicode/lowdb/actions/workflows/node.js.yml)
 
-> Simple to use local JSON database 🦉
+> Simple to use local JSON database powered by plain JavaScript 🦉
 
 ```js
-// This is pure JS, not specific to lowdb ;)
-db.data.posts.push({ id: 1, title: 'lowdb is awesome' })
+// Edit DB content using plain JS
+db.data
+  .posts
+  .push({ id: 1, title: 'lowdb is awesome' })
 
 // Save to file
 db.write()
@@ -42,9 +44,9 @@ Please help me build OSS 👉 [GitHub Sponsors](https://github.com/sponsors/typi
 ## Features
 
 - __Lightweight__
-- __Minimalist__ and easy to learn API
-- __TypeScript__ support
-- __plain JS__ to query and modify data
+- __Minimalist__
+- __TypeScript__
+- __plain JS__
 - Atomic write
 - Hackable:
   - Change storage, file format (JSON, YAML, ...) or add encryption via [adapters](#adapters)
@@ -82,13 +84,13 @@ db.data ||= { posts: [] }             // Node >= 15.x
 
 // Create and query items using plain JS
 db.data.posts.push('hello world')
-db.data.posts[0]
+const firstPost = db.data.posts[0]
 
-// You can also use this syntax if you prefer
+// Alternatively, you can also use this syntax if you prefer
 const { posts } = db.data
 posts.push('hello world')
 
-// Write db.data content to db.json
+// Finally write db.data content to file
 await db.write()
 ```
 
@@ -101,29 +103,39 @@ await db.write()
 
 ### TypeScript
 
-Lowdb now comes with TypeScript support. You can even type `db.data` content.
+You can use TypeScript to type check your data.
 
 ```ts
 type Data = {
-  posts: string[] // Expect posts to be an array of strings
+  words: string[]
 }
+
 const adapter = new JSONFile<Data>('db.json')
 const db = new Low(adapter)
 
 db.data
-  .posts
-  .push(1) // TypeScript error 🎉
+  .words
+  .push('foo') // ✅
+
+db.data
+  .words
+  .push(1) // ❌
 ```
 
 ### Lodash
 
-You can easily add lodash or other utility libraries to improve lowdb.
+You can also add lodash or other utility libraries to improve lowdb.
 
 ```ts
 import lodash from 'lodash'
 
+type Post = {
+  id: number;
+  title: string;
+}
+
 type Data = {
-  posts: string[]
+  posts: Post[]
 }
 
 // Extend Low class with a new `chain` field
