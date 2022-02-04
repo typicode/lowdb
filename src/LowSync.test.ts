@@ -31,7 +31,7 @@ export async function testLowSync() {
 
   // Init
   const adapter = new JSONFileSync<Data>(file)
-  const low = new LowSync<Data>(adapter)
+  const low = new LowSync(adapter)
   low.read()
 
   // Data should equal file content

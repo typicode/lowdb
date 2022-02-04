@@ -36,7 +36,7 @@ export async function testLow() {
 
   // Init
   const adapter = new JSONFile<Data>(file)
-  const low = new Low<Data>(adapter)
+  const low = new Low(adapter)
   await low.read()
 
   // Data should equal file content
@@ -54,7 +54,7 @@ export async function testLow() {
 
 export async function testLodash() {
   // Extend with lodash
-  class LowWithLodash extends Low<typeof obj> {
+  class LowWithLodash<T> extends Low<T> {
     chain: lodash.ExpChain<this['data']> = lodash.chain(this).get('data')
   }
 
