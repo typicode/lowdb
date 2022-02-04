@@ -43,8 +43,8 @@ Please help me build OSS 👉 [GitHub Sponsors](https://github.com/sponsors/typi
 
 - __Lightweight__
 - __Minimalist__ and easy to learn API
-- Query and modify data using __plain JS__
-- Improved __TypeScript__ support
+- __TypeScript__ support
+- __plain JS__ to query and modify data
 - Atomic write
 - Hackable:
   - Change storage, file format (JSON, YAML, ...) or add encryption via [adapters](#adapters)
@@ -108,7 +108,7 @@ type Data = {
   posts: string[] // Expect posts to be an array of strings
 }
 const adapter = new JSONFile<Data>('db.json')
-const db = new Low<Data>(adapter)
+const db = new Low(adapter)
 
 db.data
   .posts
@@ -119,18 +119,27 @@ db.data
 
 You can easily add lodash or other utility libraries to improve lowdb.
 
-```js
+```ts
 import lodash from 'lodash'
 
-// ...
-// Note: db.data needs to be initialized before lodash.chain is called.
-db.chain = lodash.chain(db.data)
+type Data = {
+  posts: string[]
+}
 
-// Instead of db.data, you can now use db.chain if you want to use the powerful API that lodash provides
+// Extend Low class with a new `chain` field
+class LowWithLodash<T> extends Low<T> {
+  chain: lodash.ExpChain<this['data']> = lodash.chain(this).get('data')
+}
+
+const adapter = new JSONFile<Data>('db.json')
+const low = new LowWithLodash(adapter)
+await low.read()
+
+// Instead of db.data use db.chain to access lodash API
 const post = db.chain
   .get('posts')
   .find({ id: 1 })
-  .value() // Important: value() needs to be called to execute chain
+  .value() // Important: value() must be called to execute chain
 ```
 
 ### More examples
