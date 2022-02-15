@@ -148,7 +148,7 @@ const low = new LowWithLodash(adapter)
 await low.read()
 
 // Instead of db.data use db.chain to access lodash API
-const post = db.chain
+const post = low.chain
   .get('posts')
   .find({ id: 1 })
   .value() // Important: value() must be called to execute chain
