@@ -27,7 +27,10 @@
   "license": "MIT",
   "author": "Typicode <typicode@gmail.com>",
   "type": "module",
-  "exports": "./lib/index.js",
+    "exports": {
+    "require": "./lib/index.cjs",
+    "default": "./lib/index.js"
+  },
   "types": "lib",
   "files": [
     "lib",
@@ -39,7 +42,7 @@
   "scripts": {
     "test": "npm run build && xv lib",
     "lint": "eslint src --ext .ts --ignore-path .gitignore",
-    "build": "del-cli lib && tsc",
+    "build": "del-cli lib && tsc  && esbuild ./src/index.ts --bundle --platform=node --outfile=./lib/index.cjs",
     "prepublishOnly": "npm run build",
     "postversion": "git push && git push --tags && npm publish",
     "prepare": "husky install"
@@ -56,6 +59,7 @@
     "@types/node": "^17.0.14",
     "@typicode/eslint-config": "^0.1.2",
     "del-cli": "^4.0.1",
+    "esbuild": "^0.14.21",
     "husky": "^7.0.2",
     "lodash": "^4.17.21",
     "tempy": "^2.0.0",
