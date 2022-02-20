@@ -3,7 +3,7 @@
 > Simple to use local JSON database. Powered by plain JavaScript 🦉
 
 ```js
-// Edit DB content using plain JS
+// Edit db.json content using plain JS
 db.data
   .posts
   .push({ id: 1, title: 'lowdb is awesome' })
@@ -343,8 +343,8 @@ const db = new Low(adapter)
 
 Lowdb doesn't support Node's cluster module.
 
-If you have large JavaScript objects (`~10-100MB`) you may hit some performance issues. This is because whenever you call `db.write`, the whole `db.data` is serialized and written to storage.
+If you have large JavaScript objects (`~10-100MB`) you may hit some performance issues. This is because whenever you call `db.write`, the whole `db.data` is serialized using `JSON.stringify` and written to storage.
 
 Depending on your use case, this can be fine or not. It can be mitigated by doing batch operations and calling `db.write` only when you need it. 
 
-If you plan to scale, it's highly recommended to use databases like PostgreSQL, MongoDB, ... 
+If you plan to scale, it's highly recommended to use databases like PostgreSQL or MongoDB instead.
