@@ -3,6 +3,7 @@ import tempy from 'tempy'
 
 import { TextFile } from './TextFile.js'
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export async function testTextFile() {
   const str = 'foo'
 
@@ -19,6 +20,7 @@ export async function testTextFile() {
   deepEqual(await file.read(), str)
 }
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export async function testRaceCondition() {
   const filename = tempy.file()
   const file = new TextFile(filename)

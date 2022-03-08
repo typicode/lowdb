@@ -21,6 +21,7 @@ global.localStorage = {
   },
 }
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/require-await
 export async function testLocalStorage() {
   const obj = { a: 1 }
   const storage = new LocalStorage('key')

@@ -12,6 +12,7 @@ function createJSONFile(obj: unknown): string {
   return file
 }
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/require-await
 export async function testNoAdapter() {
   // Ignoring TypeScript error and pass incorrect argument
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -19,6 +20,7 @@ export async function testNoAdapter() {
   throws(() => new LowSync(), MissingAdapterError)
 }
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/require-await
 export async function testLowSync() {
   type Data = {
     a?: number
