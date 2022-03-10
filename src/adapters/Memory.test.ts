@@ -2,7 +2,7 @@ import { deepStrictEqual as deepEqual, strictEqual as equal } from 'assert'
 
 import { Memory } from './Memory.js'
 
-export async function testMemory() {
+export async function testMemory(): Promise<void> {
   const obj = { a: 1 }
 
   const memory = new Memory()

@@ -3,7 +3,7 @@ import tempy from 'tempy'
 
 import { JSONFile } from './JSONFile.js'
 
-export async function testJSONFile() {
+export async function testJSONFile(): Promise<void> {
   const obj = { a: 1 }
 
   const filename = tempy.file()

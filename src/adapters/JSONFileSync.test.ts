@@ -3,7 +3,7 @@ import tempy from 'tempy'
 
 import { JSONFileSync } from './JSONFileSync.js'
 
-export async function testJSONFileSync() {
+export function testJSONFileSync(): void {
   const obj = { a: 1 }
 
   const filename = tempy.file()

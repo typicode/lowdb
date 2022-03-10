@@ -3,7 +3,7 @@ import tempy from 'tempy'
 
 import { TextFileSync } from './TextFileSync.js'
 
-export async function testTextFileSync() {
+export function testTextFileSync(): void {
   const str = 'foo'
 
   const filename = tempy.file()

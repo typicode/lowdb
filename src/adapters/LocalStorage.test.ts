@@ -21,7 +21,7 @@ global.localStorage = {
   },
 }
 
-export async function testLocalStorage() {
+export function testLocalStorage(): void {
   const obj = { a: 1 }
   const storage = new LocalStorage('key')
 
