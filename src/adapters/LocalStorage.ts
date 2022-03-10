@@ -8,7 +8,7 @@ export class LocalStorage<T> implements SyncAdapter<T> {
   }
 
   read(): T | null {
-    const value = localStorage.getItem(this.#key)
+    const value = global.localStorage.getItem(this.#key)
 
     if (value === null) {
       return null
@@ -18,6 +18,6 @@ export class LocalStorage<T> implements SyncAdapter<T> {
   }
 
   write(obj: T): void {
-    localStorage.setItem(this.#key, JSON.stringify(obj))
+    global.localStorage.setItem(this.#key, JSON.stringify(obj))
   }
 }
