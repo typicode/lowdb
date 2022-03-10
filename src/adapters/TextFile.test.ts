@@ -22,7 +22,7 @@ export async function testTextFile() {
 export async function testRaceCondition() {
   const filename = tempy.file()
   const file = new TextFile(filename)
-  const promises = []
+  const promises: Promise<void>[] = []
 
   let i = 0
   for (; i <= 100; i++) {
