@@ -17,16 +17,14 @@ function createJSONFile(obj: unknown): string {
   return file
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/require-await
-export async function testNoAdapter() {
+export function testNoAdapter(): void {
   // Ignoring TypeScript error and pass incorrect argument
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   throws(() => new Low(), MissingAdapterError)
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export async function testLow() {
+export async function testLow(): Promise<void> {
   type Data = {
     a?: number
     b?: number
@@ -54,8 +52,7 @@ export async function testLow() {
   deepEqual(JSON.parse(data), newObj)
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export async function testLodash() {
+export async function testLodash(): Promise<void> {
   // Extend with lodash
   class LowWithLodash<T> extends Low<T> {
     chain: lodash.ExpChain<this['data']> = lodash.chain(this).get('data')

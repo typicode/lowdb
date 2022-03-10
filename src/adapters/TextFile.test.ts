@@ -3,8 +3,7 @@ import tempy from 'tempy'
 
 import { TextFile } from './TextFile.js'
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export async function testTextFile() {
+export async function testTextFile(): Promise<void> {
   const str = 'foo'
 
   const filename = tempy.file()
@@ -20,8 +19,7 @@ export async function testTextFile() {
   deepEqual(await file.read(), str)
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export async function testRaceCondition() {
+export async function testRaceCondition(): Promise<void> {
   const filename = tempy.file()
   const file = new TextFile(filename)
   const promises = []

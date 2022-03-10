@@ -12,16 +12,14 @@ function createJSONFile(obj: unknown): string {
   return file
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/require-await
-export async function testNoAdapter() {
+export function testNoAdapter(): void {
   // Ignoring TypeScript error and pass incorrect argument
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   throws(() => new LowSync(), MissingAdapterError)
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/require-await
-export async function testLowSync() {
+export function testLowSync(): void {
   type Data = {
     a?: number
     b?: number

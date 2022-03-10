@@ -3,8 +3,7 @@ import tempy from 'tempy'
 
 import { TextFileSync } from './TextFileSync.js'
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/require-await
-export async function testTextFileSync() {
+export function testTextFileSync(): void {
   const str = 'foo'
 
   const filename = tempy.file()
