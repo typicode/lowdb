@@ -51,7 +51,7 @@
     "@sindresorhus/tsconfig": "^3.0.1",
     "@types/lodash": "^4.14.186",
     "@types/node": "^18.11.0",
-    "@typicode/eslint-config": "^1.0.0",
+    "@typicode/eslint-config": "^1.1.0",
     "del-cli": "^5.0.0",
     "eslint": "^8.25.0",
     "husky": "^8.0.1",
