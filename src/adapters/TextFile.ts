@@ -1,4 +1,4 @@
-import fs from 'fs'
+import fs from 'fs/promises'
 import { Writer } from 'steno'
 
 import { Adapter } from '../Low.js'
@@ -16,7 +16,7 @@ export class TextFile implements Adapter<string> {
     let data
 
     try {
-      data = await fs.promises.readFile(this.#filename, 'utf-8')
+      data = await fs.readFile(this.#filename, 'utf-8')
     } catch (e) {
       if ((e as NodeJS.ErrnoException).code === 'ENOENT') {
         return null
