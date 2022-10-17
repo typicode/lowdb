@@ -42,7 +42,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
-    "steno": "^2.1.0"
+    "steno": "^3.0.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
