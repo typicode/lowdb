@@ -1,13 +1,11 @@
 import { deepStrictEqual as deepEqual, strictEqual as equal } from 'assert'
-import tempy from 'tempy'
+import { temporaryFile } from 'tempy'
 
 import { TextFile } from './TextFile.js'
 
 export async function testTextFile(): Promise<void> {
   const str = 'foo'
-
-  const filename = tempy.file()
-  const file = new TextFile(filename)
+  const file = new TextFile(temporaryFile())
 
   // Null if file doesn't exist
   equal(await file.read(), null)
@@ -20,8 +18,7 @@ export async function testTextFile(): Promise<void> {
 }
 
 export async function testRaceCondition(): Promise<void> {
-  const filename = tempy.file()
-  const file = new TextFile(filename)
+  const file = new TextFile(temporaryFile())
   const promises: Promise<void>[] = []
 
   let i = 0

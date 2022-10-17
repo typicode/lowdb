@@ -1,13 +1,13 @@
 import { deepStrictEqual as deepEqual, throws } from 'assert'
 import fs from 'fs'
-import tempy from 'tempy'
+import { temporaryFile } from 'tempy'
 
 import { JSONFileSync } from './adapters/JSONFileSync.js'
 import { LowSync } from './LowSync.js'
 import { MissingAdapterError } from './MissingAdapterError.js'
 
 function createJSONFile(obj: unknown): string {
-  const file = tempy.file()
+  const file = temporaryFile()
   fs.writeFileSync(file, JSON.stringify(obj))
   return file
 }

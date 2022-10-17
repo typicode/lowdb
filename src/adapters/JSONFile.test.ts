@@ -1,13 +1,11 @@
 import { deepStrictEqual as deepEqual, strictEqual as equal } from 'assert'
-import tempy from 'tempy'
+import { temporaryFile } from 'tempy'
 
 import { JSONFile } from './JSONFile.js'
 
 export async function testJSONFile(): Promise<void> {
   const obj = { a: 1 }
-
-  const filename = tempy.file()
-  const file = new JSONFile(filename)
+  const file = new JSONFile(temporaryFile())
 
   // Null if file doesn't exist
   equal(await file.read(), null)

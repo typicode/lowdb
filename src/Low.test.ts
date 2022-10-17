@@ -5,14 +5,14 @@ import {
 } from 'assert'
 import fs from 'fs'
 import lodash from 'lodash'
-import tempy from 'tempy'
+import { temporaryFile } from 'tempy'
 
 import { JSONFile } from './adapters/JSONFile.js'
 import { Low } from './Low.js'
 import { MissingAdapterError } from './MissingAdapterError.js'
 
 function createJSONFile(obj: unknown): string {
-  const file = tempy.file()
+  const file = temporaryFile()
   fs.writeFileSync(file, JSON.stringify(obj))
   return file
 }
