@@ -31,10 +31,7 @@
   "types": "lib",
   "files": [
     "lib",
-    "!lib/**/*.test.*",
-    "LICENSE-MIT",
-    "LICENSE-PARITY",
-    "LICENSE-PATRON"
+    "!lib/**/*.test.*"
   ],
   "scripts": {
     "test": "npm run build && xv lib",
