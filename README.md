@@ -1,9 +1,9 @@
 # lowdb [![](http://img.shields.io/npm/dm/lowdb.svg?style=flat)](https://www.npmjs.org/package/lowdb) [![Node.js CI](https://github.com/typicode/lowdb/actions/workflows/node.js.yml/badge.svg)](https://github.com/typicode/lowdb/actions/workflows/node.js.yml)
 
-> Simple to use local JSON database. Powered by plain JavaScript 🦉
+> Simple to use local JSON database. Use native JavaScript API to query. Written in TypeScript. 🦉
 
 ```js
-// Edit db.json content using plain JS
+// Edit db.json content using native JS API
 db.data
   .posts
   .push({ id: 1, title: 'lowdb is awesome' })
@@ -60,16 +60,17 @@ npm install lowdb
 
 ## Usage
 
-_Lowdb 3 is a pure ESM package. If you're having trouble importing it in your project, please [read this](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c)._
+_Lowdb is a pure ESM package. If you're having trouble importing it in your project, please [read this](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c)._
 
 ```js
-import { join, dirname } from 'path'
+import { join, dirname } from 'node:path'
+import { fileURLToPath } from 'node:url'
+
+// This will work for a local JSON file, for browser usage see examples/ directory
 import { Low, JSONFile } from 'lowdb'
-import { fileURLToPath } from 'url'
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-// Use JSON file for storage
 const file = join(__dirname, 'db.json')
 const adapter = new JSONFile(file)
 const db = new Low(adapter)
@@ -82,7 +83,7 @@ await db.read()
 // db.data = db.data || { posts: [] } // Node < v15.x
 db.data ||= { posts: [] }             // Node >= 15.x
 
-// Create and query items using plain JS
+// Create and query items using native JS API
 db.data.posts.push('hello world')
 const firstPost = db.data.posts[0]
 
