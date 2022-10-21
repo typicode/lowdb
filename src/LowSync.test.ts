@@ -1,5 +1,6 @@
-import { deepStrictEqual as deepEqual, throws } from 'assert'
-import fs from 'fs'
+import { deepStrictEqual as deepEqual, throws } from 'node:assert'
+import fs from 'node:fs'
+
 import { temporaryFile } from 'tempy'
 
 import { JSONFileSync } from './adapters/JSONFileSync.js'

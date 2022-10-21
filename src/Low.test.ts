@@ -2,8 +2,9 @@ import {
   deepStrictEqual as deepEqual,
   strictEqual as equal,
   throws,
-} from 'assert'
-import fs from 'fs'
+} from 'node:assert'
+import fs from 'node:fs'
+
 import lodash from 'lodash'
 import { temporaryFile } from 'tempy'
 

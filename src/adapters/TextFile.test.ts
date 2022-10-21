@@ -1,4 +1,5 @@
-import { deepStrictEqual as deepEqual, strictEqual as equal } from 'assert'
+import { deepStrictEqual as deepEqual, strictEqual as equal } from 'node:assert'
+
 import { temporaryFile } from 'tempy'
 
 import { TextFile } from './TextFile.js'

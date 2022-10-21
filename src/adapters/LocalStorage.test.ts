@@ -1,4 +1,4 @@
-import { deepStrictEqual as deepEqual, strictEqual as equal } from 'assert'
+import { deepStrictEqual as deepEqual, strictEqual as equal } from 'node:assert'
 
 import { LocalStorage } from './LocalStorage.js'
 
