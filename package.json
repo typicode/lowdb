@@ -42,7 +42,7 @@
     "lint": "eslint src --ext .ts --ignore-path .gitignore",
     "build": "del-cli lib && tsc",
     "prepublishOnly": "npm run build",
-    "postversion": "git push && git push --tags && npm publish",
+    "postversion": "git push --follow-tags && npm publish",
     "prepare": "husky install"
   },
   "dependencies": {
