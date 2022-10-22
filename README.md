@@ -67,7 +67,8 @@ import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 // This will work for a local JSON file, for browser usage see examples/ directory
-import { Low, JSONFile } from 'lowdb'
+import { Low } from 'lowdb'
+import { JSONFile } from 'lowdb/node'
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -168,7 +169,8 @@ Lowdb has two classes (for asynchronous and synchronous adapters).
 #### `new Low(adapter)`
 
 ```js
-import { Low, JSONFile } from 'lowdb'
+import { Low } from 'lowdb'
+import { JSONFile } from 'lowdb/node'
 
 const db = new Low(new JSONFile('file.json'))
 await db.read()
@@ -178,7 +180,8 @@ await db.write()
 #### `new LowSync(adapterSync)`
 
 ```js
-import { LowSync, JSONFileSync } from 'lowdb'
+import { LowSync } from 'lowdb'
+import { JSONFileSync } from 'lowdb/node'
 
 const db = new LowSync(new JSONFileSync('file.json'))
 db.read()
@@ -314,7 +317,8 @@ To create an adapter for another format than JSON, you can use `TextFile` or `Te
 For example:
 
 ```js
-import { Adapter, Low, TextFile } from 'lowdb'
+import { Adapter, Low } from 'lowdb'
+import { TextFile } from 'lowdb/node'
 import YAML from 'yaml'
 
 class YAMLFile {

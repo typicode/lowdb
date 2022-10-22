@@ -27,7 +27,11 @@
   "license": "MIT",
   "author": "Typicode <typicode@gmail.com>",
   "type": "module",
-  "exports": "./lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./node.js": "./lib/node.js",
+    "./browser.js": "./lib/browser.js"
+  },
   "types": "lib",
   "files": [
     "lib",
