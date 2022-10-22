@@ -66,7 +66,8 @@ _Lowdb is a pure ESM package. If you're having trouble importing it in your proj
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-// This will work for a local JSON file, for browser usage see examples/ directory
+// Data will be saved to a local JSON file
+// For browser usage, see examples/ directory
 import { Low } from 'lowdb'
 import { JSONFile } from 'lowdb/node'
 
