@@ -66,14 +66,14 @@ _Lowdb is a pure ESM package. If you're having trouble importing it in your proj
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-// Data will be saved to a local JSON file
-// For browser usage, see examples/ directory
 import { Low } from 'lowdb'
 import { JSONFile } from 'lowdb/node'
 
+// File path
 const __dirname = dirname(fileURLToPath(import.meta.url));
-
 const file = join(__dirname, 'db.json')
+
+// Configure lowdb to write to JSONFile
 const adapter = new JSONFile(file)
 const db = new Low(adapter)
 
@@ -81,9 +81,9 @@ const db = new Low(adapter)
 await db.read()
 
 // If db.json doesn't exist, db.data will be null
-// Set default data
-// db.data = db.data || { posts: [] } // Node < v15.x
-db.data ||= { posts: [] }             // Node >= 15.x
+// Use the code below to set default data
+// db.data = db.data || { posts: [] } // For Node < v15.x
+db.data ||= { posts: [] }             // For Node >= 15.x
 
 // Create and query items using native JS API
 db.data.posts.push('hello world')
@@ -106,7 +106,7 @@ await db.write()
 
 ### TypeScript
 
-You can use TypeScript to type check your data.
+You can use TypeScript to check your data types.
 
 ```ts
 type Data = {
@@ -118,11 +118,11 @@ const db = new Low(adapter)
 
 db.data
   .words
-  .push('foo') // ✅
+  .push('foo') // ✅ Success
 
 db.data
   .words
-  .push(1) // ❌
+  .push(1) // ❌ TypeScript error
 ```
 
 ### Lodash
@@ -157,9 +157,9 @@ const post = db.chain
   .value() // Important: value() must be called to execute chain
 ```
 
-### More examples
+### CLI, Server and Browser usage
 
-For CLI, server and browser usage, see [`examples/`](/examples) directory.
+See [`examples/`](/examples) directory.
 
 ## API
 
@@ -237,15 +237,20 @@ db.data = { key: 'value' }
 Adapters for reading and writing JSON files.
 
 ```js
+import { JSONFile, JSONFileSync } from 'lowdb/node'
+
 new Low(new JSONFile(filename))
 new LowSync(new JSONFileSync(filename))
 ```
 
 #### `Memory` `MemorySync`
 
-In-memory adapters. Useful for speeding up unit tests.
+In-memory adapters. Useful for speeding up unit tests. See [`examples/`](/examples) directory.
+
 
 ```js
+import { Memory, MemorySync } from 'lowdb'
+
 new Low(new Memory())
 new LowSync(new MemorySync())
 ```
@@ -255,6 +260,8 @@ new LowSync(new MemorySync())
 Synchronous adapter for `window.localStorage`.
 
 ```js
+import { LocalStorage } from 'lowdb/browser'
+
 new LowSync(new LocalStorage(name))
 ```
 
@@ -313,7 +320,7 @@ See [`src/adapters/`](src/adapters) for more examples.
 
 #### Custom serialization
 
-To create an adapter for another format than JSON, you can use `TextFile` or `TextFileSync`. 
+To create an adapter for another format than JSON, you can use `TextFile` or `TextFileSync`.
 
 For example:
 

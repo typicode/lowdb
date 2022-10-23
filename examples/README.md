@@ -84,8 +84,8 @@ app.listen(3000, () => {
 With this adapter, calling `db.write()` will do nothing. One use case for this adapter can be for tests.
 
 ```js
-import { LowSync } from 'lowdb'
-import { JSONFileSync, MemorySync } from 'lowdb/node'
+import { LowSync, MemorySync } from 'lowdb'
+import { JSONFileSync } from 'lowdb/node'
 
 const adapter =
   process.env.NODE_ENV === 'test' ? new MemorySync() : new FileSync('db.json')
