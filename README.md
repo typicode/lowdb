@@ -59,6 +59,8 @@ npm install lowdb
 npm install lowdb@4 # If you're using Next.js or having trouble importing lowdb/node
 ```
 
+See `v4` [docs](https://github.com/typicode/lowdb/blob/v4.0.1/README.md) for usage.
+
 ## Usage
 
 _Lowdb is a pure ESM package. If you're having trouble using it in your project, please [read this](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c)._
