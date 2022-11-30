@@ -49,19 +49,19 @@
     "steno": "^3.0.0"
   },
   "devDependencies": {
-    "@commitlint/cli": "^17.1.2",
-    "@commitlint/config-conventional": "^17.1.0",
-    "@commitlint/prompt-cli": "^17.1.2",
+    "@commitlint/cli": "^17.3.0",
+    "@commitlint/config-conventional": "^17.3.0",
+    "@commitlint/prompt-cli": "^17.3.0",
     "@sindresorhus/tsconfig": "^3.0.1",
-    "@types/lodash": "^4.14.186",
-    "@types/node": "^18.11.3",
+    "@types/lodash": "^4.14.190",
+    "@types/node": "^18.11.9",
     "@typicode/eslint-config": "^1.1.0",
     "del-cli": "^5.0.0",
-    "eslint": "^8.26.0",
-    "husky": "^8.0.1",
+    "eslint": "^8.28.0",
+    "husky": "^8.0.2",
     "lodash": "^4.17.21",
     "tempy": "^3.0.0",
-    "typescript": "^4.8.4",
+    "typescript": "^4.9.3",
     "xv": "^1.1.1"
   },
   "engines": {
