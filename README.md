@@ -56,16 +56,13 @@ Please help me build OSS 👉 [GitHub Sponsors](https://github.com/sponsors/typi
 
 ```sh
 npm install lowdb
-npm install lowdb@4 # If you're using Next.js or having trouble importing lowdb/node
 ```
-
-See `v4` [docs](https://github.com/typicode/lowdb/blob/v4.0.1/README.md) for usage.
 
 ## Usage
 
 _Lowdb is a pure ESM package. If you're having trouble using it in your project, please [read this](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c)._
 
-__Next.js__: there's a [known issue](https://github.com/typicode/lowdb/issues/554) with Next.js. Until the issue is fixed, please use lowdb `^4.0.0`. The only difference between `v5` and `v4` is the way lowdb is imported.
+__Next.js__: there's a [known issue](https://github.com/typicode/lowdb/issues/554). Until it's fixed, please use this [workaround](https://github.com/typicode/lowdb/issues/554#issuecomment-1345252506) or lowdb `^4.0.0`.
 
 ```js
 // Remember to set type: module in package.json or use .mjs extension
