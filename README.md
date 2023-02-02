@@ -258,14 +258,14 @@ new Low(new Memory())
 new LowSync(new MemorySync())
 ```
 
-#### `LocalStorage`
+#### `LocalStorage` `SessionStorage`
 
-Synchronous adapter for `window.localStorage`.
+Synchronous adapter for `window.localStorage` and `window.sessionStorage`.
 
 ```js
-import { LocalStorage } from 'lowdb/browser'
-
+import { LocalStorage, SessionStorage } from 'lowdb/browser'
 new LowSync(new LocalStorage(name))
+new LowSync(new SessionStorage(name))
 ```
 
 #### `TextFile` `TextFileSync`
