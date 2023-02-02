@@ -12,6 +12,7 @@
     "JSON",
     "local",
     "localStorage",
+    "sessionStorage",
     "browser",
     "esm"
   ],
