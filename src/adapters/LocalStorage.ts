@@ -1,23 +1,7 @@
-import { SyncAdapter } from '../LowSync.js'
+import { WebStorage } from './WebStorage.js'
 
-export class LocalStorage<T> implements SyncAdapter<T> {
-  #key: string
-
+export class LocalStorage<T> extends WebStorage<T> {
   constructor(key: string) {
-    this.#key = key
-  }
-
-  read(): T | null {
-    const value = localStorage.getItem(this.#key)
-
-    if (value === null) {
-      return null
-    }
-
-    return JSON.parse(value) as T
-  }
-
-  write(obj: T): void {
-    localStorage.setItem(this.#key, JSON.stringify(obj))
+    super(key, localStorage)
   }
 }
