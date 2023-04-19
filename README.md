@@ -3,10 +3,8 @@
 > Simple to use local JSON database. Use native JavaScript API to query. Written in TypeScript. 🦉
 
 ```js
-// Edit db.json content using native JS API
-db.data
-  .posts
-  .push({ id: 1, title: 'lowdb is awesome' })
+// Edit db.json content using plain JavaScript
+db.data.posts.push({ id: 1, title: 'lowdb is awesome' })
 
 // Save to file
 db.write()
@@ -21,7 +19,7 @@ db.write()
 }
 ```
 
-If you like lowdb, see also [xv](https://github.com/typicode/xv) (test runner) and [steno](https://github.com/typicode/steno) (fast file writer).
+If you like lowdb, please [sponsor](https://github.com/sponsors/typicode).
 
 ## Sponsors
 
@@ -37,17 +35,15 @@ If you like lowdb, see also [xv](https://github.com/typicode/xv) (test runner) a
 <br>
 <br>
 
-[Become a sponsor and have your company logo here](https://github.com/sponsors/typicode).
-
-Please help me build OSS 👉 [GitHub Sponsors](https://github.com/sponsors/typicode)
+[Become a sponsor and have your company logo here](https://github.com/sponsors/typicode) 👉 [GitHub Sponsors](https://github.com/sponsors/typicode)
 
 ## Features
 
-- __Lightweight__
-- __Minimalist__
-- __TypeScript__
-- __plain JS__
-- Atomic write
+- **Lightweight**
+- **Minimalist**
+- **TypeScript**
+- **plain JavaScript**
+- Safe atomic writes
 - Hackable:
   - Change storage, file format (JSON, YAML, ...) or add encryption via [adapters](#adapters)
   - Add lodash, ramda, ... for super powers!
@@ -62,7 +58,7 @@ npm install lowdb
 
 _Lowdb is a pure ESM package. If you're having trouble using it in your project, please [read this](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c)._
 
-__Next.js__: there's a [known issue](https://github.com/typicode/lowdb/issues/554). Until it's fixed, please use this [workaround](https://github.com/typicode/lowdb/issues/554#issuecomment-1345252506) or lowdb `^4.0.0`.
+**Next.js**: there's a [known issue](https://github.com/typicode/lowdb/issues/554). Until it's fixed, please use this [workaround](https://github.com/typicode/lowdb/issues/554#issuecomment-1345252506) or lowdb `^4.0.0`.
 
 ```js
 // Remember to set type: module in package.json or use .mjs extension
@@ -72,27 +68,24 @@ import { fileURLToPath } from 'node:url'
 import { Low } from 'lowdb'
 import { JSONFile } from 'lowdb/node'
 
-// File path
-const __dirname = dirname(fileURLToPath(import.meta.url));
+// db.json file path
+const __dirname = dirname(fileURLToPath(import.meta.url))
 const file = join(__dirname, 'db.json')
 
-// Configure lowdb to write to JSONFile
+// Configure lowdb to write data to JSON file
 const adapter = new JSONFile(file)
-const db = new Low(adapter)
+const defaultData = { posts: [] }
+const db = new Low(adapter, defaultData)
 
 // Read data from JSON file, this will set db.data content
+// If JSON file doesn't exist, defaultData is used instead
 await db.read()
 
-// If db.json doesn't exist, db.data will be null
-// Use the code below to set default data
-// db.data = db.data || { posts: [] } // For Node < v15.x
-db.data ||= { posts: [] }             // For Node >= 15.x
-
-// Create and query items using native JS API
+// Create and query items using plain JavaScript
 db.data.posts.push('hello world')
 const firstPost = db.data.posts[0]
 
-// Alternatively, you can also use this syntax if you prefer
+// If you don't want to type db.data everytime, you can use destructuring assignment
 const { posts } = db.data
 posts.push('hello world')
 
@@ -113,19 +106,15 @@ You can use TypeScript to check your data types.
 
 ```ts
 type Data = {
-  words: string[]
+  messages: string[]
 }
 
+const defaultData: Data = { messages: [] }
 const adapter = new JSONFile<Data>('db.json')
-const db = new Low(adapter)
+const db = new Low<Data>(adapter)
 
-db.data
-  .words
-  .push('foo') // ✅ Success
-
-db.data
-  .words
-  .push(1) // ❌ TypeScript error
+db.data.messages.push('foo') // ✅ Success
+db.data.messages.push(1) // ❌ TypeScript error
 ```
 
 ### Lodash
@@ -136,8 +125,8 @@ You can also add lodash or other utility libraries to improve lowdb.
 import lodash from 'lodash'
 
 type Post = {
-  id: number;
-  title: string;
+  id: number
+  title: string
 }
 
 type Data = {
@@ -149,18 +138,18 @@ class LowWithLodash<T> extends Low<T> {
   chain: lodash.ExpChain<this['data']> = lodash.chain(this).get('data')
 }
 
+const defaultData: Data = {
+  posts: [],
+}
 const adapter = new JSONFile<Data>('db.json')
 const db = new LowWithLodash(adapter)
 await db.read()
 
 // Instead of db.data use db.chain to access lodash API
-const post = db.chain
-  .get('posts')
-  .find({ id: 1 })
-  .value() // Important: value() must be called to execute chain
+const post = db.chain.get('posts').find({ id: 1 }).value() // Important: value() must be called to execute chain
 ```
 
-### CLI, Server and Browser usage
+### CLI, Server, Browser and in tests usage
 
 See [`examples/`](/examples) directory.
 
@@ -176,7 +165,7 @@ Lowdb has two classes (for asynchronous and synchronous adapters).
 import { Low } from 'lowdb'
 import { JSONFile } from 'lowdb/node'
 
-const db = new Low(new JSONFile('file.json'))
+const db = new Low(new JSONFile('file.json'), {})
 await db.read()
 await db.write()
 ```
@@ -187,7 +176,7 @@ await db.write()
 import { LowSync } from 'lowdb'
 import { JSONFileSync } from 'lowdb/node'
 
-const db = new LowSync(new JSONFileSync('file.json'))
+const db = new LowSync(new JSONFileSync('file.json'), {})
 db.read()
 db.write()
 ```
@@ -242,20 +231,19 @@ Adapters for reading and writing JSON files.
 ```js
 import { JSONFile, JSONFileSync } from 'lowdb/node'
 
-new Low(new JSONFile(filename))
-new LowSync(new JSONFileSync(filename))
+new Low(new JSONFile(filename), {})
+new LowSync(new JSONFileSync(filename), {})
 ```
 
 #### `Memory` `MemorySync`
 
 In-memory adapters. Useful for speeding up unit tests. See [`examples/`](/examples) directory.
 
-
 ```js
 import { Memory, MemorySync } from 'lowdb'
 
-new Low(new Memory())
-new LowSync(new MemorySync())
+new Low(new Memory(), {})
+new LowSync(new MemorySync(), {})
 ```
 
 #### `LocalStorage` `SessionStorage`
@@ -264,8 +252,8 @@ Synchronous adapter for `window.localStorage` and `window.sessionStorage`.
 
 ```js
 import { LocalStorage, SessionStorage } from 'lowdb/browser'
-new LowSync(new LocalStorage(name))
-new LowSync(new SessionStorage(name))
+new LowSync(new LocalStorage(name), {})
+new LowSync(new SessionStorage(name), {})
 ```
 
 #### `TextFile` `TextFileSync`
@@ -284,13 +272,21 @@ An adapter is a simple class that just needs to expose two methods:
 
 ```js
 class AsyncAdapter {
-  read() { /* ... */ } // should return Promise<data>
-  write(data) { /* ... */ } // should return Promise<void>
+  read() {
+    /* ... */
+  } // should return Promise<data>
+  write(data) {
+    /* ... */
+  } // should return Promise<void>
 }
 
 class SyncAdapter {
-  read() { /* ... */ } // should return data
-  write(data) { /* ... */ } // should return nothing
+  read() {
+    /* ... */
+  } // should return data
+  write(data) {
+    /* ... */
+  } // should return nothing
 }
 ```
 
@@ -361,6 +357,6 @@ Lowdb doesn't support Node's cluster module.
 
 If you have large JavaScript objects (`~10-100MB`) you may hit some performance issues. This is because whenever you call `db.write`, the whole `db.data` is serialized using `JSON.stringify` and written to storage.
 
-Depending on your use case, this can be fine or not. It can be mitigated by doing batch operations and calling `db.write` only when you need it. 
+Depending on your use case, this can be fine or not. It can be mitigated by doing batch operations and calling `db.write` only when you need it.
 
 If you plan to scale, it's highly recommended to use databases like PostgreSQL or MongoDB instead.

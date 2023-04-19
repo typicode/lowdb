@@ -1,2 +1,2 @@
-export * from './adapters/LocalStorage.js'
-export * from './adapters/SessionStorage.js'
+export * from './adapters/browser/LocalStorage.js'
+export * from './adapters/browser/SessionStorage.js'
