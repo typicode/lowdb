@@ -4,8 +4,8 @@
 import express from 'express'
 import asyncHandler from 'express-async-handler'
 
-import { Low } from '../src/index.js'
-import { JSONFile } from '../src/node.js'
+import { Low } from '../index.js'
+import { JSONFile } from '../node.js'
 
 const app = express()
 app.use(express.json())

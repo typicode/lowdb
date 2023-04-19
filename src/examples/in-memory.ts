@@ -1,7 +1,7 @@
 // With this adapter, calling `db.write()` will do nothing.
 // One use case for this adapter can be for tests.
-import { LowSync, MemorySync, SyncAdapter } from '../src/index.js'
-import { JSONFileSync } from '../src/node.js'
+import { LowSync, MemorySync, SyncAdapter } from '../index.js'
+import { JSONFileSync } from '../node.js'
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace

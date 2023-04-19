@@ -1,5 +1,5 @@
-import { LocalStorage } from '../src/browser.js'
-import { LowSync } from '../src/index.js'
+import { LocalStorage } from '../browser.js'
+import { LowSync } from '../index.js'
 
 type Data = {
   messages: string[]

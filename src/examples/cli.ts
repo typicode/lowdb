@@ -1,5 +1,5 @@
-import { LowSync } from '../src/index.js'
-import { JSONFileSync } from '../src/node.js'
+import { LowSync } from '../index.js'
+import { JSONFileSync } from '../node.js'
 
 type Data = {
   messages: string[]
