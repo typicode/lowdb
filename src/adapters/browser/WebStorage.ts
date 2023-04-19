@@ -1,4 +1,4 @@
-import { SyncAdapter } from '../LowSync.js'
+import { SyncAdapter } from '../../core/Low.js'
 
 export class WebStorage<T> implements SyncAdapter<T> {
   #key: string

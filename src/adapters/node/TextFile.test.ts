@@ -2,7 +2,7 @@ import { deepStrictEqual as deepEqual, strictEqual as equal } from 'node:assert'
 
 import { temporaryFile } from 'tempy'
 
-import { TextFile } from './TextFile.js'
+import { TextFile, TextFileSync } from './TextFile.js'
 
 export async function testTextFile(): Promise<void> {
   const str = 'foo'
@@ -16,6 +16,20 @@ export async function testTextFile(): Promise<void> {
 
   // Read
   deepEqual(await file.read(), str)
+}
+
+export function testTextFileSync(): void {
+  const str = 'foo'
+  const file = new TextFileSync(temporaryFile())
+
+  // Null if file doesn't exist
+  equal(file.read(), null)
+
+  // Write
+  equal(file.write(str), undefined)
+
+  // Read
+  deepEqual(file.read(), str)
 }
 
 export async function testRaceCondition(): Promise<void> {
