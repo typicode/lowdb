@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import {
   deepStrictEqual as deepEqual,
   strictEqual as equal,
@@ -8,9 +9,14 @@ import fs from 'node:fs'
 import lodash from 'lodash'
 import { temporaryFile } from 'tempy'
 
-import { JSONFile } from './adapters/JSONFile.js'
-import { Low } from './Low.js'
-import { MissingAdapterError } from './MissingAdapterError.js'
+import { Memory } from '../adapters/Memory.js'
+import { JSONFile, JSONFileSync } from '../adapters/node/JSONFile.js'
+import { Low, LowSync } from './Low.js'
+
+type Data = {
+  a?: number
+  b?: number
+}
 
 function createJSONFile(obj: unknown): string {
   const file = temporaryFile()
@@ -18,26 +24,28 @@ function createJSONFile(obj: unknown): string {
   return file
 }
 
-export function testNoAdapter(): void {
+export function testCheckArgs(): void {
+  const adapter = new Memory()
   // Ignoring TypeScript error and pass incorrect argument
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  throws(() => new Low(), MissingAdapterError)
+  throws(() => new Low())
+  // @ts-ignore
+  throws(() => new LowSync())
+  // @ts-ignore
+  throws(() => new Low(adapter))
+  // @ts-ignore
+  throws(() => new LowSync(adapter))
 }
 
 export async function testLow(): Promise<void> {
-  type Data = {
-    a?: number
-    b?: number
-  }
-
   // Create JSON file
   const obj = { a: 1 }
   const file = createJSONFile(obj)
 
   // Init
+  const defaultData: Data = {}
   const adapter = new JSONFile<Data>(file)
-  const low = new Low(adapter)
+  const low = new Low(adapter, defaultData)
   await low.read()
 
   // Data should equal file content
@@ -47,6 +55,30 @@ export async function testLow(): Promise<void> {
   const newObj = { b: 2 }
   low.data = newObj
   await low.write()
+
+  // File content should equal new data
+  const data = fs.readFileSync(file).toString()
+  deepEqual(JSON.parse(data), newObj)
+}
+
+export function testLowSync(): void {
+  // Create JSON file
+  const obj = { a: 1 }
+  const file = createJSONFile(obj)
+
+  // Init
+  const defaultData: Data = {}
+  const adapter = new JSONFileSync<Data>(file)
+  const low = new LowSync(adapter, defaultData)
+  low.read()
+
+  // Data should equal file content
+  deepEqual(low.data, obj)
+
+  // Write new data
+  const newObj = { b: 2 }
+  low.data = newObj
+  low.write()
 
   // File content should equal new data
   const data = fs.readFileSync(file).toString()
@@ -64,8 +96,9 @@ export async function testLodash(): Promise<void> {
   const file = createJSONFile(obj)
 
   // Init
+  const defaultData = { todos: [] }
   const adapter = new JSONFile<typeof obj>(file)
-  const low = new LowWithLodash(adapter)
+  const low = new LowWithLodash(adapter, defaultData)
   await low.read()
 
   // Use lodash
