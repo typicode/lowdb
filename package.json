@@ -36,6 +36,7 @@
   "types": "lib",
   "files": [
     "lib",
+    "!lib/examples/**/*",
     "!lib/**/*.test.*"
   ],
   "scripts": {
