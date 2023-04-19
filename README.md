@@ -151,7 +151,7 @@ const post = db.chain.get('posts').find({ id: 1 }).value() // Important: value()
 
 ### CLI, Server, Browser and in tests usage
 
-See [`examples/`](/examples) directory.
+See [`src/examples/`](src/examples) directory.
 
 ## API
 
@@ -237,7 +237,7 @@ new LowSync(new JSONFileSync(filename), {})
 
 #### `Memory` `MemorySync`
 
-In-memory adapters. Useful for speeding up unit tests. See [`examples/`](/examples) directory.
+In-memory adapters. Useful for speeding up unit tests. See [`src/examples/`](src/examples) directory.
 
 ```js
 import { Memory, MemorySync } from 'lowdb'
