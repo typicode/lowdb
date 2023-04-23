@@ -29,9 +29,18 @@
   "author": "Typicode <typicode@gmail.com>",
   "type": "module",
   "exports": {
-    ".": "./lib/index.js",
-    "./node": "./lib/node.js",
-    "./browser": "./lib/browser.js"
+    ".": {
+      "import": "./lib/index.js",
+      "types": "./lib/index.d.ts"
+    },
+    "./node": {
+      "import": "./lib/node.js",
+      "types": "./lib/node.d.ts"
+    },
+    "./browser": {
+      "import": "./lib/browser.js",
+      "types": "./lib/browser.d.ts"
+    }
   },
   "types": "lib",
   "files": [
