@@ -33,7 +33,17 @@
     "./node": "./lib/node.js",
     "./browser": "./lib/browser.js"
   },
-  "types": "lib",
+  "types": "./lib",
+  "typesVersions": {
+    "*": {
+      "node": [
+        "lib/node.d.ts"
+      ],
+      "browser": [
+        "lib/browser.d.ts"
+      ]
+    }
+  },
   "files": [
     "lib",
     "!lib/examples/**/*",
