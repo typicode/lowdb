@@ -206,6 +206,16 @@ db.data = {}
 db.write() // file.json will be {}
 ```
 
+#### `db.remove()`
+
+Calls `adapter.remove(db.data)`.
+
+```js
+db.data = { posts: [] }
+db.get("posts").remove().write() //deletes all data from { posts: [] } in file.json
+db.get("posts").remove({id: 1}).write() //deletes all data with entries that have the id: 1 from { posts: [] } in file.json
+```
+
 ### Properties
 
 #### `db.data`
