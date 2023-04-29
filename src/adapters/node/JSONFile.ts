@@ -10,7 +10,7 @@ export class JSONFile<T> implements Adapter<T> {
 
   async read(): Promise<T | null> {
     const data = await this.#adapter.read()
-    if (data === null) {
+    if (!data) {
       return null
     } else {
       return JSON.parse(data) as T
@@ -31,7 +31,7 @@ export class JSONFileSync<T> implements SyncAdapter<T> {
 
   read(): T | null {
     const data = this.#adapter.read()
-    if (data === null) {
+    if (!data) {
       return null
     } else {
       return JSON.parse(data) as T
