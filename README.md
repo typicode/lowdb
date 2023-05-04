@@ -58,8 +58,6 @@ npm install lowdb
 
 _Lowdb is a pure ESM package. If you're having trouble using it in your project, please [read this](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c)._
 
-**Next.js**: there's a [known issue](https://github.com/typicode/lowdb/issues/554). Until it's fixed, please use this [workaround](https://github.com/typicode/lowdb/issues/554#issuecomment-1345252506) or lowdb `^4.0.0`.
-
 ```js
 // Remember to set type: module in package.json or use .mjs extension
 import { join, dirname } from 'node:path'
