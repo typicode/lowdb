@@ -109,7 +109,7 @@ type Data = {
 
 const defaultData: Data = { messages: [] }
 const adapter = new JSONFile<Data>('db.json')
-const db = new Low<Data>(adapter)
+const db = new Low<Data>(adapter, defaultData)
 
 db.data.messages.push('foo') // ✅ Success
 db.data.messages.push(1) // ❌ TypeScript error
