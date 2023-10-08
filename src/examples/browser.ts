@@ -1,4 +1,4 @@
-import { WebStoragePreset } from '../presets/WebStoragePreset.js'
+import { WebStoragePreset } from '../presets/browser/WebStoragePreset.js'
 
 type Data = {
   messages: string[]
