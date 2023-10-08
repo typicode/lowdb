@@ -1,10 +1,12 @@
+import { PathLike } from 'fs'
+
 import { Adapter, SyncAdapter } from '../../core/Low.js'
 import { TextFile, TextFileSync } from './TextFile.js'
 
 export class JSONFile<T> implements Adapter<T> {
   #adapter: TextFile
 
-  constructor(filename: string) {
+  constructor(filename: PathLike) {
     this.#adapter = new TextFile(filename)
   }
 
@@ -25,7 +27,7 @@ export class JSONFile<T> implements Adapter<T> {
 export class JSONFileSync<T> implements SyncAdapter<T> {
   #adapter: TextFileSync
 
-  constructor(filename: string) {
+  constructor(filename: PathLike) {
     this.#adapter = new TextFileSync(filename)
   }
 

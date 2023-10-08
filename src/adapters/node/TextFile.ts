@@ -7,10 +7,10 @@ import { Writer } from 'steno'
 import { Adapter, SyncAdapter } from '../../core/Low.js'
 
 export class TextFile implements Adapter<string> {
-  #filename: string
+  #filename: fs.PathLike
   #writer: Writer
 
-  constructor(filename: string) {
+  constructor(filename: fs.PathLike) {
     this.#filename = filename
     this.#writer = new Writer(filename)
   }
@@ -36,15 +36,13 @@ export class TextFile implements Adapter<string> {
 }
 
 export class TextFileSync implements SyncAdapter<string> {
-  #tempFilename: string
-  #filename: string
+  #tempFilename: fs.PathLike
+  #filename: fs.PathLike
 
-  constructor(filename: string) {
+  constructor(filename: fs.PathLike) {
     this.#filename = filename
-    this.#tempFilename = path.join(
-      path.dirname(filename),
-      `.${path.basename(filename)}.tmp`,
-    )
+    const f = filename.toString()
+    this.#tempFilename = path.join(path.dirname(f), `.${path.basename(f)}.tmp`)
   }
 
   read(): string | null {
