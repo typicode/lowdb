@@ -1,13 +1,12 @@
-import { LocalStorage } from '../browser.js'
-import { LowSync } from '../index.js'
+import { WebStoragePreset } from '../presets/WebStoragePreset.js'
 
 type Data = {
   messages: string[]
 }
-const adapter = new LocalStorage<Data>('db')
-const db = new LowSync<Data>(adapter, { messages: [] })
 
-db.read()
+const defaultData: Data = { messages: [] }
+const db = WebStoragePreset<Data>('db', defaultData)
+
 db.data.messages.push('foo')
 
 db.write()

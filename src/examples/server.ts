@@ -4,8 +4,7 @@
 import express from 'express'
 import asyncHandler from 'express-async-handler'
 
-import { Low } from '../index.js'
-import { JSONFile } from '../node.js'
+import { JSONPreset } from '../presets/JSONPreset.js'
 
 const app = express()
 app.use(express.json())
@@ -19,9 +18,8 @@ type Data = {
   posts: Post[]
 }
 
-const adapter = new JSONFile<Data>('db.json')
-const db = new Low<Data>(adapter, { posts: [] })
-await db.read()
+const defaultData: Data = { posts: [] }
+const db = await JSONPreset<Data>('db.json', defaultData)
 
 // db.data can be destructured to avoid typing `db.data` everywhere
 const { posts } = db.data
