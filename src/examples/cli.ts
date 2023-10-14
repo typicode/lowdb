@@ -1,4 +1,4 @@
-import { JSONSyncPreset } from '../presets/node/JSONPreset.js'
+import { JSONSyncPreset } from '../presets/node.js'
 
 type Data = {
   messages: string[]
@@ -6,7 +6,7 @@ type Data = {
 
 const message = process.argv[2] || ''
 const defaultData: Data = { messages: [] }
-const db = JSONSyncPreset('file.json', defaultData)
+const db = JSONSyncPreset<Data>('file.json', defaultData)
 
 db.data.messages.push(message)
 

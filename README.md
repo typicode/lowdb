@@ -46,7 +46,7 @@ If you like lowdb, please [sponsor](https://github.com/sponsors/typicode).
 - Safe atomic writes
 - Hackable:
   - Change storage, file format (JSON, YAML, ...) or add encryption via [adapters](#adapters)
-  - Add lodash, ramda, ... for super powers!
+  - Extend it with lodash, ramda, ... for super powers!
 
 ## Install
 
@@ -59,25 +59,10 @@ npm install lowdb
 _Lowdb is a pure ESM package. If you're having trouble using it in your project, please [read this](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c)._
 
 ```js
-// Remember to set type: module in package.json or use .mjs extension
-import { join, dirname } from 'node:path'
-import { fileURLToPath } from 'node:url'
+import { JSONPreset } from 'lowdb/node'
 
-import { Low } from 'lowdb'
-import { JSONFile } from 'lowdb/node'
-
-// db.json file path
-const __dirname = dirname(fileURLToPath(import.meta.url))
-const file = join(__dirname, 'db.json')
-
-// Configure lowdb to write data to JSON file
-const adapter = new JSONFile(file)
 const defaultData = { posts: [] }
-const db = new Low(adapter, defaultData)
-
-// Read data from JSON file, this will set db.data content
-// If JSON file doesn't exist, defaultData is used instead
-await db.read()
+const db = await JSONPreset('db.json', defaultData)
 
 // Create and query items using plain JavaScript
 db.data.posts.push('hello world')
@@ -108,8 +93,7 @@ type Data = {
 }
 
 const defaultData: Data = { messages: [] }
-const adapter = new JSONFile<Data>('db.json')
-const db = new Low<Data>(adapter, defaultData)
+const db = await JSONFile<Data>('db.json')
 
 db.data.messages.push('foo') // ✅ Success
 db.data.messages.push(1) // ❌ TypeScript error
@@ -117,9 +101,11 @@ db.data.messages.push(1) // ❌ TypeScript error
 
 ### Lodash
 
-You can also add lodash or other utility libraries to improve lowdb.
+You can extend lowdb with Lodash (or other libraries).
 
 ```ts
+import { Low } from 'lowdb'
+import { JSONFile } from 'lowdb/node'
 import lodash from 'lodash'
 
 type Post = {
@@ -139,7 +125,7 @@ class LowWithLodash<T> extends Low<T> {
 const defaultData: Data = {
   posts: [],
 }
-const adapter = new JSONFile<Data>('db.json')
+const adapter = new JSONFile<Data>('db.json', defaultData)
 const db = new LowWithLodash(adapter)
 await db.read()
 
@@ -152,6 +138,19 @@ const post = db.chain.get('posts').find({ id: 1 }).value() // Important: value()
 See [`src/examples/`](src/examples) directory.
 
 ## API
+
+### Presets
+
+Lowdb provides four presets for common cases.
+
+- `JSONPreset(filename, defaultData)`
+- `JSONSyncPreset(filename, defaultData)`
+- `LocalStoragePreset(name, defaultData)`
+- `SessionStoragePreset(name, defaultData)`
+
+See [`src/examples/`](src/examples) directory for usage.
+
+Lowdb is extremely flexible, if you need to extend it or modify its behavior, use the classes and adapters below instead of the presets.
 
 ### Classes
 

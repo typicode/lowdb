@@ -4,7 +4,7 @@
 import express from 'express'
 import asyncHandler from 'express-async-handler'
 
-import { JSONPreset } from '../presets/node/JSONPreset.js'
+import { JSONPreset } from '../presets/node.js'
 
 const app = express()
 app.use(express.json())

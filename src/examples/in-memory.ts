@@ -13,7 +13,7 @@ declare global {
 }
 
 type Data = Record<string, unknown>
-const defaultData = {}
+const defaultData: Data = {}
 const adapter: SyncAdapter<Data> =
   process.env.NODE_ENV === 'test'
     ? new MemorySync<Data>()
