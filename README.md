@@ -3,8 +3,13 @@
 > Simple to use local JSON database. Use native JavaScript API to query. Written in TypeScript. 🦉
 
 ```js
+// Read or create db.json
+const db = await JSONPreset('db.json', { posts: [] })
+
 // Edit db.json content using plain JavaScript
-db.data.posts.push({ id: 1, title: 'lowdb is awesome' })
+db.data
+  .posts
+  .push({ id: 1, title: 'lowdb is awesome' })
 
 // Save to file
 db.write()
@@ -61,6 +66,7 @@ _Lowdb is a pure ESM package. If you're having trouble using it in your project,
 ```js
 import { JSONPreset } from 'lowdb/node'
 
+// Read or create db.json
 const defaultData = { posts: [] }
 const db = await JSONPreset('db.json', defaultData)
 
