@@ -1,6 +1,6 @@
 # lowdb [![](http://img.shields.io/npm/dm/lowdb.svg?style=flat)](https://www.npmjs.org/package/lowdb) [![Node.js CI](https://github.com/typicode/lowdb/actions/workflows/node.js.yml/badge.svg)](https://github.com/typicode/lowdb/actions/workflows/node.js.yml)
 
-> Simple to use local JSON database. Use native JavaScript API to query. Written in TypeScript. 🦉
+> Simple to use type-safe local JSON database 🦉
 
 ```js
 // Read or create db.json
@@ -23,8 +23,6 @@ db.write()
   ]
 }
 ```
-
-If you like lowdb, please [sponsor](https://github.com/sponsors/typicode).
 
 ## Sponsors
 
