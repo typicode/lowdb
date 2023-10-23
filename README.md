@@ -105,7 +105,7 @@ db.data.messages.push(1) // ❌ TypeScript error
 
 ### Lodash
 
-You can extend lowdb with Lodash (or other libraries).
+You can extend lowdb with Lodash (or other libraries). To be able to extend it, we're not using `JSONPreset` here. Instead, we're using lower components.
 
 ```ts
 import { Low } from 'lowdb'
@@ -130,6 +130,7 @@ const defaultData: Data = {
   posts: [],
 }
 const adapter = new JSONFile<Data>('db.json', defaultData)
+
 const db = new LowWithLodash(adapter)
 await db.read()
 
