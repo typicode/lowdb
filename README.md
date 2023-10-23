@@ -97,7 +97,7 @@ type Data = {
 }
 
 const defaultData: Data = { messages: [] }
-const db = await JSONFile<Data>('db.json')
+const db = await JSONPreset<Data>('db.json', defaultData)
 
 db.data.messages.push('foo') // ✅ Success
 db.data.messages.push(1) // ❌ TypeScript error
