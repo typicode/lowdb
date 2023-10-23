@@ -160,7 +160,7 @@ Lowdb is extremely flexible, if you need to extend it or modify its behavior, us
 
 Lowdb has two classes (for asynchronous and synchronous adapters).
 
-#### `new Low(adapter)`
+#### `new Low(adapter, defaultData)`
 
 ```js
 import { Low } from 'lowdb'
@@ -171,7 +171,7 @@ await db.read()
 await db.write()
 ```
 
-#### `new LowSync(adapterSync)`
+#### `new LowSync(adapterSync, defaultData)`
 
 ```js
 import { LowSync } from 'lowdb'
