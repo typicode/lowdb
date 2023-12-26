@@ -2,21 +2,17 @@
 
 > Simple to use type-safe local JSON database 🦉
 
-```js
-// Read or create db.json
-const db = await JSONFilePreset('db.json', { posts: [] })
+Read or create `db.json`
 
-// Update data using Array.prototype.push
-// and automatically write to db.json
+```js
+const db = await JSONFilePreset('db.json', { posts: [] })
+```
+
+Update data using `Array.prototype.*` and automatically write to `db.json`
+
+```js
 const post = { id: 1, title: 'lowdb is awesome', views: 100 }
 await db.update(({ posts }) => posts.push(post))
-
-// Query using Array.prototype.*
-const { posts } = db.data
-const first = posts.at(0)
-const results = posts.filter((post) => post.title.includes('lowdb'))
-const post1 = posts.find((post) => post.id === 1)
-const sortedPosts = posts.toSorted((a, b) => a.views - b.views)
 ```
 
 ```js
@@ -27,6 +23,18 @@ const sortedPosts = posts.toSorted((a, b) => a.views - b.views)
   ]
 }
 ```
+
+In the same spirit, query using native `Array.prototype.*`
+
+```js
+const { posts } = db.data
+const first = posts.at(0)
+const results = posts.filter((post) => post.title.includes('lowdb'))
+const post1 = posts.find((post) => post.id === 1)
+const sortedPosts = posts.toSorted((a, b) => a.views - b.views)
+```
+
+It's that simple.
 
 ## Sponsors
 
@@ -49,7 +57,7 @@ const sortedPosts = posts.toSorted((a, b) => a.views - b.views)
 - **Lightweight**
 - **Minimalist**
 - **TypeScript**
-- **plain JavaScript**
+- **Plain JavaScript**
 - Safe atomic writes
 - Hackable:
   - Change storage, file format (JSON, YAML, ...) or add encryption via [adapters](#adapters)
