@@ -4,7 +4,7 @@
 import express from 'express'
 import asyncHandler from 'express-async-handler'
 
-import { JSONPreset } from '../presets/node.js'
+import { JSONFilePreset } from '../presets/node.js'
 
 const app = express()
 app.use(express.json())
@@ -19,7 +19,7 @@ type Data = {
 }
 
 const defaultData: Data = { posts: [] }
-const db = await JSONPreset<Data>('db.json', defaultData)
+const db = await JSONFilePreset<Data>('db.json', defaultData)
 
 // db.data can be destructured to avoid typing `db.data` everywhere
 const { posts } = db.data
