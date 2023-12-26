@@ -24,6 +24,10 @@ function createJSONFile(obj: unknown): string {
   return file
 }
 
+function readJSONFile(file: string): unknown {
+  return JSON.parse(fs.readFileSync(file).toString())
+}
+
 export function testCheckArgs(): void {
   const adapter = new Memory()
   // Ignoring TypeScript error and pass incorrect argument
@@ -57,8 +61,13 @@ export async function testLow(): Promise<void> {
   await low.write()
 
   // File content should equal new data
-  const data = fs.readFileSync(file).toString()
-  deepEqual(JSON.parse(data), newObj)
+  deepEqual(readJSONFile(file), newObj)
+
+  // Write using update()
+  await low.update((data) => {
+    data.b = 3
+  })
+  deepEqual(readJSONFile(file), { b: 3 })
 }
 
 export function testLowSync(): void {
@@ -81,8 +90,13 @@ export function testLowSync(): void {
   low.write()
 
   // File content should equal new data
-  const data = fs.readFileSync(file).toString()
-  deepEqual(JSON.parse(data), newObj)
+  deepEqual(readJSONFile(file), newObj)
+
+  // Write using update()
+  low.update((data) => {
+    data.b = 3
+  })
+  deepEqual(readJSONFile(file), { b: 3 })
 }
 
 export async function testLodash(): Promise<void> {
