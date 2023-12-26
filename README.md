@@ -4,22 +4,26 @@
 
 ```js
 // Read or create db.json
-const db = await JSONPreset('db.json', { posts: [] })
+const db = await JSONFilePreset('db.json', { posts: [] })
 
-// Edit db.json content using plain JavaScript
-db.data
-  .posts
-  .push({ id: 1, title: 'lowdb is awesome' })
+// Update data using Array.prototype.push
+// and automatically write to db.json
+const post = { id: 1, title: 'lowdb is awesome', views: 100 }
+await db.update(({ posts }) => posts.push(post))
 
-// Save to file
-db.write()
+// Query using Array.prototype.*
+const { posts } = db.data
+const first = posts.at(0)
+const results = posts.filter((post) => post.title.includes('lowdb'))
+const post1 = posts.find((post) => post.id === 1)
+const sortedPosts = posts.toSorted((a, b) => a.views - b.views)
 ```
 
 ```js
 // db.json
 {
   "posts": [
-    { "id": 1, "title": "lowdb is awesome" }
+    { "id": 1, "title": "lowdb is awesome", "views": 100 }
   ]
 }
 ```
@@ -50,6 +54,7 @@ db.write()
 - Hackable:
   - Change storage, file format (JSON, YAML, ...) or add encryption via [adapters](#adapters)
   - Extend it with lodash, ramda, ... for super powers!
+- Automatically switches to fast in-memory mode during tests
 
 ## Install
 
@@ -62,21 +67,18 @@ npm install lowdb
 _Lowdb is a pure ESM package. If you're having trouble using it in your project, please [read this](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c)._
 
 ```js
-import { JSONPreset } from 'lowdb/node'
+import { JSONFilePreset } from 'lowdb/node'
 
 // Read or create db.json
 const defaultData = { posts: [] }
-const db = await JSONPreset('db.json', defaultData)
+const db = await JSONFilePreset('db.json', defaultData)
 
-// Create and query items using plain JavaScript
+// Update db.json
+await db.update(({ posts }) => posts.push('hello world'))
+
+// Alternatively you can call db.write() explicitely later
+// to write to db.json
 db.data.posts.push('hello world')
-const firstPost = db.data.posts[0]
-
-// If you don't want to type db.data everytime, you can use destructuring assignment
-const { posts } = db.data
-posts.push('hello world')
-
-// Finally write db.data content to file
 await db.write()
 ```
 
@@ -148,8 +150,8 @@ See [`src/examples/`](src/examples) directory.
 
 Lowdb provides four presets for common cases.
 
-- `JSONPreset(filename, defaultData)`
-- `JSONSyncPreset(filename, defaultData)`
+- `JSONFilePreset(filename, defaultData)`
+- `JSONFileSyncPreset(filename, defaultData)`
 - `LocalStoragePreset(name, defaultData)`
 - `SessionStoragePreset(name, defaultData)`
 
@@ -208,6 +210,18 @@ db.data = {}
 db.write() // file.json will be {}
 ```
 
+#### `db.update(fn)`
+
+Calls `fn()` then `db.write()`.
+
+```js
+db.update((data) => {
+  // make changes to data
+  // ...
+})
+// files.json will be updated
+```
+
 ### Properties
 
 #### `db.data`
@@ -258,9 +272,27 @@ new LowSync(new LocalStorage(name), {})
 new LowSync(new SessionStorage(name), {})
 ```
 
+### Utility adapters
+
 #### `TextFile` `TextFileSync`
 
 Adapters for reading and writing text. Useful for creating custom adapters.
+
+#### `DataFile` `DataFileSync`
+
+Adapters for easily supporting other data formats or adding behaviors (encrypt, compress...).
+
+```js
+import { DataFile } from 'lowdb'
+new DataFile(filename, {
+  parse: YAML.parse,
+  stringify: YAML.stringify
+})
+new DataFile(filename, {
+  parse: (data) => { decypt(JSON.parse(data)) },
+  stringify: (str) => { encrypt(JSON.stringify(str)) }
+})
+```
 
 ### Third-party adapters
 

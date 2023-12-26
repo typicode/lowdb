@@ -1,4 +1,5 @@
-import { deepStrictEqual as deepEqual, strictEqual as equal } from 'node:assert'
+import { deepEqual, equal } from 'node:assert/strict'
+import test from 'node:test'
 
 import { WebStorage } from './WebStorage.js'
 
@@ -23,7 +24,7 @@ const mockStorage = () => ({
 global.localStorage = mockStorage()
 global.sessionStorage = mockStorage()
 
-export function testLocalStorage(): void {
+await test('localStorage', () => {
   const obj = { a: 1 }
   const storage = new WebStorage('key', localStorage)
 
@@ -32,9 +33,9 @@ export function testLocalStorage(): void {
 
   // Read
   deepEqual(storage.read(), obj)
-}
+})
 
-export function testSessionStorage(): void {
+await test('sessionStorage', () => {
   const obj = { a: 1 }
   const storage = new WebStorage('key', sessionStorage)
 
@@ -43,4 +44,4 @@ export function testSessionStorage(): void {
 
   // Read
   deepEqual(storage.read(), obj)
-}
+})

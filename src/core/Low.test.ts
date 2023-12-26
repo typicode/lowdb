@@ -1,10 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import {
-  deepStrictEqual as deepEqual,
-  strictEqual as equal,
-  throws,
-} from 'node:assert'
+import { deepEqual, equal, throws } from 'node:assert/strict'
 import fs from 'node:fs'
+import test from 'node:test'
 
 import lodash from 'lodash'
 import { temporaryFile } from 'tempy'
@@ -24,7 +21,11 @@ function createJSONFile(obj: unknown): string {
   return file
 }
 
-export function testCheckArgs(): void {
+function readJSONFile(file: string): unknown {
+  return JSON.parse(fs.readFileSync(file).toString())
+}
+
+await test('CheckArgs', () => {
   const adapter = new Memory()
   // Ignoring TypeScript error and pass incorrect argument
   // @ts-ignore
@@ -35,9 +36,9 @@ export function testCheckArgs(): void {
   throws(() => new Low(adapter))
   // @ts-ignore
   throws(() => new LowSync(adapter))
-}
+})
 
-export async function testLow(): Promise<void> {
+await test('Low', async () => {
   // Create JSON file
   const obj = { a: 1 }
   const file = createJSONFile(obj)
@@ -57,11 +58,16 @@ export async function testLow(): Promise<void> {
   await low.write()
 
   // File content should equal new data
-  const data = fs.readFileSync(file).toString()
-  deepEqual(JSON.parse(data), newObj)
-}
+  deepEqual(readJSONFile(file), newObj)
 
-export function testLowSync(): void {
+  // Write using update()
+  await low.update((data) => {
+    data.b = 3
+  })
+  deepEqual(readJSONFile(file), { b: 3 })
+})
+
+await test('LowSync', () => {
   // Create JSON file
   const obj = { a: 1 }
   const file = createJSONFile(obj)
@@ -81,11 +87,16 @@ export function testLowSync(): void {
   low.write()
 
   // File content should equal new data
-  const data = fs.readFileSync(file).toString()
-  deepEqual(JSON.parse(data), newObj)
-}
+  deepEqual(readJSONFile(file), newObj)
 
-export async function testLodash(): Promise<void> {
+  // Write using update()
+  low.update((data) => {
+    data.b = 3
+  })
+  deepEqual(readJSONFile(file), { b: 3 })
+})
+
+await test('Lodash', async () => {
   // Extend with lodash
   class LowWithLodash<T> extends Low<T> {
     chain: lodash.ExpChain<this['data']> = lodash.chain(this).get('data')
@@ -105,4 +116,4 @@ export async function testLodash(): Promise<void> {
   const firstTodo = low.chain.get('todos').first().value()
 
   equal(firstTodo, 'foo')
-}
+})

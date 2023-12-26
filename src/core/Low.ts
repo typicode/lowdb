@@ -31,6 +31,11 @@ export class Low<T = unknown> {
   async write(): Promise<void> {
     if (this.data) await this.adapter.write(this.data)
   }
+
+  async update(fn: (data: T) => unknown): Promise<void> {
+    fn(this.data)
+    await this.write()
+  }
 }
 
 export class LowSync<T = unknown> {
@@ -50,5 +55,10 @@ export class LowSync<T = unknown> {
 
   write(): void {
     if (this.data) this.adapter.write(this.data)
+  }
+
+  update(fn: (data: T) => unknown): void {
+    fn(this.data)
+    this.write()
   }
 }

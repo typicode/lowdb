@@ -1,10 +1,11 @@
-import { deepStrictEqual as deepEqual, strictEqual as equal } from 'node:assert'
+import { deepEqual, equal } from 'node:assert/strict'
+import test from 'node:test'
 
 import { temporaryFile } from 'tempy'
 
 import { TextFile, TextFileSync } from './TextFile.js'
 
-export async function testTextFile(): Promise<void> {
+await test('TextFile', async () => {
   const str = 'foo'
   const file = new TextFile(temporaryFile())
 
@@ -16,9 +17,9 @@ export async function testTextFile(): Promise<void> {
 
   // Read
   deepEqual(await file.read(), str)
-}
+})
 
-export function testTextFileSync(): void {
+await test('TextFileSync', () => {
   const str = 'foo'
   const file = new TextFileSync(temporaryFile())
 
@@ -30,9 +31,9 @@ export function testTextFileSync(): void {
 
   // Read
   deepEqual(file.read(), str)
-}
+})
 
-export async function testRaceCondition(): Promise<void> {
+await test('RaceCondition', async () => {
   const file = new TextFile(temporaryFile())
   const promises: Promise<void>[] = []
 
@@ -44,4 +45,4 @@ export async function testRaceCondition(): Promise<void> {
   await Promise.all(promises)
 
   equal(await file.read(), String(i - 1))
-}
+})
