@@ -8,9 +8,8 @@ const db = await JSONFilePreset('db.json', { posts: [] })
 
 // Update data using Array.prototype.push
 // and automatically write to db.json
-await db.update((data) =>
-  data.posts.push({ id: 1, title: 'lowdb is awesome', views: 100 })(-)
-)
+const post = { id: 1, title: 'lowdb is awesome', views: 100 }
+await db.update(({ posts }) => posts.push(post))
 
 // Query using Array.prototype.*
 const { posts } = db.data

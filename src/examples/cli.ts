@@ -5,9 +5,8 @@ type Data = {
 }
 
 const message = process.argv[2] || ''
+
 const defaultData: Data = { messages: [] }
 const db = JSONSyncPreset<Data>('file.json', defaultData)
 
-db.data.messages.push(message)
-
-db.write()
+db.update(({ messages }) => messages.push(message))

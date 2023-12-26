@@ -34,8 +34,7 @@ app.post(
   asyncHandler(async (req, res) => {
     const post = req.body as Post
     post.id = String(posts.length + 1)
-    posts.push(post)
-    await db.write()
+    await db.update(({ posts }) => posts.push(post))
     res.send(post)
   }),
 )

@@ -50,7 +50,7 @@
     "!lib/**/*.test.*"
   ],
   "scripts": {
-    "test": "xv --loader=ts-node/esm src",
+    "test": "node --import tsx/esm --test src/**/*.test.ts src/**/**/*.test.ts",
     "lint": "eslint src --ext .ts --ignore-path .gitignore",
     "build": "del-cli lib && tsc",
     "prepublishOnly": "npm run build",
@@ -58,7 +58,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
-    "steno": "^4.0.1"
+    "steno": "^4.0.2"
   },
   "devDependencies": {
     "@commitlint/cli": "^18.4.3",
@@ -76,8 +76,8 @@
     "lodash": "^4.17.21",
     "tempy": "^3.1.0",
     "ts-node": "^10.9.2",
-    "typescript": "^5.3.3",
-    "xv": "^2.1.1"
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.3"
   },
   "engines": {
     "node": ">=18"

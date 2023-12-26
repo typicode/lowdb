@@ -1,8 +1,9 @@
-import { deepStrictEqual as deepEqual, strictEqual as equal } from 'node:assert'
+import { deepEqual, equal } from 'node:assert/strict'
+import test from 'node:test'
 
 import { Memory, MemorySync } from './Memory.js'
 
-export async function testMemory(): Promise<void> {
+await test('Memory', async () => {
   const obj = { a: 1 }
 
   const memory = new Memory()
@@ -15,9 +16,9 @@ export async function testMemory(): Promise<void> {
 
   // Read
   deepEqual(await memory.read(), obj)
-}
+})
 
-export function testMemorySync(): void {
+await test('MemorySync', () => {
   const obj = { a: 1 }
 
   const memory = new MemorySync()
@@ -30,4 +31,4 @@ export function testMemorySync(): void {
 
   // Read
   deepEqual(memory.read(), obj)
-}
+})

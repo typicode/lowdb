@@ -1,4 +1,5 @@
-import { deepStrictEqual as deepEqual, strictEqual as equal } from 'node:assert'
+import { deepEqual, equal } from 'node:assert/strict'
+import test from 'node:test'
 
 import { temporaryFile } from 'tempy'
 
@@ -8,7 +9,7 @@ type Data = {
   a: number
 }
 
-export async function testJSONFile(): Promise<void> {
+await test('JSONFile', async () => {
   const obj = { a: 1 }
   const file = new JSONFile<Data>(temporaryFile())
 
@@ -20,9 +21,9 @@ export async function testJSONFile(): Promise<void> {
 
   // Read
   deepEqual(await file.read(), obj)
-}
+})
 
-export function testJSONFileSync(): void {
+await test('JSONFileSync', () => {
   const obj = { a: 1 }
   const file = new JSONFileSync<Data>(temporaryFile())
 
@@ -34,4 +35,4 @@ export function testJSONFileSync(): void {
 
   // Read
   deepEqual(file.read(), obj)
-}
+})

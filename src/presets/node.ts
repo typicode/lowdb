@@ -4,7 +4,7 @@ import { Memory, MemorySync } from '../adapters/Memory.js'
 import { JSONFile, JSONFileSync } from '../adapters/node/JSONFile.js'
 import { Low, LowSync } from '../core/Low.js'
 
-export async function JSONPreset<Data>(
+export async function JSONFilePreset<Data>(
   filename: fs.PathLike,
   defaultData: Data,
 ): Promise<Low<Data>> {
@@ -17,7 +17,7 @@ export async function JSONPreset<Data>(
   return db
 }
 
-export function JSONSyncPreset<Data>(
+export function JSONFileSyncPreset<Data>(
   filename: fs.PathLike,
   defaultData: Data,
 ): LowSync<Data> {
