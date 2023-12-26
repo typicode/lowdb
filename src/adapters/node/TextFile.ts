@@ -1,5 +1,5 @@
-import fs from 'node:fs'
-import * as fsPromises from 'node:fs/promises'
+import { PathLike, readFileSync, renameSync, writeFileSync } from 'node:fs'
+import { readFile } from 'node:fs/promises'
 import path from 'node:path'
 
 import { Writer } from 'steno'
@@ -7,10 +7,10 @@ import { Writer } from 'steno'
 import { Adapter, SyncAdapter } from '../../core/Low.js'
 
 export class TextFile implements Adapter<string> {
-  #filename: fs.PathLike
+  #filename: PathLike
   #writer: Writer
 
-  constructor(filename: fs.PathLike) {
+  constructor(filename: PathLike) {
     this.#filename = filename
     this.#writer = new Writer(filename)
   }
@@ -19,7 +19,7 @@ export class TextFile implements Adapter<string> {
     let data
 
     try {
-      data = await fsPromises.readFile(this.#filename, 'utf-8')
+      data = await readFile(this.#filename, 'utf-8')
     } catch (e) {
       if ((e as NodeJS.ErrnoException).code === 'ENOENT') {
         return null
@@ -36,10 +36,10 @@ export class TextFile implements Adapter<string> {
 }
 
 export class TextFileSync implements SyncAdapter<string> {
-  #tempFilename: fs.PathLike
-  #filename: fs.PathLike
+  #tempFilename: PathLike
+  #filename: PathLike
 
-  constructor(filename: fs.PathLike) {
+  constructor(filename: PathLike) {
     this.#filename = filename
     const f = filename.toString()
     this.#tempFilename = path.join(path.dirname(f), `.${path.basename(f)}.tmp`)
@@ -49,7 +49,7 @@ export class TextFileSync implements SyncAdapter<string> {
     let data
 
     try {
-      data = fs.readFileSync(this.#filename, 'utf-8')
+      data = readFileSync(this.#filename, 'utf-8')
     } catch (e) {
       if ((e as NodeJS.ErrnoException).code === 'ENOENT') {
         return null
@@ -61,7 +61,7 @@ export class TextFileSync implements SyncAdapter<string> {
   }
 
   write(str: string): void {
-    fs.writeFileSync(this.#tempFilename, str)
-    fs.renameSync(this.#tempFilename, this.#filename)
+    writeFileSync(this.#tempFilename, str)
+    renameSync(this.#tempFilename, this.#filename)
   }
 }

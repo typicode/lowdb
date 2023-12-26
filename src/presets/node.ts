@@ -1,11 +1,11 @@
-import fs from 'node:fs'
+import { PathLike } from 'node:fs'
 
 import { Memory, MemorySync } from '../adapters/Memory.js'
 import { JSONFile, JSONFileSync } from '../adapters/node/JSONFile.js'
 import { Low, LowSync } from '../core/Low.js'
 
 export async function JSONFilePreset<Data>(
-  filename: fs.PathLike,
+  filename: PathLike,
   defaultData: Data,
 ): Promise<Low<Data>> {
   const adapter =
@@ -18,7 +18,7 @@ export async function JSONFilePreset<Data>(
 }
 
 export function JSONFileSyncPreset<Data>(
-  filename: fs.PathLike,
+  filename: PathLike,
   defaultData: Data,
 ): LowSync<Data> {
   const adapter =
