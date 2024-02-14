@@ -1,6 +1,8 @@
 # lowdb [![](http://img.shields.io/npm/dm/lowdb.svg?style=flat)](https://www.npmjs.org/package/lowdb) [![Node.js CI](https://github.com/typicode/lowdb/actions/workflows/node.js.yml/badge.svg)](https://github.com/typicode/lowdb/actions/workflows/node.js.yml)
 
 > Simple to use type-safe local JSON database 🦉
+> 
+> If you know JavaScript, you know how to use lowdb.
 
 Read or create `db.json`
 
@@ -8,10 +10,16 @@ Read or create `db.json`
 const db = await JSONFilePreset('db.json', { posts: [] })
 ```
 
-Update data using `Array.prototype.*` and automatically write to `db.json`
+Use plain JavaScript to change data
 
 ```js
 const post = { id: 1, title: 'lowdb is awesome', views: 100 }
+
+// In two steps
+db.data.posts.push(post)
+await db.write()
+
+// Or in one
 await db.update(({ posts }) => posts.push(post))
 ```
 
@@ -24,17 +32,18 @@ await db.update(({ posts }) => posts.push(post))
 }
 ```
 
-In the same spirit, query using native `Array.prototype.*`
+In the same spirit, query using native `Array` functions:
 
 ```js
 const { posts } = db.data
-const first = posts.at(0)
-const results = posts.filter((post) => post.title.includes('lowdb'))
-const post1 = posts.find((post) => post.id === 1)
-const sortedPosts = posts.toSorted((a, b) => a.views - b.views)
+
+posts.at(0) // First post
+posts.filter((post) => post.title.includes('lowdb')) // Filter by title
+posts.find((post) => post.id === 1) // Find by id
+posts.toSorted((a, b) => a.views - b.views) // Sort by views
 ```
 
-It's that simple.
+It's that simple. `db.data` is just a JavaScript object, no magic.
 
 ## Sponsors
 
