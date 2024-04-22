@@ -291,7 +291,7 @@ Adapters for reading and writing text. Useful for creating custom adapters.
 Adapters for easily supporting other data formats or adding behaviors (encrypt, compress...).
 
 ```js
-import { DataFile } from 'lowdb'
+import { DataFile } from 'lowdb/node'
 new DataFile(filename, {
   parse: YAML.parse,
   stringify: YAML.stringify
