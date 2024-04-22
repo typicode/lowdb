@@ -354,7 +354,7 @@ class CustomAsyncAdapter {
 }
 
 const adapter = new CustomAsyncAdapter()
-const db = new Low(adapter)
+const db = new Low(adapter, {})
 ```
 
 See [`src/adapters/`](src/adapters) for more examples.
@@ -390,7 +390,7 @@ class YAMLFile {
 }
 
 const adapter = new YAMLFile('file.yaml')
-const db = new Low(adapter)
+const db = new Low(adapter, {})
 ```
 
 ## Limits
