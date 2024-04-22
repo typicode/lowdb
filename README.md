@@ -335,6 +335,7 @@ class SyncAdapter {
 For example, let's say you have some async storage and want to create an adapter for it:
 
 ```js
+import { Low } from 'lowdb'
 import { api } from './AsyncStorage'
 
 class CustomAsyncAdapter {
