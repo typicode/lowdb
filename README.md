@@ -300,7 +300,7 @@ Adapters for reading and writing text. Useful for creating custom adapters.
 Adapters for easily supporting other data formats or adding behaviors (encrypt, compress...).
 
 ```js
-import { DataFile } from 'lowdb'
+import { DataFile } from 'lowdb/node'
 new DataFile(filename, {
   parse: YAML.parse,
   stringify: YAML.stringify
@@ -344,6 +344,7 @@ class SyncAdapter {
 For example, let's say you have some async storage and want to create an adapter for it:
 
 ```js
+import { Low } from 'lowdb'
 import { api } from './AsyncStorage'
 
 class CustomAsyncAdapter {
@@ -363,7 +364,7 @@ class CustomAsyncAdapter {
 }
 
 const adapter = new CustomAsyncAdapter()
-const db = new Low(adapter)
+const db = new Low(adapter, {})
 ```
 
 See [`src/adapters/`](src/adapters) for more examples.
@@ -399,7 +400,7 @@ class YAMLFile {
 }
 
 const adapter = new YAMLFile('file.yaml')
-const db = new Low(adapter)
+const db = new Low(adapter, {})
 ```
 
 ## Limits
