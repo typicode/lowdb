@@ -148,9 +148,9 @@ class LowWithLodash<T> extends Low<T> {
 const defaultData: Data = {
   posts: [],
 }
-const adapter = new JSONFile<Data>('db.json', defaultData)
+const adapter = new JSONFile<Data>('db.json')
 
-const db = new LowWithLodash(adapter)
+const db = new LowWithLodash(adapter, defaultData)
 await db.read()
 
 // Instead of db.data use db.chain to access lodash API
