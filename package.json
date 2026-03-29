@@ -31,7 +31,8 @@
   "exports": {
     ".": "./lib/index.js",
     "./node": "./lib/node.js",
-    "./browser": "./lib/browser.js"
+    "./browser": "./lib/browser.js",
+    "./lib/presets/node": "./lib/presets/node.js"
   },
   "types": "./lib",
   "typesVersions": {
