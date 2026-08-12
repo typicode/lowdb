@@ -57,9 +57,6 @@
     "postversion": "git push --follow-tags && npm publish",
     "prepare": "husky install"
   },
-  "dependencies": {
-    "steno": "^4.0.2"
-  },
   "devDependencies": {
     "@commitlint/cli": "^18.4.3",
     "@commitlint/config-conventional": "^18.4.3",
