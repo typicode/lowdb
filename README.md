@@ -117,12 +117,14 @@ await db.write()
 You can use TypeScript to check your data types.
 
 ```ts
+import { JSONFilePreset } from 'lowdb/node'
+
 type Data = {
   messages: string[]
 }
 
 const defaultData: Data = { messages: [] }
-const db = await JSONPreset<Data>('db.json', defaultData)
+const db = await JSONFilePreset<Data>('db.json', defaultData)
 
 db.data.messages.push('foo') // ✅ Success
 db.data.messages.push(1) // ❌ TypeScript error
@@ -130,7 +132,7 @@ db.data.messages.push(1) // ❌ TypeScript error
 
 ### Lodash
 
-You can extend lowdb with Lodash (or other libraries). To be able to extend it, we're not using `JSONPreset` here. Instead, we're using lower components.
+You can extend lowdb with Lodash (or other libraries). To be able to extend it, we're not using `JSONFilePreset` here. Instead, we're using lower components.
 
 ```ts
 import { Low } from 'lowdb'
@@ -214,12 +216,15 @@ db.write()
 
 Calls `adapter.read()` and sets `db.data`.
 
-**Note:** `JSONFile` and `JSONFileSync` adapters will set `db.data` to `null` if file doesn't exist.
+**Note:** `JSONFile` and `JSONFileSync` adapters return `null` if the file doesn't exist. In that case, `db.read()` leaves `db.data` unchanged, so a new database keeps the `defaultData` passed to its constructor.
 
 ```js
-db.data // === null
-db.read()
-db.data // !== null
+const defaultData = { posts: [] }
+const db = new Low(new JSONFile('db.json'), defaultData)
+
+db.data // === defaultData
+await db.read()
+// If db.json doesn't exist, db.data is still defaultData.
 ```
 
 #### `db.write()`
@@ -312,8 +317,8 @@ new DataFile(filename, {
   stringify: YAML.stringify
 })
 new DataFile(filename, {
-  parse: (data) => { decypt(JSON.parse(data)) },
-  stringify: (str) => { encrypt(JSON.stringify(str)) }
+  parse: (str) => JSON.parse(decrypt(str)),
+  stringify: (data) => encrypt(JSON.stringify(data))
 })
 ```
 
