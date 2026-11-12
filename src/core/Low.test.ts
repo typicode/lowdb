@@ -117,3 +117,31 @@ await test('Lodash', async () => {
 
   equal(firstTodo, 'foo')
 })
+
+await test('Low preserves falsy root data', async () => {
+  for (const value of [0, false, '']) {
+    const file = createJSONFile(value)
+    const adapter = new JSONFile<typeof value>(file)
+    const low = new Low(adapter, 'default' as typeof value)
+    await low.read()
+    equal(low.data, value)
+
+    low.data = value
+    await low.write()
+    equal(readJSONFile(file), value)
+  }
+})
+
+await test('LowSync preserves falsy root data', () => {
+  for (const value of [0, false, '']) {
+    const file = createJSONFile(value)
+    const adapter = new JSONFileSync<typeof value>(file)
+    const low = new LowSync(adapter, 'default' as typeof value)
+    low.read()
+    equal(low.data, value)
+
+    low.data = value
+    low.write()
+    equal(readJSONFile(file), value)
+  }
+})
