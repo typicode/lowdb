@@ -25,11 +25,11 @@ export class Low<T = unknown> {
 
   async read(): Promise<void> {
     const data = await this.adapter.read()
-    if (data) this.data = data
+    if (data !== null) this.data = data
   }
 
   async write(): Promise<void> {
-    if (this.data) await this.adapter.write(this.data)
+    await this.adapter.write(this.data)
   }
 
   async update(fn: (data: T) => unknown): Promise<void> {
@@ -50,11 +50,11 @@ export class LowSync<T = unknown> {
 
   read(): void {
     const data = this.adapter.read()
-    if (data) this.data = data
+    if (data !== null) this.data = data
   }
 
   write(): void {
-    if (this.data) this.adapter.write(this.data)
+    this.adapter.write(this.data)
   }
 
   update(fn: (data: T) => unknown): void {
