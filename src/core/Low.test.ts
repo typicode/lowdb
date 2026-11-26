@@ -6,7 +6,7 @@ import test from 'node:test'
 import lodash from 'lodash'
 import { temporaryFile } from 'tempy'
 
-import { Memory } from '../adapters/Memory.js'
+import { Memory, MemorySync } from '../adapters/Memory.js'
 import { JSONFile, JSONFileSync } from '../adapters/node/JSONFile.js'
 import { Low, LowSync } from './Low.js'
 
@@ -116,4 +116,36 @@ await test('Lodash', async () => {
   const firstTodo = low.chain.get('todos').first().value()
 
   equal(firstTodo, 'foo')
+})
+
+await test('Low does not mutate or share the defaultData object', async () => {
+  const defaultData = { name: 'ALICE', nested: { x: 1 } }
+  const low = new Low(new Memory<typeof defaultData>(), defaultData)
+  await low.read()
+
+  low.data.name = 'BOB'
+  low.data.nested.x = 99
+
+  // The object passed as defaultData must stay untouched (issue #604)
+  deepEqual(defaultData, { name: 'ALICE', nested: { x: 1 } })
+
+  // A second instance created from the same defaultData sees the defaults
+  const other = new Low(new Memory<typeof defaultData>(), defaultData)
+  await other.read()
+  deepEqual(other.data, { name: 'ALICE', nested: { x: 1 } })
+})
+
+await test('LowSync does not mutate or share the defaultData object', () => {
+  const defaultData = { name: 'ALICE', nested: { x: 1 } }
+  const low = new LowSync(new MemorySync<typeof defaultData>(), defaultData)
+  low.read()
+
+  low.data.name = 'BOB'
+  low.data.nested.x = 99
+
+  deepEqual(defaultData, { name: 'ALICE', nested: { x: 1 } })
+
+  const other = new LowSync(new MemorySync<typeof defaultData>(), defaultData)
+  other.read()
+  deepEqual(other.data, { name: 'ALICE', nested: { x: 1 } })
 })
