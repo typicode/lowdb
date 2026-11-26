@@ -20,7 +20,10 @@ export class Low<T = unknown> {
   constructor(adapter: Adapter<T>, defaultData: T) {
     checkArgs(adapter, defaultData)
     this.adapter = adapter
-    this.data = defaultData
+    // Clone so that mutating db.data cannot mutate the caller's object.
+    // Otherwise every instance created from the same defaultData shares
+    // one object and sees the others' writes.
+    this.data = structuredClone(defaultData)
   }
 
   async read(): Promise<void> {
@@ -45,7 +48,10 @@ export class LowSync<T = unknown> {
   constructor(adapter: SyncAdapter<T>, defaultData: T) {
     checkArgs(adapter, defaultData)
     this.adapter = adapter
-    this.data = defaultData
+    // Clone so that mutating db.data cannot mutate the caller's object.
+    // Otherwise every instance created from the same defaultData shares
+    // one object and sees the others' writes.
+    this.data = structuredClone(defaultData)
   }
 
   read(): void {
